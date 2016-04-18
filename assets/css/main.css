@@ -710,3 +710,25 @@ label {
   line-height: 35px;
   text-align: center;
 }
+
+
+.white-panel:hover {
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  margin-top: -5px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+
+/* ========================================================================== Author's custom styles ========================================================================== */ 
+body { margin-top: 140px; font-family: 'Open Sans', sans-serif; } 
+
+.fb-profile img.fb-image-lg{ z-index: 0; width: 100%; margin-bottom: 10px; } 
+.fb-image-profile { margin: -90px 10px 0px 50px; z-index: 9; width: 20%; } 
+@media (max-width:768px) { .fb-profile-text>h1{ font-weight: 700; font-size:16px; } 
+.fb-image-profile { margin: -45px 10px 0px 25px; z-index: 9; width: 20%; } } 
+legend{
+    text-align: center;
+} 

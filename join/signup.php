@@ -38,31 +38,29 @@
         }
 
         //画像UPのエラー
-    		$filename = $_FILES['image']['name'];
+        $filename = $_FILES['image']['name'];
+        if(!empty($filename)){
+          $ext = substr($filename, -3);
+          if($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg'){
+            $error['image'] = 'type';
+          }
+        }
 
-    		if(!empty($filename)){
-    			$ext = substr($filename, -3);
-    			if($ext != 'jpg' && $ext != 'png'){
-    				$error['image'] = 'type';
-    			}
-    		}
+        if(empty($error)){
+          //画像のアップロード
+          $image = date('YmdHis').$_FILES['image']['name'];
+          move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
+        }
 
-    		if(empty($error)){
-    			//画像のアップロード
-    			$image = date('YmdHis') . $_FILES['image']['name'];
-    			move_uploaded_file($_FILES['image']['tmp_name'], '../../member_picture/' . $image);
-    		}
-
-    		//エラーがなかった
+        //エラーがなかった
         var_dump($error);
 
-    		if(empty($error)){
-    			$_SESSION['join'] = $_POST;
-    			$_SESSION['join']['image'] = $image;
-    			header('Location: check.php');
-    			exit();
-    		}
-
+        if(empty($error)){
+          $_SESSION['join'] = $_POST;
+          $_SESSION['join']['image'] = $image;
+          header('Location: check.php');
+          exit();
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -70,9 +68,9 @@
   <head>
     <meta charset="utf-8">
     <title>Photo vote</title>
-    <!-- <link rel="stylesheet" href="../assets/css/bootstrap.css"> -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="../assets/css/main01.css"> -->
+    <link rel="stylesheet" href="../assets/css/main01.css">
   </head>
   <body>
     <!---========== Navbar ==========--->
@@ -254,18 +252,18 @@
 
                       <div class="form-group">
                           <p class="upimg">Upload your image</p>
-                          <input type="file" name="image" size="35" maxlength="255">
+                          <input type="file" name="image" size="35">
                           <!-- error -->
                           <?php if(!empty($error['image'])): ?>
                               <?php if($error['image']=='type'): ?>
-                                <p><i class="fa fa-exclamation-circle"></i>ファイルは.jpgまたは.pngで登録してください</p>
+                                <p><i class="fa fa-exclamation-circle"></i>ファイルは.jpg、.jpegまたは.pngで登録してください</p>
                               <?php endif; ?>
                           <?php endif; ?>
                       </div>
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-6 col-sm-offset-3">
-                            <a href="check.php"><input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="入力内容を確認する"></a>
+                            <input type="submit" tabindex="4" class="form-control btn btn-register" value="入力内容を確認する">
                           </div>
                         </div>
                       </div>

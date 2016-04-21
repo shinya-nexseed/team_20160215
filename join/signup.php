@@ -40,8 +40,8 @@
         //画像UPのエラー
         $filename = $_FILES['image']['name'];
         if(!empty($filename)){
-          $ext = substr($filename, -3);
-          if($ext != 'jpg' && $ext != 'png' && $ext != 'jpeg'){
+          $ext = substr($filename, -4);
+          if($ext != '.jpg' && $ext != '.png' && $ext != 'jpeg'){
             $error['image'] = 'type';
           }
         }
@@ -49,12 +49,12 @@
         if(empty($error)){
           //画像のアップロード
           $image = date('YmdHis').$_FILES['image']['name'];
+          //debug(変数定義の直後でとるのが正しい)
+          //var_dump($image);
           move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
         }
 
         //エラーがなかった
-        var_dump($error);
-
         if(empty($error)){
           $_SESSION['join'] = $_POST;
           $_SESSION['join']['image'] = $image;
@@ -68,9 +68,9 @@
   <head>
     <meta charset="utf-8">
     <title>Photo vote</title>
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="../assets/css/bootstrap.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/main01.css">
+    <!-- <link rel="stylesheet" href="../assets/css/main01.css"> -->
   </head>
   <body>
     <!---========== Navbar ==========--->
@@ -152,7 +152,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-lg-12">
-                    <form id="register-form" action="" method="post" role="form" style="display: block;">
+                    <form id="register-form" action="" method="post" role="form" style="display: block;" enctype="multipart/form-data">
                       <h2>SIGN UP</h2>
                       <p class="message">
                         Photovoteであなたのアカウントを作成しましょう。<br>

@@ -1,10 +1,10 @@
 <?php
 /////////HTML内のコメントアウトはphp実装後に解除
+    session_start();
 
     ////connect to DB
-    //require('../dbconnect.php');
-
-    session_start();
+    require('../dbconnect.php');
+    require('../functions.php');
 
     ////validation:データが何もない場合はアラート表示
     //エラーの一時的な格納用
@@ -40,26 +40,33 @@
         //画像UPのエラー
         $filename = $_FILES['image']['name'];
         if(!empty($filename)){
-          $ext = substr($filename, -4);
-          if($ext != '.jpg' && $ext != '.png' && $ext != 'jpeg'){
-            $error['image'] = 'type';
-          }
+            $ext = substr($filename, -4);
+            if($ext != '.jpg' && $ext != '.png' && $ext != 'jpeg'){
+              $error['image'] = 'type';
+            }
         }
 
         if(empty($error)){
-          //画像のアップロード
-          $image = date('YmdHis').$_FILES['image']['name'];
-          //debug(変数定義の直後でとるのが正しい)
-          //var_dump($image);
-          move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
+            //画像のアップロード
+            $image = date('YmdHis').$_FILES['image']['name'];
+            move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
         }
 
         //エラーがなかった
         if(empty($error)){
-          $_SESSION['join'] = $_POST;
-          $_SESSION['join']['image'] = $image;
-          header('Location: check.php');
-          exit();
+            $_SESSION['join'] = $_POST;
+            $_SESSION['join']['image'] = $image;
+            header('Location: check.php');
+            exit();
+        }
+    }
+
+    //$_REQUEST['action']が存在すれば書き直しの処理
+    if(isset($_REQUEST['action'])){
+        //書き直し
+        if($_REQUEST['action'] == 'rewrite'){
+          $_POST = $_SESSION['join'];
+          $error['rewrite'] = true;
         }
     }
 ?>
@@ -156,7 +163,8 @@
                       <h2>SIGN UP</h2>
                       <p class="message">
                         Photovoteであなたのアカウントを作成しましょう。<br>
-                        まず以下の項目に必要事項を入力してください。</p>
+                        まず以下の項目に必要事項を入力してください。
+                      </p>
                       <!---========== status bar ==========--->
                       <!-- <section>
                         <div class="wizard">
@@ -248,6 +256,10 @@
                               <p><i class="fa fa-exclamation-circle"></i>パスワードが一致しません</p>
                             <?php endif; ?>
                         <?php endif; ?>
+                        <!-- 書き直しした場合 -->
+                        <?php if(!empty($error['rewrite'])):?>
+                            <p><i class="fa fa-exclamation-circle"></i>恐れ入りますが、もう一度パスワードを入力してください</p>
+                        <?php endif;?>
                       </div>
 
                       <div class="form-group">
@@ -259,6 +271,10 @@
                                 <p><i class="fa fa-exclamation-circle"></i>ファイルは.jpg、.jpegまたは.pngで登録してください</p>
                               <?php endif; ?>
                           <?php endif; ?>
+                          <!-- 書き直しした場合 -->
+                          <?php if(!empty($error['rewrite'])):?>
+                              <p><i class="fa fa-exclamation-circle"></i>恐れ入りますが、もう一度画像をアップロードしてください</p>
+                          <?php endif;?>
                       </div>
                       <div class="form-group">
                         <div class="row">

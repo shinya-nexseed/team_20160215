@@ -37,6 +37,20 @@
             $error['confirm-password']='incorrect';
         }
 
+        //重複アカウントのチェック
+        if(!empty($_POST)){
+          if(empty($error)){
+            $sql = sprintf('SELECT COUNT(*)AS cnt FROM members WHERE email="%s"',
+                    mysqli_real_escape_string($db, $_POST['email']));
+                    $record = mysqli_query($db, $sql) or die(mysqli_error($db));
+                    $table = mysqli_fetch_assoc($record);
+                    //エラーがあった
+                    if($table['cnt']>0){
+                      $error['email'] = 'duplicate';
+                    }
+          }
+        }
+
         //画像UPのエラー
         $filename = $_FILES['image']['name'];
         if(!empty($filename)){
@@ -66,6 +80,8 @@
         //書き直し
         if($_REQUEST['action'] == 'rewrite'){
           $_POST = $_SESSION['join'];
+          //debug(変数定義の直後でとるのが正しい)
+          //var_dump($_POST);
           $error['rewrite'] = true;
         }
     }
@@ -163,8 +179,7 @@
                       <h2>SIGN UP</h2>
                       <p class="message">
                         Photovoteであなたのアカウントを作成しましょう。<br>
-                        まず以下の項目に必要事項を入力してください。
-                      </p>
+                        まず以下の項目に必要事項を入力してください。</p>
                       <!---========== status bar ==========--->
                       <!-- <section>
                         <div class="wizard">
@@ -226,6 +241,9 @@
                         <?php if(!empty($error['email'])): ?>
                             <?php if($error['email']=='blank'): ?>
                               <p><i class="fa fa-exclamation-circle"></i>メールアドレスを入力してください</p>
+                            <?php endif; ?>
+                            <?php if($error['email']=='duplicate'): ?>
+                              <p><i class="fa fa-exclamation-circle"></i>既に登録されているメールアドレスです</p>
                             <?php endif; ?>
                         <?php endif; ?>
                       </div>

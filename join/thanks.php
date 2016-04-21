@@ -183,7 +183,7 @@
     <footer>
       <div class="container">
         <div class="col-md-10 col-md-offset-1 text-center">
-          <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
+          <!-- <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6> -->
         </div>
       </div>
     </footer>

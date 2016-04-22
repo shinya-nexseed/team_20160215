@@ -13,7 +13,7 @@
     if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         $_SESSION['time'] = time();
 
-        $sql = sprintf('SELECT * FROM members WHERE member_id=%d',
+        $sql = sprintf('SELECT * FROM members WHERE id=%d',
             m($db, $_SESSION['id'])
         );
         $record = mysqli_query($db, $sql) or die(mysqli_error($db));

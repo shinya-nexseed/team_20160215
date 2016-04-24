@@ -25,7 +25,27 @@
         exit();
     }
 
+    // いいね機能
+    if (!empty($_POST)) {
+      if ($_POST['like'] === 'like'){
+        $sql = sprintf('INSERT INTO `likes` SET member_id=%d, photo_id=%d',
+                        $_SESSION['id'], //ログインしているidのデータ
+                        $_REQUEST['id'] 
+                      );
 
+        mysqli_query($db, $sql) or die(mysqli_error($db));
+
+      } else {
+          // いいねデータの削除
+        $sql = sprintf('DELETE FROM `likes` WHERE 
+                        member_id=%d AND photo_id=%d',
+                        $_SESSION['id'],
+                        $_REQUEST['id']
+                      );
+        mysqli_query($db, $sql) or die(mysqli_error($db));
+
+      }
+    }
 
 
     // ページング機能
@@ -58,6 +78,26 @@
          $start
     ); 
     $photos = mysqli_query($db, $sql) or die (mysqli_error($db));
+
+
+    // いいね取得
+    $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
+                    AND photo_id=%d',
+                    $_SESSION['id'],
+                    $_REQUEST['id']
+                  );
+
+    $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+
+    // いいねデータの有無による条件分岐のテストif文
+    if ($like = mysqli_fetch_assoc($likes)) {
+       echo 'いいね!済み';
+       echo '<br>';
+    } else {
+       echo '未いいね!';
+       echo '<br>';
+    }
+
         
 ?>
 
@@ -159,13 +199,22 @@
                            <h4><?php echo h($photo['title']); ?></h4>
                            <p><?php echo h($photo['comment']); ?></p>
 
-                           <!-- 投票ボタン -->
-                           <form action="" method="post">
+                          <form action="" method="post">
 
-                              <div class="vote-btn">
+                            <!-- 投票ボタン部分 -->
+                            <?php if ($like = mysqli_fetch_assoc($likes)): ?>
 
-                                <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票！">
-                              </div>
+                                <input type="hidden" name="like" value="unlike" >
+                                <input type="submit"  class="btn btn-sm btn-primary"value="いいね!取り消し">
+
+                            <?php else: ?>
+
+                                <input type="hidden" name="like" value="like">
+                                <input type="submit" class="btn btn-sm btn-primary" value="いいね!">
+
+                            <?php endif; ?>
+
+                          </form>
 
                          <div class="jump-edit">
                            <?php if ($_SESSION['id'] == $photo['member_id']): ?>

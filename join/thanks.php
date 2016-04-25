@@ -92,7 +92,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-lg-12">
-                    <form id="register-form" action="#" method="post" role="form" style="display: block;">
+                    <form id="register-form" action="../signin.php" method="" role="form" style="display: block;">
                       <div class="thanks-title">
                         <h2>Photovoteへようこそ！</h2>
                       </div>
@@ -140,7 +140,7 @@
                       <div class="form-group">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3">
-                              <a href="../index.php"><input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Topページへ"></a>
+                              <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Topページへ">
                             </div>
                         </div>
 
@@ -189,8 +189,8 @@
     </footer>
 
     <!-- JS start -->
-    <script type="text/javascript" src="../assets/js/jquery-1.12.3.min.js"></script>
-    <script type="text/javascript" src="../assets/js/bootstrap.js"></script>
-    <script type="text/javascript" src="../assets/js/main.js"></script>
+    <!-- <script type="text/javascript" src="../assets/js/jquery-1.12.3.min.js"></script> -->
+    <!-- <script type="text/javascript" src="../assets/js/bootstrap.js"></script> -->
+    <!-- <script type="text/javascript" src="../assets/js/main.js"></script> -->
   </body>
 </html>

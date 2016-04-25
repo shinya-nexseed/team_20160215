@@ -4,9 +4,9 @@
   require('../functions.php');
 
   //debug
-  echo '<pre>';
-  var_dump($_SESSION);
-  echo '</pre>';
+  //echo '<pre>';
+  //var_dump($_SESSION);
+  //echo '</pre>';
 
   //signup.php以外からの本ページへの遷移を阻止する
   if(!isset($_SESSION['join'])){
@@ -124,7 +124,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <!-- form start -->
-                    <form action="" method="post" id="register-form" role="form" style="display: block;">
+                    <form action="thanks.php" method="post" id="register-form" role="form" style="display: block;">
                       <input type="hidden" name="action" value="submit">
                       <h2>Sign Up</h2>
                       <p class="message">
@@ -190,7 +190,7 @@
                             <a href="signup.php?action=rewrite" class="form-control btn btn-login">書き直す</a>
                           </div>
                           <div class="col-xs-6 form-group pull-right">
-                            <a href="thanks.php"><input type="submit" tabindex="4" class="form-control btn btn-login" value="送信"></a>
+                            <input type="submit" tabindex="4" class="form-control btn btn-login" value="送信">
                           </div>
                         </div>
                       </div>

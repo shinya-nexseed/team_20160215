@@ -1,19 +1,17 @@
 <?php
-    session_start();
-
     // 外部ファイルの読み込み
     require('../dbconnect.php');
     require('../functions.php');
 
     // 仮のログインユーザーデータ
-    $_SESSION['id'] = 2;
+    $_SESSION['id'] = 1;
     $_SESSION['time'] = time();
 
     // ログイン判定
     if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         $_SESSION['time'] = time();
 
-        $sql = sprintf('SELECT * FROM members WHERE id=2',
+        $sql = sprintf('SELECT * FROM members WHERE id=%d',
             m($db, $_SESSION['id'])
         );
         $record = mysqli_query($db, $sql) or die(mysqli_error($db));
@@ -45,7 +43,7 @@
         $sql = sprintf('UPDATE `members` SET `email`="%s", `password`=%s,WHERE `id`=%d',
             m($db,$_POST['email']),
             m($db,$_POST['password']),
-            2
+            m($db,$_SESSION['id'])
         );
         mysqli_query($db, $sql) or die(mysqli_error($db));
         header('Location:index.php');
@@ -159,7 +157,6 @@
         コンテンツ
     -->
         <div class="container">
-    <form class="form-horizontal">
     <fieldset>
 
     <!-- Form Name -->
@@ -167,11 +164,7 @@
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">email</label>  
       <div class="col-md-4">
-      <?php if(!empty($_POST['email'])): ?>
       <input id="textinput" name="email" type="email" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">
-      <?php else: ?>
-      <input type="email" name="email" value="">
-        <?php endif; ?>
         <?php if(!empty($error['email'])): ?>
                     <?php if($error['email'] == 'blank'): ?>
                         <p class="error">メールアドレスを入力してください。</p>
@@ -216,7 +209,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="singlebutton"></label>
       <div class="col-md-4">
-        <input type="submit" name="singlebutton" class="btn btn-info pull-right" value="save">
+        <input type="submit" name="singlebutton" class="btn btn-info pull-right" value="Save">
       </div>
     </div>
 </form>

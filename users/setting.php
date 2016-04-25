@@ -6,24 +6,50 @@
     require('../functions.php');
 
     // 仮のログインユーザーデータ
-    $_SESSION['id'] = 1;
+    $_SESSION['id'] = 2;
     $_SESSION['time'] = time();
 
     // ログイン判定
     if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         $_SESSION['time'] = time();
 
-        $sql = sprintf('SELECT * FROM members WHERE id=%d',
+        $sql = sprintf('SELECT * FROM members WHERE id=2',
             m($db, $_SESSION['id'])
         );
         $record = mysqli_query($db, $sql) or die(mysqli_error($db));
 
         // ログインしているのユーザーのデータ
         $member = mysqli_fetch_assoc($record);
-    } else {
+
+        } 
+
+
+      else {
         header('Location: signin.php');
         exit();
     }
+
+    if (isset($_POST) && !empty($_POST)){
+      if ($_POST['email'] == '') {
+            $error['email'] = 'blank';
+        }
+        if (strlen($_POST['password']) < 4) {
+            // strlen()関数とは
+            // 指定した文字列の文字数をカウントして返す
+            $error['password'] = 'length';
+        }
+        if ($_POST['password'] == '') {
+            $error['password'] = 'blank';
+        }
+
+        $sql = sprintf('UPDATE `members` SET `email`="%s", `password`=%s,WHERE `id`=%d',
+            m($db,$_POST['email']),
+            m($db,$_POST['password']),
+            2
+        );
+        mysqli_query($db, $sql) or die(mysqli_error($db));
+        header('Location:index.php');
+      }
 
 ?>
 
@@ -115,7 +141,7 @@
     </div>
     </div>
 
-
+<form method="post" action="" class="form-horizontal" role="form">
 <div id="container">
   <div class="imgInput">
       <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
@@ -138,26 +164,50 @@
 
     <!-- Form Name -->
     <legend>My Profile Setting</legend>
-<form action="" method="post">
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">email</label>  
       <div class="col-md-4">
-      <input id="textinput" name="email" type="text" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">  
+      <?php if(!empty($_POST['email'])): ?>
+      <input id="textinput" name="email" type="email" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">
+      <?php else: ?>
+      <input type="email" name="email" value="">
+        <?php endif; ?>
+        <?php if(!empty($error['email'])): ?>
+                    <?php if($error['email'] == 'blank'): ?>
+                        <p class="error">メールアドレスを入力してください。</p>
+                    <?php endif; ?>
+                    <?php if ($error["email"] == 'duplicate'): ?>
+                        <p class="error">* 指定されたメールアドレスはすでに登録されています。</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+  
       </div>
     </div>
    
 
     <!-- Select Multiple -->
-<div class="form-group">
+<!-- <div class="form-group">
   <label class="col-md-4 control-label" for="selectmultiple">pass</label>
   <div class="col-md-4">
     <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
     </div>
-</div>
+</div> -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="selectmultiple">again</label>
   <div class="col-md-4">
     <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
+    <?php if(!empty($error['password'])): ?>
+                
+                <?php if($error['password'] == 'blank'): ?>
+                    <p class="error">パスワードを入力してください。</p>
+                <?php endif; ?>
+
+                <?php if($error['password'] == 'length'): ?>
+                    <p class="error">パスワードを4文字以上で入力してください。</p>
+                <?php endif; ?>
+
+            <?php endif; ?>
+
     </div>
 </div>
 
@@ -166,7 +216,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label" for="singlebutton"></label>
       <div class="col-md-4">
-        <a href="user_index.php" name="singlebutton" class="btn btn-info pull-right" >save</a>
+        <input type="submit" name="singlebutton" class="btn btn-info pull-right" value="save">
       </div>
     </div>
 </form>

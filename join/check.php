@@ -1,117 +1,40 @@
 <?php
-  session_start();
-  require('../dbconnect.php');
-  require('../functions.php');
+    session_start();
+    require('../dbconnect.php');
+    require('../functions.php');
 
-  //debug
-  //echo '<pre>';
-  //var_dump($_SESSION);
-  //echo '</pre>';
+    //signup.php以外からの本ページへの遷移を阻止する
+    if(!isset($_SESSION['join'])){
+        header('Location: index.php');
+        exit();
+    }
 
-  //signup.php以外からの本ページへの遷移を阻止する
-  if(!isset($_SESSION['join'])){
-    header('Location: index.php');
-    exit();
-  }
-
-  //メインの処理
-  if(!empty($_POST)){
-    $sql = sprintf('INSERT INTO members SET nick_name="%s", email="%s", password="%s", picture_path="%s", created=NOW(), modified=NOW(), introduction=""',
-                  mysqli_real_escape_string($db, $_SESSION['join']['nick_name']),
-                  mysqli_real_escape_string($db, $_SESSION['join']['email']),
-                  mysqli_real_escape_string($db, sha1($_SESSION['join']['password'])),
-                  mysqli_real_escape_string($db, $_SESSION['join']['image']),
-                  date('Y-m-d H:i:s')
-                  );
-            mysqli_query($db, $sql) or die(mysqli_error($db));
-            unset($_SESSION['join']);
-            header('Location: thanks.php');
-            exit();
-  }
+    //メインの処理
+    if(!empty($_POST)){
+        $sql = sprintf('INSERT INTO members SET nick_name="%s", email="%s", password="%s", picture_path="%s", created=NOW(), modified=NOW(), introduction=""',
+                    mysqli_real_escape_string($db, $_SESSION['join']['nick_name']),
+                    mysqli_real_escape_string($db, $_SESSION['join']['email']),
+                    mysqli_real_escape_string($db, sha1($_SESSION['join']['password'])),
+                    mysqli_real_escape_string($db, $_SESSION['join']['image']),
+                    date('Y-m-d H:i:s')
+                    );
+        mysqli_query($db, $sql) or die(mysqli_error($db));
+        unset($_SESSION['join']);
+        header('Location: thanks.php');
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Photo vote</title>
-    <!-- <link rel="stylesheet" href="../assets/css/bootstrap.css"> -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" href="../assets/css/main01.css"> -->
+    <link rel="stylesheet" href="../assets/css/main01.css">
   </head>
   <body>
-    <!---========== Navbar ==========--->
-    <!-- <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a target="_blank" href="#" class="navbar-brand"><i class="fa fa-camera"></i>Photovote</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">Inicio</a></li>
-            <li class="active"><a href="http://bootsnipp.com/snippets/featured/nav-account-manager" target="_blank">Inspirado en este ejemplo</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
-                <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Link 2</a></li>
-                </ul>
-              </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span> 
-                <strong>Username</strong>
-                <span class="glyphicon glyphicon-chevron-down"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <div class="navbar-login">
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <p class="text-center">
-                          <span class="glyphicon glyphicon-user icon-size"></span>
-                        </p>
-                      </div>
-                      <div class="col-lg-8">
-                        <p class="text-left"><strong>Nombre Apellido</strong></p>
-                        <p class="text-left small">correoElectronico@email.com</p>
-                        <p class="text-left">
-                          <a href="#" class="btn btn-primary btn-block btn-sm">Show your profile</a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="divider"></li>
-                <li>
-                  <div class="navbar-login navbar-login-session">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <p>
-                          <a href="#" class="btn btn-danger btn-block">Sign in</a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div> -->
-
     <!---========== Content ==========--->
-
-
-
     <div class="container-fluid">
       <h1><i class="fa fa-camera-retro"></i> Photovote</h1>
       <div class="container">
@@ -124,7 +47,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <!-- form start -->
-                    <form action="thanks.php" method="post" id="register-form" role="form" style="display: block;">
+                    <form action="" method="post" id="register-form" role="form" style="display: block;">
                       <input type="hidden" name="action" value="submit">
                       <h2>Sign Up</h2>
                       <p class="message">
@@ -132,7 +55,7 @@
                       </p>
 
                       <!---========== status bar ==========--->
-                      <!-- <section>
+                      <section>
                         <div class="wizard">
                           <div class="wizard-inner">
                             <div class="connecting-line">
@@ -165,7 +88,7 @@
                               </ul>
                           </div>
                         </div>
-                      </section> -->
+                      </section>
                       <!-- status bar end -->
 
                       <!-- form confirmation -->
@@ -190,7 +113,7 @@
                             <a href="signup.php?action=rewrite" class="form-control btn btn-login">書き直す</a>
                           </div>
                           <div class="col-xs-6 form-group pull-right">
-                            <input type="submit" tabindex="4" class="form-control btn btn-login" value="送信">
+                            <a href="thanks.php"><input type="submit" tabindex="4" class="form-control btn btn-login" value="送信"></a>
                           </div>
                         </div>
                       </div>
@@ -229,7 +152,7 @@
     <footer>
       <div class="container">
         <div class="col-md-10 col-md-offset-1 text-center">
-          <!-- <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6> -->
+          <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
         </div>
       </div>
     </footer>

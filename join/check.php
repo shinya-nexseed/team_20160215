@@ -16,7 +16,7 @@
 
   //メインの処理
   if(!empty($_POST)){
-    $sql = sprintf('INSERT INTO members SET nick_name="%s", email="%s", password="%s", picture_path="%s", created=NOW(), modified=NOW()',
+    $sql = sprintf('INSERT INTO members SET nick_name="%s", email="%s", password="%s", picture_path="%s", created=NOW(), modified=NOW(), introduction=""',
                   mysqli_real_escape_string($db, $_SESSION['join']['nick_name']),
                   mysqli_real_escape_string($db, $_SESSION['join']['email']),
                   mysqli_real_escape_string($db, sha1($_SESSION['join']['password'])),

@@ -30,7 +30,7 @@
       if ($_POST['like'] === 'like'){
         $sql = sprintf('INSERT INTO `likes` SET member_id=%d, photo_id=%d',
                         $_SESSION['id'], //ログインしているidのデータ
-                        $_REQUEST['id'] 
+                        $_POST['photo_id'] 
                       );
 
         mysqli_query($db, $sql) or die(mysqli_error($db));
@@ -40,7 +40,7 @@
         $sql = sprintf('DELETE FROM `likes` WHERE 
                         member_id=%d AND photo_id=%d',
                         $_SESSION['id'],
-                        $_REQUEST['id']
+                        $_POST['photo_id']
                       );
         mysqli_query($db, $sql) or die(mysqli_error($db));
 
@@ -78,26 +78,6 @@
          $start
     ); 
     $photos = mysqli_query($db, $sql) or die (mysqli_error($db));
-
-
-    // いいね取得
-    $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
-                    AND photo_id=%d',
-                    $_SESSION['id'],
-                    $_REQUEST['id']
-                  );
-
-    $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
-
-    // いいねデータの有無による条件分岐のテストif文
-    if ($like = mysqli_fetch_assoc($likes)) {
-       echo 'いいね!済み';
-       echo '<br>';
-    } else {
-       echo '未いいね!';
-       echo '<br>';
-    }
-
         
 ?>
 
@@ -195,28 +175,30 @@
                         <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close</button>
                         <div class="modal-body">
                          <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
-                           </div>
-                           <h4><?php echo h($photo['title']); ?></h4>
-                           <p><?php echo h($photo['comment']); ?></p>
+                         <h4><?php echo h($photo['title']); ?></h4>
+                         <p><?php echo h($photo['comment']); ?></p>
+                         </div>
 
-                          <form action="" method="post">
-
-                            <!-- 投票ボタン部分 -->
-                            <?php if ($like = mysqli_fetch_assoc($likes)): ?>
-
-                                <input type="hidden" name="like" value="unlike" >
-                                <input type="submit"  class="btn btn-sm btn-primary"value="いいね!取り消し">
-
-                            <?php else: ?>
-
-                                <input type="hidden" name="like" value="like">
-                                <input type="submit" class="btn btn-sm btn-primary" value="いいね!">
-
-                            <?php endif; ?>
-
+                         <?php 
+                         $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
+                                         AND photo_id=%d',
+                                         $_SESSION['id'],
+                                         $photo['id']
+                                       );
+                         $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+                         ?>
+                        <form action="" method="post">
+                          <?php if ($like = mysqli_fetch_assoc($likes)): ?>
+                            <input type="hidden" name="like" value="unlike" >
+                            <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
+                            <input type="submit"  class="btn btn-sm btn-primary"value="いいね!取り消し">
+                          <?php else: ?>
+                            <input type="hidden" name="like" value="like">
+                            <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
+                            <input type="submit" class="btn btn-sm btn-primary" value="いいね!">
+                          <?php endif; ?>
                           </form>
-
-                         <div class="jump-edit">
+                          <div class="jump-edit">
                            <?php if ($_SESSION['id'] == $photo['member_id']): ?>
                              [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
                              <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]

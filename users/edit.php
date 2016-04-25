@@ -3,6 +3,7 @@
 require('../dbconnect.php');
 require('../functions.php');
 // 仮のログインユーザーデータ
+session_start();
 $_SESSION['id'] = 1;
 $_SESSION['time'] = time();
 // ログイン判定
@@ -87,7 +88,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     //   }
     // }
 
-        if (isset($_POST) && !empty($_POST)){
+        if (isset($_FILES)){
+
 
                   // 画像をサーバーへアップロードする処理
                   // 単に登録する画像の名前の文字列を他と絶対にかぶらない形で
@@ -99,11 +101,14 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   move_uploaded_file($_FILES['image']['tmp_name'],
                                      'member_picture/' . $image
                                     );
+
+                }
                 
                   // move_uploaded_file()関数とは、
                   // 指定したファイルを指定した場所にアップロードする
 
 
+        if (isset($_POST) && !empty($_POST)){
                   $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
                               $_POST['nick_name'],
                               $_POST['introduction'],
@@ -114,8 +119,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   mysqli_query($db,$sql) or die(mysqli_error($db));
 
                   // check.phpに遷移して処理を終了する
-                  // header('Location: index.php');
-                  // exit();
+                   header('Location: index.php');
+                   exit();
                 }
                 
 
@@ -153,14 +158,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
           <ul class="nav navbar-nav">
             <li><a href="new.html">新規投稿</a></li>
             <li><a href="users/index.html">会員一覧</a></li>
-             <!-- <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
-                <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Link 2</a></li>
-                </ul>
-             </li>   -->            
           </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -207,7 +204,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     </div>
     </div>
 
-
+<form action="" method="post" enctype="multipart/form-data">
 <div id="container">
   <div class="imgInput">
       <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
@@ -231,13 +228,14 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 
     <!-- Form Name -->
     <legend>My Profile Setting</legend>
-<form action="" method="post">
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">Name</label>  
       <div class="col-md-4">
       <input id="textinput" name="nick_name" type="text" placeholder="your new name " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">  
       </div>
     </div>
+    <br>
+    <br>
    
 
     <!-- Select Multiple -->
@@ -254,7 +252,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     <div class="form-group">
       <label class="col-md-4 control-label" for="singlebutton"></label>
       <div class="col-md-4">
-        <a href="user_index.php" name="singlebutton" class="btn btn-info pull-right" >save</a>
+        <input type="submit" value="Save" name="singlebutton" class="btn btn-info pull-right" >
       </div>
     </div>
 </form>

@@ -31,7 +31,7 @@
     <title>Photo vote</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/main01.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
   </head>
   <body>
     <!---========== Content ==========--->

@@ -202,8 +202,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
       </div>
     </div>
     </div>
-
-
 <div id="container">
   <div class="imgInput">
       <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
@@ -221,8 +219,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         =======================================================
         コンテンツ
     -->
-        <div class="container">
-    <form action="view.php" method="post">
+        <div action="view.php" method="post"　class="container">
+    <form class="form-horizontal">
     <fieldset>
 
     <!-- Form Name -->

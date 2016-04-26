@@ -20,7 +20,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-lg-12">
-                    <form id="register-form" action="../signin.php" method="" role="form" style="display: block;">
+                    <form id="register-form" method="" role="form" style="display: block;">
                       <div class="thanks-title">
                         <h2>Photovoteへようこそ！</h2>
                       </div>
@@ -68,9 +68,9 @@
                       <!-- rewrite and submit button -->
                       <div class="form-group">
                         <div class="row">
-                            <div class="col-sm-6 col-sm-offset-3">
-                              <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Topページへ">
-                            </div>
+                          <div class="col-sm-6 col-sm-offset-3">
+                            <a href="../signin.php" id="register-submit" tabindex="4" class="form-control btn btn-register">Topページへ</a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -89,7 +89,7 @@
     <footer>
       <div class="container">
         <div class="col-md-10 col-md-offset-1 text-center">
-          <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
+          <h6>Copyright© <a href="http://nexseed.net" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
         </div>
       </div>
     </footer>

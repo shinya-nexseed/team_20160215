@@ -11,6 +11,7 @@
     $error = array();
 
     if(!empty($_POST)){
+        //エラー項目確認
         if($_POST['nick_name']==''){
             $error['nick_name']='blank';
         }
@@ -39,14 +40,14 @@
 
         //重複アカウントのチェック
         if(!empty($_POST)){
-          if(empty($error)){
+            if(empty($error)){
                 $sql = sprintf('SELECT COUNT(*)AS cnt FROM members WHERE email="%s"',
                         mysqli_real_escape_string($db, $_POST['email']));
                         $record = mysqli_query($db, $sql) or die(mysqli_error($db));
                         $table = mysqli_fetch_assoc($record);
                         //エラーがあった
                         if($table['cnt']>0){
-                          $error['email'] = 'duplicate';
+                            $error['email'] = 'duplicate';
                         }
             }
         }
@@ -119,32 +120,32 @@
                           <div class="wizard-inner">
                             <div class="connecting-line">
                             </div>
-                            <ul class="nav nav-tabs" role="tablist">
+                              <ul class="nav nav-tabs" role="tablist">
 
-                              <li role="presentation" class="active">
-                                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
-                                  <span class="round-tab">
-                                    <i class="fa fa-pencil"></i>
-                                  </span>
-                                </a>
-                              </li>
+                                <li role="presentation" class="active">
+                                  <a href="" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+                                    <span class="round-tab">
+                                      <i class="fa fa-pencil"></i>
+                                    </span>
+                                  </a>
+                                </li>
 
-                              <li role="presentation" class="disabled">
-                                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
-                                  <span class="round-tab">
-                                    <i class="fa fa-check"></i>
-                                  </span>
-                                </a>
-                              </li>
+                                <li role="presentation" class="disabled">
+                                  <a href="" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                                    <span class="round-tab">
+                                      <i class="fa fa-check"></i>
+                                    </span>
+                                  </a>
+                                </li>
 
-                              <li role="presentation" class="disabled">
-                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                                  <span class="round-tab">
-                                    <i class="fa fa-hand-peace-o"></i>
-                                  </span>
-                                </a>
-                              </li>
-                            </ul>
+                                <li role="presentation" class="disabled">
+                                  <a href="" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                    <span class="round-tab">
+                                      <i class="fa fa-hand-peace-o"></i>
+                                    </span>
+                                  </a>
+                                </li>
+                              </ul>
                           </div>
                         </div>
                       </section>
@@ -261,13 +262,12 @@
         <!-- resister end -->
       </div>
     </div>
-    <!-- content end -->
 
     <!---========== Footer ==========--->
     <footer>
       <div class="container">
         <div class="col-md-10 col-md-offset-1 text-center">
-          <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
+          <h6>Copyright© <a href="http://nexseed.net" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
         </div>
       </div>
     </footer>

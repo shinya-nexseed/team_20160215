@@ -47,7 +47,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <!-- form start -->
-                    <form action="" method="post" id="register-form" role="form" style="display: block;">
+                    <form action="thanks.php" method="post" id="register-form" role="form" style="display: block;">
                       <input type="hidden" name="action" value="submit">
                       <h2>Sign Up</h2>
                       <p class="message">
@@ -113,7 +113,7 @@
                             <a href="signup.php?action=rewrite" class="form-control btn btn-login">書き直す</a>
                           </div>
                           <div class="col-xs-6 form-group pull-right">
-                            <a href="thanks.php"><input type="submit" tabindex="4" class="form-control btn btn-login" value="送信"></a>
+                            <input type="submit" tabindex="4" class="form-control btn btn-login" value="送信">
                           </div>
                         </div>
                       </div>
@@ -152,14 +152,14 @@
     <footer>
       <div class="container">
         <div class="col-md-10 col-md-offset-1 text-center">
-          <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
+          <h6>Copyright© <a href="http://nexseed.net" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
         </div>
       </div>
     </footer>
 
     <!-- JS start -->
-    <!-- <script type="text/javascript" src="../assets/js/jquery-1.12.3.min.js"></script> -->
-    <!-- <script type="text/javascript" src="../assets/js/bootstrap.js"></script> -->
-    <!-- <script type="text/javascript" src="../assets/js/main.js"></script> -->
+    <script type="text/javascript" src="../assets/js/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="../assets/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../assets/js/main.js"></script>
   </body>
 </html>

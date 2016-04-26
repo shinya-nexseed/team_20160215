@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('../dbconnect.php');
 require('../functions.php');
 // 仮のログインユーザーデータ
@@ -17,18 +18,9 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     header('Location: signin.php');
     exit();
 }
-    // session_start();
-    // $_SESSION['id'] = 1;
-    // $_SESSION['time'] = time();
-    // if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()
-    //   $_SESSION['time'] = time();
-          // $sql = 'SELECT * FROM `members` WHERE id = 1';
-          // $members = mysqli_query($db, $sql) or die(mysqli_error($db));
-          // $member = mysqli_fetch_assoc($members);
-    // $_SESSION['users']=$_POST;
-    // $_SESSION['users']['image']=$image
+ 
     // $error = array();
-    // if (!empty($_POST)) { // フォーム送信時のみ処理
+    // if (!empty($_POST) && !empty($_POST)) { // フォーム送信時のみ処理
     //     // エラー項目の確認
     //     if ($_POST['nick_name'] == '') {
     //         // もし$_POST内のnick_name部分が空だったら処理
@@ -55,7 +47,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     //             $error['image'] = 'type';
     //         }
     //     }
-    // }
+    
         
         // if (empty($error)) {
         //     // 画像をサーバーへアップロードする処理
@@ -83,33 +75,46 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     //   if ($_REQUEST['action'] == 'rewrite') {
     //     $_POST = $_SESSION['join'];
     //     $error['rewrite'] = true;
-    //   }
-    // }
-        if (isset($_POST) && !empty($_POST)){
-                  // 画像をサーバーへアップロードする処理
-                  // 単に登録する画像の名前の文字列を他と絶対にかぶらない形で
-                  // 変数に代入する
-                  $image = date('YmdHis') . $_FILES['image']['name'];
-                  // date()関数とは、指定したフォーマットで現在の日時を返す
-                  // echo $image;
-                  move_uploaded_file($_FILES['image']['tmp_name'],
-                                     'member_picture/' . $image
-                                    );
+    //    }
+    //  }
+    
+              // $sql = sprintf('SELECT `nick_name`, `picture_path`, `introduction` FROM members WHERE id=%d',
+              //     m($db, $_SESSION['id'])
+              // );
+              // $record = mysqli_query($db, $sql) or die(mysqli_error($db));
+              // // ログインしているのユーザーのデータ
+              // $member = mysqli_fetch_assoc($record);
+         
+          // if(isset($_FILES)) {
+        
+          //         // 画像をサーバーへアップロードする処理
+          //         // 単に登録する画像の名前の文字列を他と絶対にかぶらない形で
+          //         // 変数に代入する
+          //         $image = date('YmdHis') . $_FILES['image']['name'];
+          //         // date()関数とは、指定したフォーマットで現在の日時を返す
+          //         // echo $image;
+          //         move_uploaded_file($_FILES['image']['tmp_name'],
+          //                            '../member_picture' . $image
+          //                           );
+          //       }
                 
+          if(isset($_POST) && !empty($_POST)) {
                   // move_uploaded_file()関数とは、
                   // 指定したファイルを指定した場所にアップロードする
                   $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
-                              mysqli_real_escape_string($db,$_POST['nick_name']),
-                              mysqli_real_escape_string($db,$_POST['introduction']),
-                              mysqli_real_escape_string($db,$image),
-                              mysqli_real_escape_string($db, $_SESSION['id'])
+                              $_POST['nick_name'],
+                              $_POST['introduction'],
+                              $image,
+                              $_SESSION['id']
                           );
-                  mysqli_query($db,$sql) or die(mysqli_error($db));
-                  // check.phpに遷移して処理を終了する
-                  // header('Location: index.php');
-                  // exit();
-                }
-                
+                  mysqli_query($db, $sql) or die(mysqli_error($db));
+  
+
+                  header('Location: view.php');
+                  exit();
+
+    }
+// }  
 ?>
 
 <!DOCTYPE html>
@@ -217,12 +222,12 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         コンテンツ
     -->
         <div class="container">
-    <form class="form-horizontal">
+    <form action="view.php" method="post">
     <fieldset>
 
     <!-- Form Name -->
     <legend>My Profile Setting</legend>
-<form action="" method="post">
+
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">Name</label>  
       <div class="col-md-4">
@@ -245,7 +250,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     <div class="form-group">
       <label class="col-md-4 control-label" for="singlebutton"></label>
       <div class="col-md-4">
-        <a href="user_index.php" name="singlebutton" class="btn btn-info pull-right" >save</a>
+         <input type="submit" value="Save" name="singlebutton" class="btn btn-info pull-right" >
       </div>
     </div>
 </form>

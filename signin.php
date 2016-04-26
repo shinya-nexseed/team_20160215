@@ -28,14 +28,15 @@
             if($table = mysqli_fetch_assoc($record)){
 
                 //ログイン成功
-                $_SESSION['id'] = $table['user_id'];
-                $_SESSION['time'] = time();
+                $_SESSION['id'] = $table['id'];
+                $_SESSION['time'] = time();//ログインした時間
                 //ログインを記録
                 if($_POST['remember']=='on'){
                     setcookie('email', $_POST['email'], time()+60*60*24*14);
                     setcookie('password', $_POST['password'], time()+60*60*24*14);
                 }
-
+                //ログインしていない(timeoutした)
+                $error['login'] = 'timeout';
                 header('Location: index.php');
                 exit();
             }else{
@@ -58,6 +59,17 @@
     <link rel="stylesheet" href="assets/css/main.css">
   </head>
   <body>
+    <!---========== Alert ==========--->
+    <?php if(!empty($error['login'])): //ログインエラーに何かある時?>
+        <?php if($error['login']=='timeout'): //ログインにタイムアウトエラーがある時?>
+            <div class="alert-group">
+              <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <strong><i class="fa fa-exclamation-triangle"></i>Notice</strong> セッションがタイムアウトしました。再度ログインしてください。
+              </div>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
     <!---========== Content ==========--->
     <div class="container-fluid">
       <h1><i class="fa fa-camera-retro"></i> Photovote</h1>
@@ -71,18 +83,17 @@
                   <div class="col-lg-12">
                     <form id="login-form" action="" method="post" role="form" style="display: block;">
                       <h2>SIGN IN</h2>
-
-                      <!-- error alert -->
-                      <?php if(!empty($error['login'])): ?>
-                          <?php if($error['login']=='blank'): ?>
-                              <p>メールアドレスとパスワードを入力してください</p>
-                          <?php endif; ?>
-                          <?php if($error['login']=='failed'): ?>
-                              <p>メールアドレスまたはパスワードが違います</p>
-                          <?php endif; ?>
-                      <?php endif; ?>
-
                       <div class="form-group">
+                        <!-- error alert -->
+                        <?php if(!empty($error['login'])): ?>
+                            <?php if($error['login']=='blank'): ?>
+                                <p><i class="fa fa-exclamation-circle"></i>メールアドレスとパスワードを入力してください</p>
+                            <?php endif; ?>
+                            <?php if($error['login']=='failed'): ?>
+                                <p><i class="fa fa-exclamation-circle"></i>メールアドレスまたはパスワードが違います</p>
+                            <?php endif; ?>
+                        <?php endif; ?>
+
                           <?php if(!empty($_POST['email'])): ?>
                               <input type="text" name="email" id="username" tabindex="1" class="form-control" placeholder="Email" value="<?php echo htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8'); ?>">
                           <?php else: ?>
@@ -138,7 +149,7 @@
     <footer>
       <div class="container">
         <div class="col-md-10 col-md-offset-1 text-center">
-          <h6 style="font-size:14px;font-weight:100;color: #fff;">Copyright© <a href="http://nexseed.net" style="color: #fff;" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
+          <h6>Copyright© <a href="http://nexseed.net" target="_blank">Nexseed.inc</a> All rights reserved.</h6>
         </div>
       </div>
     </footer>

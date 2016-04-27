@@ -39,16 +39,16 @@
 
         mysqli_query($db, $sql) or die(mysqli_error($db));
 
-    } else {
+        } else {
           // いいねデータの削除
-        $sql = sprintf('DELETE FROM `likes` WHERE 
-                        member_id=%d AND photo_id=%d',
-                        $_SESSION['id'],
-                        $_POST['photo_id']
-                      );
-        mysqli_query($db, $sql) or die(mysqli_error($db));
+          $sql = sprintf('DELETE FROM `likes` WHERE 
+                          member_id=%d AND photo_id=%d',
+                          $_SESSION['id'],
+                          $_POST['photo_id']
+                        );
+          mysqli_query($db, $sql) or die(mysqli_error($db));
 
-      }
+         }
     }
 
 
@@ -57,7 +57,7 @@
         $page = $_REQUEST['page'];
     
     } else {
-      $page = 1;
+        $page = 1;
     }
 
     if ($page == '') {
@@ -75,12 +75,11 @@
     $start = max(0, $start);
 
     //　投稿写真データをここで取得
-    $sql = sprintf('SELECT * 
-        FROM photos 
-        ORDER BY rand() 
-        DESC LIMIT %d,24',
-         $start
+    $sql = sprintf('SELECT * FROM photos ORDER BY rand() DESC LIMIT %d,
+          24', //カンマでインデントする
+          $start
     ); 
+
     $photos = mysqli_query($db, $sql) or die (mysqli_error($db));
         
 ?>
@@ -135,7 +134,8 @@
                       <p class="text-left"><strong><?php echo h($member['nick_name']); ?></strong></p>
                       <p class="text-left small"><?php echo h($member['email']); ?></p>
                       <p class="text-left">
-                      <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール
+                        </a>
                       </p>
                     </div>                       
                   </div>
@@ -165,55 +165,59 @@
   <div class="container">
     <div class="row">
       <section id="pinBoot">
-      <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
-        <article class="white-panel">
-          <div class="box">
-            <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
-              <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
-            </a>
-            <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close</button>
-                  <div class="modal-body">
-                    <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
-                    <h4><?php echo h($photo['title']); ?></h4>
-                    <p><?php echo h($photo['comment']); ?></p>
-                  </div>
+        <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
+          <article class="white-panel">
+            <div class="box">
+              <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+                <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
+              </a>
+              <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close
+                    </button>
+                    <div class="modal-body">
+                      <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
+                      <h4><?php echo h($photo['title']); ?></h4>
+                      <p><?php echo h($photo['comment']); ?></p>
+                    </div>
 
-                  <?php 
-                      $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
-                                   AND photo_id=%d',
-                                   $_SESSION['id'],
-                                   $photo['id']
-                                 );
-                      $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
-                  ?>
+                    <?php 
+                        $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
+                                     AND photo_id=%d',
+                                     $_SESSION['id'],
+                                     $photo['id']
+                                   );
+                        $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+                    ?>
 
-                  <form action="" method="post">
-                    <?php if ($like = mysqli_fetch_assoc($likes)): ?>
-                      <input type="hidden" name="like" value="unlike" >
-                      <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
-                      <input type="submit"  class="btn btn-sm btn-primary"value="いいね!取り消し">
-                    <?php else: ?>
-                      <input type="hidden" name="like" value="like">
-                      <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                      <input type="submit" class="btn btn-sm btn-primary" value="いいね!">
-                    <?php endif; ?>
-                  </form>
-                  <div class="jump-edit">
-                    <?php if ($_SESSION['id'] == $photo['member_id']): ?>
-                       [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
-                        <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
-                    <?php endif; ?>
+                    <form action="" method="post">
+                      <?php if ($like = mysqli_fetch_assoc($likes)): ?>
+                        <input type="hidden" name="like" value="unlike" >
+                        <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
+                        <input type="submit"  class="btn btn-sm btn-primary"value="いいね!取り消し">
+                      <?php else: ?>
+                        <input type="hidden" name="like" value="like">
+                        <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
+                        <input type="submit" class="btn btn-sm btn-primary" value="いいね!">
+                      <?php endif; ?>
+                    </form>
+                    <div class="jump-edit">
+                      <?php if ($_SESSION['id'] == $photo['member_id']): ?>
+                         [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
+                          <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
+                      <?php endif; ?>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div><h5><?php echo ($photo['title']); ?></h5><p><?php echo h($photo['comment']); ?></p>
-           </div>
+              <h5><?php echo ($photo['title']); ?></h5>
+              <p><?php echo h($photo['comment']); ?></p>
+            </div>
           </article>
         <?php endwhile; ?>
-      </section><hr>
+      </section>
+      <hr>
     </div>
   </div>
 

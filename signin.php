@@ -14,9 +14,9 @@
     }
 
     //ログイン処理（送信した後）
+    //送信ボタンを押した後の処理
     if(!empty($_POST)){
-
-        //ログインしている
+        //Email,PWが入力されている
         if($_POST['email']!='' && $_POST['password']!=''){
 
             $sql = sprintf('SELECT * FROM members WHERE email="%s" AND password="%s"',
@@ -47,10 +47,18 @@
         }
     }
 
-    //タイムアウトエラーの場合
-    if(isset($_SESSION['time']) && ($_SESSION['time'] + 3600 <= time())){
-      //ログインしていない(timeoutした)
-      $error['login'] = 'timeout';
+    //「タイムアウトしてきたのか」を判定
+    //エラー判定のフラグを立てる
+    if(isset($_SESSION['timeout'])){
+        //エラー文の表示のためのフラグを立てる
+        //タイムアウト時の処理
+        $error['timeout'] = 'timeout';
+        // 空の配列を$_SESSIONに追加＝SESSION内をからにする
+        $_SESSION = array();
+        //セッションの初期化
+        session_unset();
+        //セッションの削除
+        session_destroy();
     }
 ?>
 <!DOCTYPE html>
@@ -64,8 +72,8 @@
   </head>
   <body>
     <!---========== Alert ==========--->
-    <?php if(!empty($error['login'])): //ログインエラーに何かある時?>
-        <?php if($error['login']=='timeout'): //ログインにタイムアウトエラーがある時?>
+    <?php if(!empty($error['timeout'])): //ログインエラーに何かある時?>
+        <?php if($error['timeout']=='timeout'): //ログインにタイムアウトエラーがある時?>
             <div class="alert-group">
               <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

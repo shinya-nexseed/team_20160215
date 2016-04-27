@@ -29,14 +29,12 @@
 						$record = mysqli_query($db, $sql) or die(mysqli_error($db));
 						$member = mysqli_fetch_assoc($record);
 				}
-				//セッションタイムアウトの場合
-				if(isset($_SESSION['time']) && ($_SESSION['time'] + 3600 <= time())){
-					$error['login'] = 'timeout';
-					//最終アクションが現時刻より3秒以上前だった場合
-					session_unset();
-					session_destroy();
-				}
 		}else{
+				//セッションタイムアウトの場合
+				//最終アクションが現時刻より3秒以上前だった場合
+				//if文の条件分岐では同じ条件が上で明記されていないかをまず確かめる
+				//if(isset($_SESSION['time']) && ($_SESSION['time'] + 3 <= time())){
+					$_SESSION['timeout'] = 'timeout';
 				// ログインしていない場合：signinへ強制遷移
 				header('Location: signin.php');
 				exit();

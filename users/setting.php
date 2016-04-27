@@ -60,6 +60,11 @@
             $error['password'] = 'wrong';
         }
 
+        $current_email = $member['email'];
+        $new_email = $_POST['email'];
+
+        // メールアドレスが更新されたかのチェック
+        if ($current_email != $new_email) {
           
             $sql = sprintf(
                 'SELECT COUNT(*) AS cnt FROM members WHERE email="%s"',
@@ -90,6 +95,7 @@
         mysqli_query($db, $sql) or die(mysqli_error($db));
         header('Location:index.php');
       }
+    }
     
 
 ?>

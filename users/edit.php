@@ -1,4 +1,3 @@
-
 <?php
 require('../dbconnect.php');
 require('../functions.php');
@@ -10,7 +9,7 @@ $_SESSION['time'] = time();
 if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     $_SESSION['time'] = time();
     $sql = sprintf('SELECT * FROM members WHERE id=%d',
-        m($db, $_SESSION['id'])
+        mysqli_real_escape_string($db, $_SESSION['id'])
     );
     $record = mysqli_query($db, $sql) or die(mysqli_error($db));
     // ログインしているのユーザーのデータ
@@ -19,78 +18,47 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     header('Location: signin.php');
     exit();
 }
-    // session_start();
-    // $_SESSION['id'] = 1;
-    // $_SESSION['time'] = time();
-    // if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()
-    //   $_SESSION['time'] = time();
-          // $sql = 'SELECT * FROM `members` WHERE id = 1';
-          // $members = mysqli_query($db, $sql) or die(mysqli_error($db));
-          // $member = mysqli_fetch_assoc($members);
-    // $_SESSION['users']=$_POST;
-    // $_SESSION['users']['image']=$image
-    // $error = array();
-    // if (!empty($_POST)) { // フォーム送信時のみ処理
-    //     // エラー項目の確認
-    //     if ($_POST['nick_name'] == '') {
-    //         // もし$_POST内のnick_name部分が空だったら処理
-    //         $error['nick_name'] = 'blank';
-    //         // $error配列のnick_nameキーにblankという値を代入
-    //     }
-    //     if ($_POST['introduction'] == '') {
-    //         $error['introduction'] = 'blank';
-    //     }
-    //     // 写真のエラー文
-    //     $fileName = $_FILES['image']['name'];
-    //     // $_FILESはinputタグのtypeがfileの時に生成される
-    //     // スーパーグローバル変数です
-    //     // echo $fileName;
-    //     if (!empty($fileName)) {
-    //         $ext = substr($fileName, -3);
-    //         // substr()関数は指定した文字列から指定した数分だけ文字を
-    //         // 取得する
-    //         // 今回は-3と指定することで文字列の最後から3つ分取得
-    //         // echo $ext;
-    //         // 画像ファイルの拡張子がjpgもしくはpngでなければ
-    //         // typeというエラーを出す
-    //         if ($ext != 'jpg' && $ext != 'png') {
-    //             $error['image'] = 'type';
-    //         }
-    //     }
-    // }
-        
-        // if (empty($error)) {
-        //     // 画像をサーバーへアップロードする処理
-        //     // 単に登録する画像の名前の文字列を値と絶対にカブらない形で変数に代入する
-        //     $image = date('YmdHis') . $_FILES['image']['name'];
-            // date()関数とは、指定したフォーマットで現在の日時を返す
-            // echo $image;
-    //         move_uploaded_file($_FILES['image']['tmp_name'],'../member_picture/' . $image);
-    //         // move_uploaded_file()関数とは、
-    //         // 指定したファイルを指定した場所にアップロードする
-    //         // セッションのjoinに$_POSTの情報を入れる
-    //         $_SESSION['join'] = $_POST;
-    //         $_SESSION['join']['image'] = $image;
-    //         // $_SESSIONとは
-    //         // 任意の情報をブラウザが閉じられるまで保持する場所を
-    //         // セッションと言う
-    //         // check.phpに遷移して処理を終了する
-    //         header('Location: check.php');
-    //         exit();
-    //     }
-    // // 書き直し
-    // if (isset($_REQUEST['action'])) {
-    //   // $_REQUESTとは$_GET、$_POSTなどを保持するスーパーグローバル変数
-    //   // $_REQUEST['action']が存在すればif文処理をする。
-    //   if ($_REQUEST['action'] == 'rewrite') {
-    //     $_POST = $_SESSION['join'];
-    //     $error['rewrite'] = true;
-    //   }
-    // }
 
-        if (isset($_FILES)){
+    $error = array();
+
+        if (isset($_POST) && !empty($_POST)){
+
+           if ($_POST['nick_name'] == '') {
+            // もし$_POST内のnick_name部分が空だったら処理
+            $error['nick_name'] = 'blank';
+            // $error配列のnick_nameキーにblankという値を代入
+        }
+
+         if ($_POST['introduction'] == '') {
+            // もし$_POST内のnick_name部分が空だったら処理
+            $error['introduction'] = 'blank';
+            // $error配列のnick_nameキーにblankという値を代入
+        }
+      
 
 
+          if(isset($_FILES)){
+
+                  $fileName = $_FILES['image']['name'];
+                  // $_FILESはinputタグのtypeがfileの時に生成される
+                  // スーパーグローバル変数です
+                  // echo $fileName;
+                  if (!empty($fileName)) {
+                      $ext = substr($fileName, -3);
+                      // substr()関数は指定した文字列から指定した数分だけ文字を
+                      // 取得する
+                      // 今回は-3と指定することで文字列の最後から3つ分取得
+                      // echo $ext;
+
+                      // 画像ファイルの拡張子がjpgもしくはpngでなければ
+                      // typeというエラーを出す
+                      if ($ext != 'jpg' && $ext != 'png') {
+                          $error['image'] = 'type';
+                      }
+                  }
+                }
+
+                  if (empty($error)) {
                   // 画像をサーバーへアップロードする処理
                   // 単に登録する画像の名前の文字列を他と絶対にかぶらない形で
                   // 変数に代入する
@@ -101,14 +69,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   move_uploaded_file($_FILES['image']['tmp_name'],
                                      'member_picture/' . $image
                                     );
-
-                }
-                
-                  // move_uploaded_file()関数とは、
-                  // 指定したファイルを指定した場所にアップロードする
-
-
-        if (isset($_POST) && !empty($_POST)){
+              
                   $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
                               $_POST['nick_name'],
                               $_POST['introduction'],
@@ -119,8 +80,9 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   mysqli_query($db,$sql) or die(mysqli_error($db));
 
                   // check.phpに遷移して処理を終了する
-                   header('Location: index.php');
-                   exit();
+                   //header('Location: index.php');
+                   //exit();
+                 }
                 }
                 
 
@@ -209,6 +171,12 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
   <div class="imgInput">
       <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
           <input type="file" name="image"><br>
+          <?php if(!empty($error['image'])): ?>
+        <?php if($error['image'] = 'type'): ?>
+            <p class="error">拡張子が違います。</p>
+        <?php endif; ?>
+    <?php endif; ?>
+
   </div><!--/.imgInput-->
 </div>
 
@@ -231,7 +199,13 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">Name</label>  
       <div class="col-md-4">
-      <input id="textinput" name="nick_name" type="text" placeholder="your new name " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">  
+      <input id="textinput" name="nick_name" type="text" placeholder="your new name " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">
+      <?php if(!empty($error['nick_name'])): ?>
+          <?php if($error['nick_name'] == 'blank'): ?>
+              <p class="error">ニックネームを入力してください</p>
+          <?php endif; ?>
+      <?php endif; ?>
+
       </div>
     </div>
     <br>
@@ -243,8 +217,12 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
   <label class="col-md-4 control-label" for="selectmultiple">About Me</label>
   <div class="col-md-4">
     <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About me"><?php echo $member['introduction']; ?>
-    
     </textarea>
+    <?php if(!empty($error['introduction'])): ?>
+        <?php if($error['introduction'] == 'blank'): ?>
+            <p class="error">自己紹介を入力してください。</p>
+        <?php endif; ?>
+    <?php endif; ?>
   </div>
 </div>
 

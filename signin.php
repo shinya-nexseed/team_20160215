@@ -13,7 +13,7 @@
         }
     }
 
-    //ログイン処理
+    //ログイン処理（送信した後）
     if(!empty($_POST)){
 
         //ログインしている
@@ -35,8 +35,6 @@
                     setcookie('email', $_POST['email'], time()+60*60*24*14);
                     setcookie('password', $_POST['password'], time()+60*60*24*14);
                 }
-                //ログインしていない(timeoutした)
-                $error['login'] = 'timeout';
                 header('Location: index.php');
                 exit();
             }else{
@@ -47,6 +45,12 @@
             //未入力
             $error['login'] = 'blank';
         }
+    }
+
+    //タイムアウトエラーの場合
+    if(isset($_SESSION['time']) && ($_SESSION['time'] + 3600 <= time())){
+      //ログインしていない(timeoutした)
+      $error['login'] = 'timeout';
     }
 ?>
 <!DOCTYPE html>
@@ -83,17 +87,18 @@
                   <div class="col-lg-12">
                     <form id="login-form" action="" method="post" role="form" style="display: block;">
                       <h2>SIGN IN</h2>
-                      <div class="form-group">
-                        <!-- error alert -->
-                        <?php if(!empty($error['login'])): ?>
-                            <?php if($error['login']=='blank'): ?>
-                                <p><i class="fa fa-exclamation-circle"></i>メールアドレスとパスワードを入力してください</p>
-                            <?php endif; ?>
-                            <?php if($error['login']=='failed'): ?>
-                                <p><i class="fa fa-exclamation-circle"></i>メールアドレスまたはパスワードが違います</p>
-                            <?php endif; ?>
-                        <?php endif; ?>
 
+                      <!-- error alert -->
+                      <?php if(!empty($error['login'])): ?>
+                          <?php if($error['login']=='blank'): ?>
+                              <p><i class="fa fa-exclamation-circle"></i>メールアドレスとパスワードを入力してください</p>
+                          <?php endif; ?>
+                          <?php if($error['login']=='failed'): ?>
+                              <p><i class="fa fa-exclamation-circle"></i>メールアドレスまたはパスワードが違います</p>
+                          <?php endif; ?>
+                      <?php endif; ?>
+
+                      <div class="form-group">
                           <?php if(!empty($_POST['email'])): ?>
                               <input type="text" name="email" id="username" tabindex="1" class="form-control" placeholder="Email" value="<?php echo htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8'); ?>">
                           <?php else: ?>

@@ -27,12 +27,65 @@
         exit();
     }
 
-    if (isset($_POST) && !empty($_POST)){
-      
+    $error = array();
 
-        $sql = sprintf('UPDATE `members` SET `email`="%s", `password`="%s" WHERE `id`=%d',$_POST['email'],
-            $_POST['password'],
-            $_SESSION['id']
+    if (isset($_POST) && !empty($_POST)){
+
+
+        if ($_POST['email'] == '') {
+            $error['email'] = 'blank';
+        }
+
+        if (strlen($_POST['pass']) < 4) {
+            // strlen()関数とは
+            // 指定した文字列の文字数をカウントして返す
+            $error['pass'] = 'length';
+        }
+
+        if ($_POST['pass'] == '') {
+            $error['pass'] = 'blank';
+        }
+
+        if (strlen($_POST['password']) < 4) {
+            // strlen()関数とは
+            // 指定した文字列の文字数をカウントして返す
+            $error['password'] = 'length';
+        }
+
+        if ($_POST['password'] == '') {
+            $error['password'] = 'blank';
+        }
+
+        if ($_POST['pass'] !== $_POST['password']){
+            $error['password'] = 'wrong';
+        }
+
+          
+            $sql = sprintf(
+                'SELECT COUNT(*) AS cnt FROM members WHERE email="%s"',
+                $_POST['email']
+            );
+            // ユーザーがメールアドレスの欄に入力した値でmembersテーブルに検索をかけ、
+            // データがヒットすればその件数を返す
+
+            $record = mysqli_query($db,$sql) or die(mysqli_error($db));
+            $table = mysqli_fetch_assoc($record);
+
+            // データがヒットして件数が0以上 = すでに登録されているメールアドレス
+            // もし$table['cnt']の値が0以上であれば重複メールアドレスとして
+            // $error['email']にduplicate (重複) のエラーを代入
+            if ($table['cnt'] > 0) {
+                $error['email'] = 'duplicate';
+            }
+        }
+
+      
+      if (!empty($_POST) && empty($error)) {
+        echo "ほけ";
+        $sql = sprintf('UPDATE `members` SET `email`="%s", `password`="%s" WHERE `id`=%d',
+          $_POST['email'],
+          $_POST['password'],
+          $_SESSION['id']
         );
         mysqli_query($db, $sql) or die(mysqli_error($db));
         header('Location:index.php');
@@ -129,7 +182,6 @@
     </div>
     </div>
 
-<form method="post" action="" class="form-horizontal" role="form">
 <div id="container">
   <div class="imgInput">
       <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
@@ -151,25 +203,65 @@
 
     <!-- Form Name -->
     <legend>My Profile Setting</legend>
+    <form method="post" action="">
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">email</label>  
       <div class="col-md-4">
       <input id="textinput" name="email" type="email" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">
+      <?php if(!empty($error['email'])): ?>
+          <?php if($error['email'] == 'blank'): ?>
+              <p class="error">メールアドレスを入力してください。</p>
+          <?php endif; ?>
+          <?php if ($error["email"] == 'duplicate'): ?>
+              <p class="error">* 指定されたメールアドレスはすでに登録されています。</p>
+          <?php endif; ?>
+      <?php endif; ?>
       </div>
     </div>
    
 
     <!-- Select Multiple -->
-<!-- <div class="form-group">
+
+<br><br><br><br><br>
+<div class="form-group">
   <label class="col-md-4 control-label" for="selectmultiple">pass</label>
   <div class="col-md-4">
-    <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
+    <input id="textinput" name="pass" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
+    <?php if(!empty($error['pass'])): ?>
+        
+        <?php if($error['pass'] == 'blank'): ?>
+            <p class="error">パスワードを入力してください。</p>
+        <?php endif; ?>
+
+        <?php if($error['pass'] == 'length'): ?>
+            <p class="error">パスワードを4文字以上で入力してください。</p>
+        <?php endif; ?>
+
+    <?php endif; ?>
     </div>
-</div> -->
+</div>
+
+
+<br><br><br><br><br>
 <div class="form-group">
   <label class="col-md-4 control-label" for="selectmultiple">again</label>
   <div class="col-md-4">
     <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
+    <?php if(!empty($error['password'])): ?>
+        
+        <?php if($error['password'] == 'blank'): ?>
+            <p class="error">パスワードを入力してください。</p>
+        <?php endif; ?>
+
+        <?php if($error['password'] == 'length'): ?>
+            <p class="error">パスワードを4文字以上で入力してください。</p>
+        <?php endif; ?>
+
+        <?php if($error['password'] = 'wrong'): ?>
+            <p class="error">パスワードが一致しません。</p>
+        <?php endif; ?>
+
+    <?php endif; ?>
     </div>
 </div>
 

@@ -47,7 +47,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <!-- form start -->
-                    <form action="thanks.php" method="post" id="register-form" role="form" style="display: block;">
+                    <form action="" method="post" id="register-form" role="form" style="display: block;">
                       <input type="hidden" name="action" value="submit">
                       <h2>Sign Up</h2>
                       <p class="message">

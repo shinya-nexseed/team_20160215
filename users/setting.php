@@ -36,6 +36,16 @@
             $error['email'] = 'blank';
         }
 
+        if (sha1($_POST['currentpass']) != $member['password']) {
+            // strlen()関数とは
+            // 指定した文字列の文字数をカウントして返す
+            $error['currentpass'] = 'wrong';
+        }
+
+        if ($_POST['currentpass'] == '') {
+            $error['currentpass'] = 'blank';
+        }
+        
         if (strlen($_POST['pass']) < 4) {
             // strlen()関数とは
             // 指定した文字列の文字数をカウントして返す
@@ -86,10 +96,10 @@
 
       
       if (!empty($_POST) && empty($error)) {
-        echo "ほけ";
+        
         $sql = sprintf('UPDATE `members` SET `email`="%s", `password`="%s" WHERE `id`=%d',
           $_POST['email'],
-          $_POST['password'],
+          sha1($_POST['password']),
           $_SESSION['id']
         );
         mysqli_query($db, $sql) or die(mysqli_error($db));
@@ -128,7 +138,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span> 
         </button>
-        <a href="/" class="navbar-brand">Photovite</a>
+        <a href="/" class="navbar-brand">Photovote</a>
       </div>
       <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -230,9 +240,28 @@
 
 <br><br><br><br><br>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">pass</label>
+  <label class="col-md-4 control-label" for="selectmultiple">current pass</label>
   <div class="col-md-4">
-    <input id="textinput" name="pass" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
+    <input id="textinput" name="currentpass" type="password" placeholder="current pass" class="form-control input-md" value="">
+    <?php if(!empty($error['currentpass'])): ?>
+        
+        <?php if($error['currentpass'] == 'blank'): ?>
+            <p class="error">パスワードを入力してください。</p>
+        <?php endif; ?>
+
+        <?php if($error['currentpass'] == 'wrong'): ?>
+            <p class="error">パスワードが間違っています。</p>
+        <?php endif; ?>
+
+    <?php endif; ?>
+    </div>
+</div>
+
+<br><br><br><br><br>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="selectmultiple">new pass</label>
+  <div class="col-md-4">
+    <input id="textinput" name="pass" type="password" placeholder="your new pass" class="form-control input-md" value="">
     <?php if(!empty($error['pass'])): ?>
         
         <?php if($error['pass'] == 'blank'): ?>
@@ -252,7 +281,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="selectmultiple">again</label>
   <div class="col-md-4">
-    <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="<?php echo $member['password']; ?>">
+    <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="">
     <?php if(!empty($error['password'])): ?>
         
         <?php if($error['password'] == 'blank'): ?>
@@ -263,7 +292,7 @@
             <p class="error">パスワードを4文字以上で入力してください。</p>
         <?php endif; ?>
 
-        <?php if($error['password'] = 'wrong'): ?>
+        <?php if($_POST['password'] != '' && $error['password'] = 'wrong'): ?>
             <p class="error">パスワードが一致しません。</p>
         <?php endif; ?>
 

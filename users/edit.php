@@ -37,7 +37,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
       
 
 
-          if(isset($_FILES)){
+          
 
                   $fileName = $_FILES['image']['name'];
                   // $_FILESはinputタグのtypeがfileの時に生成される
@@ -54,7 +54,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                       // typeというエラーを出す
                       if ($ext != 'jpg' && $ext != 'png') {
                           $error['image'] = 'type';
-                      }
+                      
                   }
                 }
 
@@ -80,8 +80,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   mysqli_query($db,$sql) or die(mysqli_error($db));
 
                   // check.phpに遷移して処理を終了する
-                   //header('Location: index.php');
-                   //exit();
+                   header('Location: index.php');
+                   exit();
                  }
                 }
                 

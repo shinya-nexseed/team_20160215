@@ -1,4 +1,32 @@
 /*==============================================*/
+/*-----base-----*/
+/*==============================================*/
+/*--design from bootsnipp Login and Register New Style - Tabbed by http://bootsnipp.com/snippets/ZlnjD -- */
+/*--font import from Google fonts--*/
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);
+
+body{
+  color:#666666;
+  font-family: 'Roboto', sans-serif;
+  font-weight:100;
+  width: 100%;
+  background-color: #f1f1f1;
+  background-size: 600% 100%;
+  -webkit-animation: HeroBG 20s ease infinite;
+          animation: HeroBG 20s ease infinite;
+}
+
+h6{
+  font-size:14px;
+  font-weight:100;
+  color: #888;
+}
+
+h6 a{
+  color: #888;
+}
+
+/*==============================================*/
 /*-----navbar-----*/
 /*==============================================*/
 
@@ -33,12 +61,14 @@
 /*==============================================*/
 /*-----container-----*/
 /*==============================================*/
+.container-fluid{
+  padding-top:20px;
+}
 
-
-
-/*.container-fluid{
-  margin-top: 60px;
-}*/
+.container-fluid h1{
+  margin-bottom: 20px;
+  text-align: center;
+}
 
 /*--design from bootsnipp Form wizard with circular tabs by http://bootsnipp.com/snippets/8AGGQ --*/
 
@@ -103,11 +133,6 @@ span.round-tab i{
 }
 .wizard li.active span.round-tab i{
     color: #5bc0de;
-}
-
-span.round-tab:hover {
-    color: #333;
-    border: 2px solid #333;
 }
 
 .wizard .nav-tabs > li {
@@ -211,10 +236,10 @@ span.round-tab:hover {
 
 /* according menu */
 #accordion-container {
-    font-size:13px
+  font-size:13px
 }
 .accordion-header {
-    font-size:13px;
+  font-size:13px;
 	background:#ebebeb;
 	margin:5px 0 0;
 	padding:7px 20px;
@@ -302,128 +327,12 @@ span.round-tab:hover {
     }
 }
 
-/*--design from bootsnipp Signin and Signup page by http://bootsnipp.com/snippets/VERA8 --*/
-
-/*::selection {
-  background-color: #b5e2e7;
-}
-
-::-moz-selection {
-  background-color: #8ac7d8;
-}
-
-body {
-  background: #3CC;
-}
-
-.container {
-  display: -webkit-flex;
-  display: flex;
-  height: 100%;
-}
-
-#logbox {
-  padding: 10px;
-  margin: 20px auto;
-  width: 340px;
-  background-color: #fff;
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-}
-
-#logbox-sub{
-  padding: 25px;
-  margin: 20px auto;
-  width: 340px;
-  background-color: #fff;
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-}
-
-h1 {
-  text-align: center;
-  font-size: 175%;
-  color: #757575;
-  font-weight: 300;
-}
-
-h1, input {
-  font-family: "Open Sans", Helvetica, sans-serif;
-}
-
-.input {
-  width: 75%;
-  height: 50px;
-  display: block;
-  margin: 0 auto 15px;
-  padding: 0 15px;
-  border: none;
-  border-bottom: 2px solid #ebebeb;
-}
-.input:focus {
-  outline: none;
-  border-bottom-color: #3CC !important;
-}
-.input:hover {
-  border-bottom-color: #dcdcdc;
-}
-.input:invalid {
-  box-shadow: none;
-}
-
-.pass:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset;
-}
-
-.inputButton {
-  position: relative;
-  width: 85%;
-  height: 50px;
-  display: block;
-  margin: 30px auto 30px;
-  color: white;
-  background-color: #3CC;
-  border: none;
-  -webkit-box-shadow: 0 5px 0 #2CADAD;
-  -moz-box-shadow: 0 5px 0 #2CADAD;
-  box-shadow: 0 5px 0 #2CADAD;
-}
-.inputButton:hover {
-  top: 2px;
-  -webkit-box-shadow: 0 3px 0 #2CADAD;
-  -moz-box-shadow: 0 3px 0 #2CADAD;
-  box-shadow: 0 3px 0 #2CADAD;
-}
-.inputButton:active {
-  top: 5px;
-  box-shadow: none;
-}
-.inputButton:focus {
-  outline: none;
-}*/
-
+/*==============================================*/
+/*form*/
+/*==============================================*/
 
 /*--design from bootsnipp Login and Register New Style - Tabbed by http://bootsnipp.com/snippets/ZlnjD -- */
 /*--font import from Google fonts--*/
-/*@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);*/
-
-body {
-  padding-top: 90px;
-  background:#F7F7F7;
-  color:#666666;
-  font-family: 'Roboto', sans-serif;
-  font-weight:100;
-}
-
-body{
-  width: 100%;
-  background: #24d3d3;
-  background-size: 600% 100%;
-  -webkit-animation: HeroBG 20s ease infinite;
-          animation: HeroBG 20s ease infinite;
-}
 
 @-webkit-keyframes HeroBG {
   0% {
@@ -709,147 +618,4 @@ label {
   margin: 25px;
   line-height: 35px;
   text-align: center;
-}
-
-
-.white-panel:hover {
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-  margin-top: -5px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-/* ========== Author's custom styles ========== */
-
-body { margin-top: 140px;
-  font-family: 'Open Sans', sans-serif;
-} 
-
-.fb-profile img.fb-image-lg {
-  z-index: 0;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.fb-image-profile {
-  margin: -90px 10px 0px 50px;
-  z-index: 9; width: 20%;
-}
-
-@media (max-width:768px) {
-  .fb-profile-text h1{ 
-    font-weight: 700;
-    font-size:16px;
-}
-
-.fb-image-profile {
-  margin: -45px 10px 0px 25px;
-  z-index: 9;
-  width: 20%;
-} }
-
-legend{
-  text-align: center;
-} 
-
-/*写真新規投稿・編集画面用*/
-
-.btn {
-  margin-top: 25px;
-}
-
-.message {
-  resize: both;
-  width: 95%;
-  height: 180px;
-}
-
-h5{
-  border-left: 3px solid #1E90FF;
-  padding-left: 6px;
-}
-
-.photo_show{
-  margin-top: 20px;
-  width: 300px;
-}
-
-.required{
-  color: red;
-}
-
-
-/*メインコンテンツのPintarest風UI用*/
-
-#pinBoot {
-  position: relative;
-  max-width: 100%;
-  width: 100%;
-  margin-top: 60px;
-}
-img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-}
-.white-panel {
-  position: absolute;
-  background: white;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-  padding: 10px;
-}
-/*
-stylize any heading tags withing white-panel below
-*/
-
-.white-panel h1 {
-  font-size: 1em;
-}
-.white-panel h1 a {
-  color: #A92733;
-}
-.white-panel:hover {
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-  margin-top: -5px;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-
-
-/*モーダル写真詳細部分*/
-
-.box img{
-  width: 100%;
-  object-fit:cover;
-  -o-object-fit:cover;
-  margin-bottom: 18px;
-}
-
-.box a:hover img{
-  opacity: 0.8;
-}
-
-.modal-content{
-  padding: 20px;
-}
-
-.btn_close{
-  background-color: white;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.vote-btn{
-  text-align: center;
-}
-
-.jump-edit{
-  float: right;
-  font-size: 9px;
 }

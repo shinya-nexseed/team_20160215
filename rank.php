@@ -47,13 +47,13 @@
                             $_POST['photo_id']
                           );
             mysqli_query($db, $sql) or die(mysqli_error($db));
-
         }
     }
 
 
     // ページング機能
     if (isset($_REQUEST['page'])) {
+
         $page = $_REQUEST['page'];
     
     } else {
@@ -74,14 +74,12 @@
     $start = ($page - 1) * 24;
     $start = max(0, $start);
 
-
-    //投稿写真データをここで取得
-    $sql = sprintf('SELECT * FROM photos ORDER BY modified DESC LIMIT %d,24',
-          $start
+    //いいね数順で投稿写真データを取得
+    $sql = sprintf('SELECT photos.*, COUNT(likes.photo_id) AS cnt FROM photos LEFT JOIN likes ON photos.id=likes.photo_id GROUP BY photos.id LIMIT %d,24',
+         $start
     ); 
 
-    $photos = mysqli_query($db, $sql) or die (mysqli_error($db));
-        
+    $photos = mysqli_query($db, $sql) or die(mysqli_error($db));
 ?>
 
 <!DOCTYPE html>
@@ -119,6 +117,7 @@
           <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?> " >会員情報</a></li>
           <li><a href="rank.php" >ランキング</a></li>
         </ul>
+
         <ul class="nav navbar-nav navbar-right">
           <!--   ↑bootstrapでは、右端に寄せるクラス-->
           <li class="dropdown">
@@ -140,23 +139,23 @@
                       <p class="text-left"><strong><?php echo h($member['nick_name']); ?></strong></p>
                       <p class="text-left small"><?php echo h($member['email']); ?></p>
                       <p class="text-left">
-                        <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール
-                        </a>
+                        <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
                       </p>
                     </div>                       
                   </div>
                 </div>
               </li>
-              <li class="divider">
-                <li>
-                  <div class="navbar-login navbar-login-session">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <p><a href="logout.php" class="btn btn-danger btn-block">ログアウト</a></p>
-                      </div>
+              <li class="divider"></li>
+              <li>
+                <div class="navbar-login navbar-login-session">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <p>
+                        <a href="logout.php" class="btn btn-danger btn-block">ログアウト</a>
+                      </p>
                     </div>
                   </div>
-                </li>
+                </div>
               </li>
             </ul>
           </li>
@@ -173,7 +172,6 @@
       <section id="pinBoot">
         <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
           <?php 
-              // ログインユーザーが選択している写真にいいね!しているデータを取得
               $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
                               AND photo_id=%d',
                               $_SESSION['id'],
@@ -181,8 +179,7 @@
                             );
               $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
 
-              // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
-              $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
+              $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);            
               $counts = mysqli_query($db, $sql) or die(mysql_error($db));
               $count = mysqli_fetch_assoc($counts);
           ?>
@@ -195,7 +192,7 @@
               <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
-                    <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close
+                    <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close
                     </button>
                     <div class="modal-body">
                       <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
@@ -206,32 +203,38 @@
                         現在の投票数<?php echo h($count['likes']) ;?>
                       </p>
                     </div>
+
                     <form action="" method="post">
                       <?php if ($like = mysqli_fetch_assoc($likes)): ?>
                         <input type="hidden" name="like" value="unlike" >
                         <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
                         <div id="button">
-                          <input type="submit"  class="btn btn-sm btn-primary"value="投票を取り消す">
+                          <input type="submit" class="btn btn-sm btn-primary" value="投票を取り消す">
                         </div>
                       <?php else: ?>
                         <input type="hidden" name="like" value="like">
                         <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                        <div id="button">
-                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票!">
+                        <div id="button"> 
+                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
                         </div>
-                      <?php endif; ?>
+                     <?php endif; ?>
                     </form>
+
                     <div class="jump-edit">
                       <?php if ($_SESSION['id'] == $photo['member_id']): ?>
                          [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
-                          <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
+                        <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
                       <?php endif; ?>
                     </div>
                   </div>
                 </div>
               </div>
-              <h5><?php echo ($photo['title']); ?></h5>
-              <p><?php echo h($photo['comment']); ?></p>
+              <h5>
+                <?php echo ($photo['title']); ?>
+              </h5>
+              <p>
+                <?php echo h($photo['comment']); ?>
+              </p>
               <p class="vote_count">
                 <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
                 投票数<?php echo h($count['likes']) ;?>
@@ -259,6 +262,7 @@
       <?php } ?>
     </ul>
   </div>
+
   <!--
   ===================================================================
   フッター
@@ -266,22 +270,16 @@
   <div class="container">
     <div class="row"><hr>
       <div class="col-lg-12">
-        <div class="col-md-8">
-          <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
-        </div>
-        <div class="col-md-4">
-          <p class="muted pull-right">© 2016 Company Name. All rights reserved</p>
+        <p class="muted_footer">© 2016 AI Matsubara. All rights reserved</p>
         </div>
       </div>
     </div>
   </div>
-
   <!-- jsファイルの読み込みはbodyの一番下がデファクトリスタンダード -->
   <!-- jQueryファイルが一番最初 -->
   <script type="text/javascript" src="./assets/js/jquery-1.12.3.min.js"></script>
   <!-- jQueryファイルの次にbootstrapのJSファイル -->
   <script type="text/javascript" src="./assets/js/bootstrap.js"></script>
   <script type="text/javascript" src="./assets/js/main.js"></script>
-
 </body>
 </html>

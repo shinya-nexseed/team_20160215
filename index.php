@@ -210,11 +210,21 @@
                       <?php if ($like = mysqli_fetch_assoc($likes)): ?>
                         <input type="hidden" name="like" value="unlike" >
                         <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
-                        <input type="submit"  class="btn btn-sm btn-primary"value="いいね!取り消し">
+                        <div id="button">
+                          <input type="submit" class="btn btn-sm btn-primary" value="投票を取り消す">
+                        </div>
                       <?php else: ?>
                         <input type="hidden" name="like" value="like">
                         <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                        <input type="submit" class="btn btn-sm btn-primary" value="いいね!">
+                        <div id="button"> 
+                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
+                        </div>
+                     <?php endif; ?>
+                    </form>
+                    <div class="jump-edit">
+                      <?php if ($_SESSION['id'] == $photo['member_id']): ?>
+                         [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
+                        <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
                       <?php endif; ?>
                     </form>
                     <div class="jump-edit">

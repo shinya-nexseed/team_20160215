@@ -217,7 +217,7 @@
                         <input type="hidden" name="like" value="like">
                         <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
                         <div id="button">
-                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
+                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票!">
                         </div>
                       <?php endif; ?>
                     </form>

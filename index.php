@@ -183,7 +183,7 @@
 
               // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
               $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
-              $counts = mysqli_query($dv, $sql) or die(mysql_error($db));
+              $counts = mysqli_query($db, $sql) or die(mysql_error($db));
               $count = mysqli_fetch_assoc($counts);
           ?>
 

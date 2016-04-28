@@ -75,7 +75,7 @@
     $start = max(0, $start);
 
     //いいね数順で投稿写真データを取得
-    $sql = sprintf('SELECT photos.*, COUNT(likes.photo_id) AS cnt FROM photos LEFT JOIN likes ON photos.id=likes.photo_id GROUP BY photos.id LIMIT %d,24',
+    $sql = sprintf('SELECT photos.*, COUNT(likes.photo_id) AS cnt FROM photos LEFT JOIN likes ON photos.id=likes.photo_id GROUP BY photos.id ORDER BY cnt DESC LIMIT %d,24',
          $start
     ); 
 

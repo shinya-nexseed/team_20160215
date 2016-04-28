@@ -93,7 +93,7 @@
 
                       <!-- form confirmation -->
                       <div class="form-group">
-                        <img id="profile-img" class="profile-img-card" src="../member_picture/<?php echo htmlspecialchars($_SESSION["join"]["image"], ENT_QUOTES, 'UTF-8'); ?>" width="100" height="100" alt="<?php echo htmlspecialchars($_SESSION['join']['nick_name'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <img id="profile-img" class="profile-img-card" src="../users/member_picture/<?php echo htmlspecialchars($_SESSION["join"]["image"], ENT_QUOTES, 'UTF-8'); ?>" width="100" height="100" alt="<?php echo htmlspecialchars($_SESSION['join']['nick_name'], ENT_QUOTES, 'UTF-8'); ?>">
                         <table class="confirm">
                             <th><span class="cfm-item">Username</span></th>
                             <td><?php echo htmlspecialchars($_SESSION['join']['nick_name'], ENT_QUOTES, 'UTF-8'); ?></td>

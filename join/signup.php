@@ -64,7 +64,7 @@
         if(empty($error)){
             //画像のアップロード
             $image = date('YmdHis').$_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'], '../member_picture/' . $image);
+            move_uploaded_file($_FILES['image']['tmp_name'], '../users/member_picture/' . $image);
         }
 
         //エラーがなかった

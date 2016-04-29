@@ -883,6 +883,11 @@ stylize any heading tags withing white-panel below
   font-size: 9px;
 }
 
+.jump_delete{
+  font-size: 12px;
+}
+
+
 .new_body{
   background-color: white;
 }
@@ -906,11 +911,45 @@ stylize any heading tags withing white-panel below
 /*各種登録・投票ボタン*/
 #button {
 text-align: center;
+size: auto;
 }
 
 #button:hover {
   opacity: 0.8;
 }
+
+#go_member {
+margin-top: 30px;
+}
+
+#go_member li {
+  float: right;
+}
+
+#check_acount {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.fa-pencil-square-o {
+  margin-right: 3px;
+}
+
+.fa-heartbeat {
+  margin-right: 3px;
+}
+
+.login_btn {
+  margin-right: 40px;
+}
+
+#now{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-left: 10px;
+  margin-right: 50px;
+}
+
 
 /*fontawsome*/
 .fa-gratipay {
@@ -921,4 +960,10 @@ text-align: center;
   margin-bottom:5px;
 
 }
+
+.muted_footer {
+  text-align: center;
+}
+
+
 

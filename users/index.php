@@ -127,6 +127,7 @@
                         <li><a href="#" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
                     </ul>
                 </div>
+                <?php var_dump($_FILES); ?>
                 
                 <div class="row" style="display: none;">
                     <div class="col-xs-12">
@@ -154,6 +155,7 @@
                             <span class="visible-xs"> <span class="text-muted"></span><br/></span>
                         </div>
                         <div class="clearfix"></div>
+
                     </li>
                     
                     </li>

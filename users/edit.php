@@ -18,27 +18,35 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     header('Location: signin.php');
     exit();
 }
-
     $error = array();
-
         if (isset($_POST) && !empty($_POST)){
-
            if ($_POST['nick_name'] == '') {
             // もし$_POST内のnick_name部分が空だったら処理
             $error['nick_name'] = 'blank';
             // $error配列のnick_nameキーにblankという値を代入
         }
-
          if ($_POST['introduction'] == '') {
             // もし$_POST内のnick_name部分が空だったら処理
             $error['introduction'] = 'blank';
             // $error配列のnick_nameキーにblankという値を代入
         }
+
+        if (empty($_FILES['image']['name'])) {
+
+          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s" WHERE `id`=%d',
+                      $_POST['nick_name'],
+                      $_POST['introduction'],
+                      $_SESSION['id']
+                  );
+          mysqli_query($db,$sql) or die(mysqli_error($db));
+          // check.phpに遷移して処理を終了する
+           header('Location: index.php');
+           exit();
+
+
+        }else{
       
-
-
           
-
                   $fileName = $_FILES['image']['name'];
                   // $_FILESはinputタグのtypeがfileの時に生成される
                   // スーパーグローバル変数です
@@ -49,7 +57,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                       // 取得する
                       // 今回は-3と指定することで文字列の最後から3つ分取得
                       // echo $ext;
-
                       // 画像ファイルの拡張子がjpgもしくはpngでなければ
                       // typeというエラーを出す
                       if ($ext != 'jpg' && $ext != 'png') {
@@ -57,7 +64,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                       
                   }
                 }
-
                   if (empty($error)) {
                   // 画像をサーバーへアップロードする処理
                   // 単に登録する画像の名前の文字列を他と絶対にかぶらない形で
@@ -65,10 +71,11 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   $image = date('YmdHis') . $_FILES['image']['name'];
                   // date()関数とは、指定したフォーマットで現在の日時を返す
                   // echo $image;
-
                   move_uploaded_file($_FILES['image']['tmp_name'],
                                      'member_picture/' . $image
                                     );
+
+                  
               
                   $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
                               $_POST['nick_name'],
@@ -76,16 +83,14 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                               $image,
                               $_SESSION['id']
                           );
-
                   mysqli_query($db,$sql) or die(mysqli_error($db));
-
                   // check.phpに遷移して処理を終了する
                    header('Location: index.php');
                    exit();
                  }
                 }
+              }
                 
-
 ?>
 
 <!DOCTYPE html>
@@ -248,7 +253,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     -->
     <div class="container">
       <div class="row">
-      <hr>
         <div class="col-lg-12">
           <div class="col-md-8">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
@@ -276,17 +280,14 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 $(function(){
     var setFileInput = $('.imgInput'),
     setFileImg = $('.imgView');
-
     setFileInput.each(function(){
         var selfFile = $(this),
         selfInput = $(this).find('input[type=file]'),
         prevElm = selfFile.find(setFileImg),
         orgPass = prevElm.attr('src');
-
         selfInput.change(function(){
             var file = $(this).prop('files')[0],
             fileRdr = new FileReader();
-
             if (!this.files.length){
                 prevElm.attr('src', orgPass);
                 return;
@@ -307,3 +308,4 @@ $(function(){
 </script>
 </body>
 </html>
+Status API Training Shop Blog About

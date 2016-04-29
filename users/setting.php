@@ -124,6 +124,7 @@
   <link rel="stylesheet" href="http://black-flag.net/data/css/reset.css">
   <link rel="stylesheet" href="css/common.css">
 
+
 </head>
 <body>
     <!-- 
@@ -221,9 +222,9 @@
     <legend>My Profile Setting</legend>
     <form method="post" action="">
       <div class="form-group">
-      <label class="col-md-4 control-label" for="textinput">email</label>  
+      <label class="col-md-4 control-label" for="textinput">Email Adress</label>  
       <div class="col-md-4">
-      <input id="textinput" name="email" type="email" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">
+      <input id="textinput" name="email" type="email" placeholder="Email Adress" class="form-control input-md" value="<?php echo $member['email']; ?>">
       <?php if(!empty($error['email'])): ?>
           <?php if($error['email'] == 'blank'): ?>
               <p class="error">メールアドレスを入力してください。</p>
@@ -240,9 +241,9 @@
 
 <br><br><br><br><br>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">current pass</label>
+  <label class="col-md-4 control-label" for="selectmultiple">Current Password</label>
   <div class="col-md-4">
-    <input id="textinput" name="currentpass" type="password" placeholder="current pass" class="form-control input-md" value="">
+    <input id="textinput" name="currentpass" type="password" placeholder="Current Password" class="form-control input-md" value="">
     <?php if(!empty($error['currentpass'])): ?>
         
         <?php if($error['currentpass'] == 'blank'): ?>
@@ -259,9 +260,9 @@
 
 <br><br><br><br><br>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">new pass</label>
+  <label class="col-md-4 control-label" for="selectmultiple">New Password</label>
   <div class="col-md-4">
-    <input id="textinput" name="pass" type="password" placeholder="your new pass" class="form-control input-md" value="">
+    <input id="textinput" name="pass" type="password" placeholder="New Password" class="form-control input-md" value="">
     <?php if(!empty($error['pass'])): ?>
         
         <?php if($error['pass'] == 'blank'): ?>
@@ -279,9 +280,9 @@
 
 <br><br><br><br><br>
 <div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">again</label>
+  <label class="col-md-4 control-label" for="selectmultiple">Confirm Password</label>
   <div class="col-md-4">
-    <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="">
+    <input id="textinput" name="password" type="password" placeholder="Confirm Password" class="form-control input-md" value="">
     <?php if(!empty($error['password'])): ?>
         
         <?php if($error['password'] == 'blank'): ?>
@@ -322,7 +323,7 @@
     -->
     <div class="container">
       <div class="row">
-      <hr>
+      
         <div class="col-lg-12">
           <div class="col-md-8">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    

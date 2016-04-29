@@ -89,8 +89,7 @@
         <ul class="nav navbar-nav">
           <li><a href="new.php">新規投稿</a></li>
           <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?> " >会員情報</a></li>
-          <li><a href="rank.php" >らんきんぐ</a></li>
-          <li><a href="rank.php" >殿堂入り</a></li>
+          <li><a href="rank.php" >ランキング</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <!--   ↑bootstrapでは、右端に寄せるクラス-->

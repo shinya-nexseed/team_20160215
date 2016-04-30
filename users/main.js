@@ -19,6 +19,7 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
     Pinterest Grid Plugin
     Copyright 2014 Mediademons
     @author smm 16/04/2014
+<<<<<<< HEAD
 
     usage:
 
@@ -31,6 +32,14 @@ http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Styl
     });
 
 
+=======
+    usage:
+     $(document).ready(function() {
+        $('#blog-landing').pinterest_grid({
+            no_columns: 4
+        });
+    });
+>>>>>>> master
 */
 ;(function ($, window, document, undefined) {
     var pluginName = 'pinterest_grid',
@@ -214,4 +223,7 @@ $(function () {
         }
     })
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> master

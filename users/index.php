@@ -1,6 +1,7 @@
 <?php
      
          session_start();
+<<<<<<< HEAD
 
          // 外部ファイルの読み込み
          require('../dbconnect.php');
@@ -18,16 +19,34 @@
              );
              $members = mysqli_query($db, $sql) or die(mysqli_error($db));
 
+=======
+         // 外部ファイルの読み込み
+         require('../dbconnect.php');
+         require('../functions.php');
+         // 仮のログインユーザーデータ
+         $_SESSION['id'] = 1;
+         $_SESSION['time'] = time();
+         // ログイン判定
+         if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
+             $_SESSION['time'] = time();
+             $sql = sprintf('SELECT id, nick_name, picture_path, introduction FROM members'
+             );
+             $members = mysqli_query($db, $sql) or die(mysqli_error($db));
+>>>>>>> master
              // ログインしているのユーザーのデータ
              $member = mysqli_fetch_assoc($members);
          } else {
              header('Location: signin.php');
              exit();
          }
+<<<<<<< HEAD
 
      
 
 
+=======
+     
+>>>>>>> master
 ?>
 
 
@@ -74,7 +93,11 @@
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+<<<<<<< HEAD
                 <span class="glyphicon glyphicon-user"></span> 
+=======
+                <span class="glyphicon glyphicon-user"></span> 
+>>>>>>> master
                 <strong>nick_name</strong>
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
@@ -127,7 +150,10 @@
                         <li><a href="#" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
                     </ul>
                 </div>
+<<<<<<< HEAD
                 <?php var_dump($_FILES); ?>
+=======
+>>>>>>> master
                 
                 <div class="row" style="display: none;">
                     <div class="col-xs-12">
@@ -155,7 +181,10 @@
                             <span class="visible-xs"> <span class="text-muted"></span><br/></span>
                         </div>
                         <div class="clearfix"></div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
                     </li>
                     
                     </li>
@@ -212,5 +241,9 @@
 <!-- jQueryファイルの次にbootstrapのJSファイル -->
 <script type="text/javascript" src="../assets/js/main.js"></script>
 </body>
+<<<<<<< HEAD
 </html>
 
+=======
+</html>
+>>>>>>> master

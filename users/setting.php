@@ -2,6 +2,7 @@
     // 外部ファイルの読み込み
     require('../dbconnect.php');
     require('../functions.php');
+<<<<<<< HEAD
 
     // 仮のログインユーザーデータ
     $_SESSION['id'] = 1;
@@ -11,10 +12,19 @@
     if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         $_SESSION['time'] = time();
 
+=======
+    // 仮のログインユーザーデータ
+    $_SESSION['id'] = 1;
+    $_SESSION['time'] = time();
+    // ログイン判定
+    if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
+        $_SESSION['time'] = time();
+>>>>>>> master
         $sql = sprintf('SELECT * FROM members WHERE id=%d',
              mysqli_real_escape_string($db, $_SESSION['id'])
         );
         $record = mysqli_query($db, $sql) or die(mysqli_error($db));
+<<<<<<< HEAD
 
         // ログインしているのユーザーのデータ
         $member = mysqli_fetch_assoc($record);
@@ -22,10 +32,16 @@
         } 
 
 
+=======
+        // ログインしているのユーザーのデータ
+        $member = mysqli_fetch_assoc($record);
+        } 
+>>>>>>> master
       else {
         header('Location: signin.php');
         exit();
     }
+<<<<<<< HEAD
 
     $error = array();
 
@@ -36,12 +52,22 @@
             $error['email'] = 'blank';
         }
 
+=======
+    $error = array();
+    if (isset($_POST) && !empty($_POST)){
+        if ($_POST['email'] == '') {
+            $error['email'] = 'blank';
+        }
+>>>>>>> master
         if (sha1($_POST['currentpass']) != $member['password']) {
             // strlen()関数とは
             // 指定した文字列の文字数をカウントして返す
             $error['currentpass'] = 'wrong';
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         if ($_POST['currentpass'] == '') {
             $error['currentpass'] = 'blank';
         }
@@ -51,16 +77,23 @@
             // 指定した文字列の文字数をカウントして返す
             $error['pass'] = 'length';
         }
+<<<<<<< HEAD
 
         if ($_POST['pass'] == '') {
             $error['pass'] = 'blank';
         }
 
+=======
+        if ($_POST['pass'] == '') {
+            $error['pass'] = 'blank';
+        }
+>>>>>>> master
         if (strlen($_POST['password']) < 4) {
             // strlen()関数とは
             // 指定した文字列の文字数をカウントして返す
             $error['password'] = 'length';
         }
+<<<<<<< HEAD
 
         if ($_POST['password'] == '') {
             $error['password'] = 'blank';
@@ -73,6 +106,16 @@
         $current_email = $member['email'];
         $new_email = $_POST['email'];
 
+=======
+        if ($_POST['password'] == '') {
+            $error['password'] = 'blank';
+        }
+        if ($_POST['pass'] !== $_POST['password']){
+            $error['password'] = 'wrong';
+        }
+        $current_email = $member['email'];
+        $new_email = $_POST['email'];
+>>>>>>> master
         // メールアドレスが更新されたかのチェック
         if ($current_email != $new_email) {
           
@@ -82,10 +125,15 @@
             );
             // ユーザーがメールアドレスの欄に入力した値でmembersテーブルに検索をかけ、
             // データがヒットすればその件数を返す
+<<<<<<< HEAD
 
             $record = mysqli_query($db,$sql) or die(mysqli_error($db));
             $table = mysqli_fetch_assoc($record);
 
+=======
+            $record = mysqli_query($db,$sql) or die(mysqli_error($db));
+            $table = mysqli_fetch_assoc($record);
+>>>>>>> master
             // データがヒットして件数が0以上 = すでに登録されているメールアドレス
             // もし$table['cnt']の値が0以上であれば重複メールアドレスとして
             // $error['email']にduplicate (重複) のエラーを代入
@@ -93,7 +141,10 @@
                 $error['email'] = 'duplicate';
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
       
       if (!empty($_POST) && empty($error)) {
         
@@ -107,7 +158,10 @@
       }
     }
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 ?>
 
 
@@ -124,7 +178,10 @@
   <link rel="stylesheet" href="http://black-flag.net/data/css/reset.css">
   <link rel="stylesheet" href="css/common.css">
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 </head>
 <body>
     <!-- 
@@ -222,9 +279,15 @@
     <legend>My Profile Setting</legend>
     <form method="post" action="">
       <div class="form-group">
+<<<<<<< HEAD
       <label class="col-md-4 control-label" for="textinput">Email Adress</label>  
       <div class="col-md-4">
       <input id="textinput" name="email" type="email" placeholder="Email Adress" class="form-control input-md" value="<?php echo $member['email']; ?>">
+=======
+      <label class="col-md-4 control-label" for="textinput">email</label>  
+      <div class="col-md-4">
+      <input id="textinput" name="email" type="email" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">
+>>>>>>> master
       <?php if(!empty($error['email'])): ?>
           <?php if($error['email'] == 'blank'): ?>
               <p class="error">メールアドレスを入力してください。</p>
@@ -241,9 +304,15 @@
 
 <br><br><br><br><br>
 <div class="form-group">
+<<<<<<< HEAD
   <label class="col-md-4 control-label" for="selectmultiple">Current Password</label>
   <div class="col-md-4">
     <input id="textinput" name="currentpass" type="password" placeholder="Current Password" class="form-control input-md" value="">
+=======
+  <label class="col-md-4 control-label" for="selectmultiple">current pass</label>
+  <div class="col-md-4">
+    <input id="textinput" name="currentpass" type="password" placeholder="current pass" class="form-control input-md" value="">
+>>>>>>> master
     <?php if(!empty($error['currentpass'])): ?>
         
         <?php if($error['currentpass'] == 'blank'): ?>
@@ -260,9 +329,15 @@
 
 <br><br><br><br><br>
 <div class="form-group">
+<<<<<<< HEAD
   <label class="col-md-4 control-label" for="selectmultiple">New Password</label>
   <div class="col-md-4">
     <input id="textinput" name="pass" type="password" placeholder="New Password" class="form-control input-md" value="">
+=======
+  <label class="col-md-4 control-label" for="selectmultiple">new pass</label>
+  <div class="col-md-4">
+    <input id="textinput" name="pass" type="password" placeholder="your new pass" class="form-control input-md" value="">
+>>>>>>> master
     <?php if(!empty($error['pass'])): ?>
         
         <?php if($error['pass'] == 'blank'): ?>
@@ -280,9 +355,15 @@
 
 <br><br><br><br><br>
 <div class="form-group">
+<<<<<<< HEAD
   <label class="col-md-4 control-label" for="selectmultiple">Confirm Password</label>
   <div class="col-md-4">
     <input id="textinput" name="password" type="password" placeholder="Confirm Password" class="form-control input-md" value="">
+=======
+  <label class="col-md-4 control-label" for="selectmultiple">again</label>
+  <div class="col-md-4">
+    <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="">
+>>>>>>> master
     <?php if(!empty($error['password'])): ?>
         
         <?php if($error['password'] == 'blank'): ?>
@@ -323,7 +404,11 @@
     -->
     <div class="container">
       <div class="row">
+<<<<<<< HEAD
       
+=======
+      <hr>
+>>>>>>> master
         <div class="col-lg-12">
           <div class="col-md-8">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
@@ -351,17 +436,26 @@
 $(function(){
     var setFileInput = $('.imgInput'),
     setFileImg = $('.imgView');
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     setFileInput.each(function(){
         var selfFile = $(this),
         selfInput = $(this).find('input[type=file]'),
         prevElm = selfFile.find(setFileImg),
         orgPass = prevElm.attr('src');
+<<<<<<< HEAD
 
         selfInput.change(function(){
             var file = $(this).prop('files')[0],
             fileRdr = new FileReader();
 
+=======
+        selfInput.change(function(){
+            var file = $(this).prop('files')[0],
+            fileRdr = new FileReader();
+>>>>>>> master
             if (!this.files.length){
                 prevElm.attr('src', orgPass);
                 return;

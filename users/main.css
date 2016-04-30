@@ -91,4 +91,13 @@ ul.c-controls li a:hover {
 .c-info {
     padding: 5px 10px;
     font-size: 1.25em;
+<<<<<<< HEAD
+=======
+}
+
+img.imgView{
+  width: 100px;
+  height: 100px;
+  margin: 0 100px 100px 0;
+>>>>>>> master
 }

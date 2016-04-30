@@ -156,7 +156,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 <form action="" method="post" enctype="multipart/form-data">
 <div id="container">
   <div class="imgInput">
-      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
+      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView"><br>
           <input type="file" name="image"><br>
           <?php if(!empty($error['image'])): ?>
         <?php if($error['image'] = 'type'): ?>

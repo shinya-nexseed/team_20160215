@@ -34,7 +34,7 @@ h6 a{
 /*Code snippet by maridlcrmn for Bootsnipp.com Follow me on Twitter @maridlcrmn*/
 
 .navbar.navbar-inverse .nav-collapse{
-  background-color: #222;
+  padding-top: 10px;
 }
 
 /*--design from bootsnipp Account in Navbar by http://bootsnipp.com/snippets/Oqrd --*/
@@ -610,6 +610,7 @@ label {
 /*==============================================*/
 /*thanks.php/.html 専用メッセージと本文*/
 /*==============================================*/
+
 .thanks-title h2{
   font-size: 36px;
 }
@@ -619,9 +620,16 @@ label {
   line-height: 35px;
   text-align: center;
 }
-<<<<<<< HEAD
-=======
 
+
+
+/*==============================================*/
+/*index.php*/
+/*==============================================*/
+
+.container .row{
+  margin-top: 60px;
+}
 
 .white-panel:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
@@ -633,11 +641,6 @@ label {
 }
 
 /* ========== Author's custom styles ========== */
-
-/*140→10にmargin-top 変更しました*/
-body { margin-top: 10px;
-  font-family: 'Open Sans', sans-serif;
-} 
 
 .fb-profile img.fb-image-lg {
   z-index: 0;
@@ -651,7 +654,7 @@ body { margin-top: 10px;
 }
 
 @media (max-width:768px) {
-  .fb-profile-text h1{ 
+  .fb-profile-text h1{
     font-weight: 700;
     font-size:16px;
 }
@@ -664,7 +667,7 @@ body { margin-top: 10px;
 
 legend{
   text-align: center;
-} 
+}
 
 /*写真新規投稿・編集画面用*/
 
@@ -672,32 +675,12 @@ legend{
   margin-top: 25px;
 }
 
-.message {
+/*!!!!ここのコードの場所要確認(photo_messageと内容が同じ)!!!!*/
+/*.message {
   resize: both;
   width: 95%;
   height: 180px;
-}
-
-h5{
-  border-left: 3px solid #1E90FF;
-  padding-left: 6px;
-}
-
-.photo_show{
-  margin-top: 20px;
-  width: 300px;
-}
-
-.required{
-  color: red;
-}
-
-
-/*写真新規投稿・編集画面用*/
-
-.btn {
-  margin-top: 25px;
-}
+}*/
 
 .photo_message {
   resize: both;
@@ -717,7 +700,7 @@ h5{
 
 .required{
   color: red;
-  font-size: 12wpx;
+  font-size: 12px;
 }
 
 
@@ -745,9 +728,7 @@ img {
   margin-top: 25px;
 }
 
-/*
-stylize any heading tags withing white-panel below
-*/
+/*stylize any heading tags withing white-panel below*/
 
 .white-panel h1 {
   font-size: 1em;
@@ -832,5 +813,3 @@ text-align: center;
   margin-bottom:5px;
 
 }
-
->>>>>>> index.php作成

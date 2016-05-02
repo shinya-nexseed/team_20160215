@@ -13,10 +13,9 @@
 		return mysqli_real_escape_string($db, $val);
 	}
 
-	function isSignin(){
-		session_start();
-		require('dbconnect.php');
-		//ログイン後の経過時間確認
+	function isSignin($db){
+
+		//ログイン後の経過時間確認(seed_snsでindex.phpに書いたものと同じもの)
 		if($_SESSION['time'] + 3600 > time()){
 				if(!empty($_SESSION)){
 						//ログインしている場合
@@ -27,7 +26,8 @@
 										m($db, $_SESSION['id'])
 									);
 						$record = mysqli_query($db, $sql) or die(mysqli_error($db));
-						$member = mysqli_fetch_assoc($record);
+						$member = mysqli_fetch_assoc($record);//DBから拾ってきたレコード
+						return $member;
 				}
 		}else{
 				//セッションタイムアウトの場合

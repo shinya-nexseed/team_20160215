@@ -3,23 +3,8 @@
     require('dbconnect.php');
     require('functions.php');
 
-    // 仮のログインユーザーデータ
-    $_SESSION['id'] = 1;
-
-    //ログイン判定
-    $_SESSION['time'] = time();
-    if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) {
-
-        $sql = sprintf('SELECT * FROM members WHERE id=%d',
-            m($db, $_SESSION['id'])
-        );
-        $record = mysqli_query($db, $sql) or die (mysqli_error($db));
-        $member = mysqli_fetch_assoc($record);
-    } else {
-          //未ログイン
-          header('Location; login.php');
-          exit();
-    }
+    // ログイン判定
+    $member = isSignin($db);
 
     //新規投稿
     if (!empty($_POST)) {
@@ -65,9 +50,9 @@
   <head>
     <meta charset="UTF-8">
     <title>Photovote</title>
-    <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
-    <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.css">
   </head>
   <body>
   <!--
@@ -90,13 +75,13 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a href="new.php">新規投稿</a></li>
-          <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?> " >会員情報</a></li>
+          <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?>" >会員情報</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span id="heder_p_icon"><img src="profile_image/<?php echo h($member['picture_path']); ?>"></span> 
+              <span id="heder_p_icon"><img src="users/member_picture/<?php echo h($member['picture_path']); ?>"></span> 
               <strong><?php echo h($member['nick_name']); ?>さん</strong>
               <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
@@ -106,7 +91,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <p class="text-center">
-                        <span><img class="profile_picture" src="profile_image/<?php echo h($member['picture_path']); ?>"></span>
+                        <span><img class="profile_picture" src="users/member_picture/<?php echo h($member['picture_path']); ?>"></span>
                       </p>
                     </div>
                     <div class="col-lg-8">
@@ -190,10 +175,10 @@
             <?php endif; ?>
             <?php if(!empty($error['comment'])): ?>
               <?php if($error['comment'] == 'blank'): ?>
-                <p class="required">エピソードを入力してください。</p>
+                <p class="required"><i class=""></i>エピソードを入力してください。</p>
               <?php endif; ?>
             <?php endif; ?>
-            <input type="submit" class="btn btn-sm btn-primary" id="js-upload-submit" value="投稿する">
+            <input type="submit" class="btn btn-sm btn-primary" id="js-upload-submit" value="投稿する"><a href="index.php" class="btn btn-sm btn-primary">戻る</a>
           </div>
         </div>
       </form>
@@ -208,7 +193,7 @@
   <div class="container">
     <div class="row"><hr>
       <div class="col-lg-12">
-        <p class="muted_footer">© 2016 AI Matsubara. All rights reserved</p>
+        <p class="muted_footer">© 2016 <a href="http://nexseed.net">Nexseed inc</a>. All rights reserved</p>
         </div>
       </div>
     </div>

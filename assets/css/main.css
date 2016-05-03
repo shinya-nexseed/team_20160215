@@ -907,9 +907,12 @@ stylize any heading tags withing white-panel below
 
 #paging ul li{
   display: inline;
-  padding-right: 10px;
-  padding-left: 10px;
   }
+
+#paging a {
+text-decoration: none;
+
+}
 
 
 /*各種登録・投票ボタン*/

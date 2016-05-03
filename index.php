@@ -190,9 +190,9 @@
               <li class="divider"></li>
               <li id="now">Total Vote：<i class="fa fa-gratipay" aria-hidden="true"></i><?php echo h($total['total']); ?>
               <li ><a href="join/index.php"><i class="fa fa-pencil-square-o"></i>会員登録はこちら</a></li>
-              <li class="login_btn"><a href="login.php"><i class="fa fa-heartbeat"></i>ログインはこちら</a></li>
+              <li class="login_btn"><a href="signin.php"><i class="fa fa-heartbeat"></i>ログインはこちら</a></li>
             </li>
-         
+          </ul>
         </div>
       </div>
     </div>
@@ -281,7 +281,7 @@
               </p>
             </article>
           <?php endwhile; ?>
-        <? else :?>
+        <?php else :?>
           <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
             <?php 
                 $sql = sprintf('SELECT * FROM `likes` WHERE photo_id=%d',
@@ -324,7 +324,7 @@
                   </div>
                 </div>
                 <h5>
-                  <?php echo ($photo['title']); ?>
+                  <?php echo h($photo['title']); ?>
                 </h5>
                 <p>
                   <?php echo h($photo['comment']); ?>
@@ -345,14 +345,14 @@
   <div id="paging">
     <ul style="padding: 0;">
       <?php if ($page > 1) { ?>
-        <li><a href="index.php?page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a></li>
+        <li><a href="index.php?page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a>&nbsp;&nbsp;</li>
       <?php } else { ?>
-        <li>First<i class="fa fa-backward" aria-hidden="true"></i></li>
+        <li>First<i class="fa fa-backward" aria-hidden="true">&nbsp;&nbsp;</i></li>
       <?php } ?>
       <?php if ($page < $maxPage) { ?>
-        <li><a href="index.php?page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
+        <li>&nbsp;&nbsp;<a href="index.php?page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
       <?php } else { ?>
-        </li><i class="fa fa-forward" aria-hidden="true">End</i></li>
+        </li>&nbsp;&nbsp;<i class="fa fa-forward" aria-hidden="true">End</i></li>
       <?php } ?>
     </ul>
   </div>

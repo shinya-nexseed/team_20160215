@@ -1,5 +1,8 @@
 <?php
     $url = $_SERVER['REQUEST_URI'];
+    //※ここ後ほど消します
+    //__DIR__ . /ディレクトリ名;
+    // echo __DIR__;
 ?>
 
     <!--=========================　Header　===========================-->
@@ -7,10 +10,10 @@
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <?php if($url=="users/index.php"||"users/edit.php"||"users/setting.php"||"users/view.php"): ?>
-              <a class="navbar-brand" href="../index.php">
+          <?php if($url=="users/"): ?>
+              <a class="navbar-brand" href="<?php echo __DIR__; ?>/users/index.php">
           <?php else: ?>
-              <a class="navbar-brand" href="index.php">
+              <a class="navbar-brand" href="<?php echo __DIR__; ?>/index.php">
           <?php endif; ?>
             <i class="fa fa-camera-retro fa-1x fa-spin"></i>
           </a>
@@ -22,12 +25,12 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-              <?php if($url=="users/index.php"||"users/edit.php"||"users/setting.php"||"users/view.php"): ?>
-                  <li><a href="../new.php">新規投稿</a></li>
-                  <li><a href="/index.php?id=<?php echo h($_SESSION['id']); ?>">会員情報</a></li>
+              <?php if($url=="users/"): ?>
+                  <li><a href="<?php echo __DIR__; ?>/new.php">新規投稿</a></li>
+                  <li><a href="<?php echo __DIR__; ?>/users/index.php?id=<?php echo h($_SESSION['id']); ?>">会員情報</a></li>
               <?php else: ?>
-                  <li><a href="/team20160215/new.php">新規投稿</a></li>
-                  <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?>">会員情報</a></li>
+                  <li><a href="<?php echo __DIR__; ?>/new.php">新規投稿</a></li>
+                  <li><a href="<?php echo __DIR__; ?>/users/index.php?id=<?php echo h($_SESSION['id']); ?>">会員情報</a></li>
               <?php endif; ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">

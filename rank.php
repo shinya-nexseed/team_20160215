@@ -230,7 +230,7 @@
                 </div>
               </div>
               <h5>
-                <?php echo ($photo['title']); ?>
+                <?php echo h($photo['title']); ?>
               </h5>
               <p>
                 <?php echo h($photo['comment']); ?>
@@ -247,18 +247,17 @@
     </div>
   </div>
 
-  <div class="paging">
-    <ul>
+  <div id="paging">
+    <ul style="padding: 0;">
       <?php if ($page > 1) { ?>
-        <li><a href="index.php?page=<?php print($page - 1); ?>">前のページへ</a></li>
+        <li><a href="index.php?page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a>&nbsp;&nbsp;</li>
       <?php } else { ?>
-        <li></li>
+        <li>First<i class="fa fa-backward" aria-hidden="true">&nbsp;&nbsp;</i></li>
       <?php } ?>
-      
       <?php if ($page < $maxPage) { ?>
-        <li><a href="index.php?page=<?php print($page + 1); ?>">次のページへ</a></li>
+        <li>&nbsp;&nbsp;<a href="index.php?page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
       <?php } else { ?>
-        </li></li>
+        </li>&nbsp;&nbsp;<i class="fa fa-forward" aria-hidden="true">End</i></li>
       <?php } ?>
     </ul>
   </div>

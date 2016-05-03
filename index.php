@@ -5,11 +5,9 @@
     require('dbconnect.php');
     require('functions.php');
 
-    // // 仮のログインユーザーデータ
-    // $_SESSION['id'] = 1;
-    // $_SESSION['time'] = time();
+    // ログアウト時テスト用
+    // $_SESSION = array();
 
-    // ログイン判定
     if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         $_SESSION['time'] = time();
 
@@ -23,6 +21,8 @@
 
     }
 
+    // ログイン判定
+    // $member = isSignin($db);
 
     // いいね機能
     if (!empty($_POST)) {
@@ -30,14 +30,14 @@
         if ($_POST['like'] === 'like'){
             $sql = sprintf('INSERT INTO `likes` SET member_id=%d, photo_id=%d',
                             $_SESSION['id'], //ログインしているidのデータ
-                            $_POST['photo_id'] 
+                            $_POST['photo_id']
                           );
 
             mysqli_query($db, $sql) or die(mysqli_error($db));
 
         } else {
             // いいねデータの削除
-            $sql = sprintf('DELETE FROM `likes` WHERE 
+            $sql = sprintf('DELETE FROM `likes` WHERE
                             member_id=%d AND photo_id=%d',
                             $_SESSION['id'],
                             $_POST['photo_id']
@@ -51,7 +51,7 @@
     // ページング機能
     if (isset($_REQUEST['page'])) {
         $page = $_REQUEST['page'];
-    
+
     } else {
         $page = 1;
     }
@@ -70,11 +70,10 @@
     $start = ($page - 1) * 24;
     $start = max(0, $start);
 
-
     //投稿写真データをここで取得
     $sql = sprintf('SELECT * FROM photos ORDER BY modified DESC LIMIT %d,24',
           $start
-    ); 
+    );
 
     $photos = mysqli_query($db, $sql) or die (mysqli_error($db));
 
@@ -91,7 +90,7 @@
   <title>Photovote</title>
   <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
   <!-- ↑bootstrapの読み込み宣言を先にする -->
-  <link rel="stylesheet" type="text/css" href="./assets/css/main.css"> 
+  <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.css">
 </head>
@@ -155,9 +154,7 @@
                   <div class="navbar-login navbar-login-session">
                     <div class="row">
                       <div class="col-lg-12">
-                        <p>
-                          <a href="logout.php" class="btn btn-danger btn-block">ログアウト</a>
-                        </p>
+                        <p><a href="signout.php" class="btn btn-danger btn-block">サインアウト</a></p>
                       </div>
                     </div>
                   </div>
@@ -230,8 +227,7 @@
                 <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                    <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close
-                    </button>
+                    <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close</button>
                     <div class="modal-body">
                       <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
                       <h4><?php echo h($photo['title']); ?></h4>
@@ -364,16 +360,16 @@
     <div class="row"><hr>
       <div class="col-lg-12">
         <div class="col-md-8">
-          <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
+          <a href="#">Terms of Service</a> | <a href="#">Privacy</a>
         </div>
         <div class="col-md-4">
-          <p class="muted pull-right">© 2016 Company Name. All rights reserved</p>
+          <p class="muted pull-right">© 2016 <a href="http://nexseed.net">Nexseed.inc</a> All rights reserved</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- jsファイルの読み込みはbodyの一番下がデファクトリスタンダード -->
+  <!-- jsファイルの読み込みはbodyの一番下がデファクトスタンダード -->
   <!-- jQueryファイルが一番最初 -->
   <script type="text/javascript" src="./assets/js/jquery-1.12.3.min.js"></script>
   <!-- jQueryファイルの次にbootstrapのJSファイル -->

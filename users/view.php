@@ -1,54 +1,44 @@
 <?php
-	session_start();
-	require('../dbconnect.php');
-	require('../functions.php');
-
+  session_start();
+  require('../dbconnect.php');
+  require('../functions.php');
 // 仮のログインユーザーデータ
 $_SESSION['id'] = 1;
 $_SESSION['time'] = time();
-
 // ログイン判定
 if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     $_SESSION['time'] = time();
-
     $sql = sprintf('SELECT * FROM members WHERE id=%d',
         m($db, $_SESSION['id'])
     );
     $record = mysqli_query($db, $sql) or die(mysqli_error($db));
-
     // ログインしているのユーザーのデータ
     $member = mysqli_fetch_assoc($record);
 } else {
     header('Location: signin.php');
     exit();
 }
-
-	// URLパラメータにid=数字の機銃つがなければ不正なアクセスとみなし
-	// index.phpにリダイレクト（遷移）する
-	// 例： 192.168.33.10/seed_sns_view.php?id=1
-
-	// $_SESSIONに必要な値が入っていればログインしているので、
-	// if文を処理
-	// if (empty($_REQUEST['id']) ) {
-	// 	//ログインしてない
-	// 	header('Location: view.php');
-	// 	exit();
-	// }
-
-	// $sql = 'SELECT nick_name, picture_path, introduction FROM members';
-	
-	// $photos = mysqli_query($db, $sql) or die(mysqli_error($db));
-
-	// $members = mysqli_fetch_assoc($photos);
-
-
+  // URLパラメータにid=数字の機銃つがなければ不正なアクセスとみなし
+  // index.phpにリダイレクト（遷移）する
+  // 例： 192.168.33.10/seed_sns_view.php?id=1
+  // $_SESSIONに必要な値が入っていればログインしているので、
+  // if文を処理
+  // if (empty($_REQUEST['id']) ) {
+  //  //ログインしてない
+  //  header('Location: view.php');
+  //  exit();
+  // }
+  // $sql = 'SELECT nick_name, picture_path, introduction FROM members';
+  
+  // $photos = mysqli_query($db, $sql) or die(mysqli_error($db));
+  // $members = mysqli_fetch_assoc($photos);
 ?>
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Photovoteです</title>
+    <title>Photovote</title>
     <!-- bootstrapの方が先 -->
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css"> 
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
@@ -72,7 +62,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
       <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="new.html">新規投稿</a></li>
-            <li><a href="users/index.html">会員一覧</a></li>
+            <li><a href="index.php">会員一覧</a></li>
              <!-- <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
                 <span class="caret"></span>
@@ -85,8 +75,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span> 
-                <strong>nick_name</strong>
+                <span class="glyphicon glyphicon-user"></span> 
+                <strong><?php echo $member['nick_name']; ?></strong>
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
             <ul class="dropdown-menu">
@@ -99,8 +89,8 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                       </p>
                     </div>
                     <div class="col-lg-8">
-                      <p class="text-left"><strong>nick_name</strong></p>
-                      <p class="text-left small"></p>
+                      <p class="text-left"><strong><?php echo $member['nick_name']; ?></strong></p>
+                      <p class="text-left small"><?php echo $member['introduction']; ?></p>
                       <p class="text-left">
                         <a href="setting.php" class="btn btn-primary btn-block btn-sm">設定</a>
                       </p>
@@ -127,24 +117,36 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     </div>
     </div>
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    	<div class="container">
-    		<div class="fb-profile">
-    			<img align="left" class="fb-image-profile thumbnail" src="../member_picture/<?php echo ($member['picture_path']); ?>" alt="Profile image example"/>
-    		<div class="fb-profile-text"> 
-    			<h1><?php echo ($member['nick_name']); ?></h1>
-    				<a href="edit.php" class="btn-sm pull-right btn-warning">Edit</a>
-    				<a href="index.php" class="btn-sm pull-right btn-warning">Home</a>
-    			<h5><?php echo ($member['introduction']); ?></h5> 
-				</div>
-				</div>
-			</div> <!-- /container -->
+ <!--    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+      <div class="container">
+        <div class="fb-profile">
+          <img align="left" class="fb-image-profile thumbnail" src="member_picture/<?php echo ($member['picture_path']); ?>" alt="Profile image example"/>
+        <div class="fb-profile-text"> 
+          <h1><?php echo ($member['nick_name']); ?></h1>
+            <a href="edit.php" class="btn-sm pull-right btn-danger">Edit</a>
+            <a href="index.php" class="btn-sm pull-right btn-warning">Home</a>
+          <h5><?php echo ($member['introduction']); ?></h5> 
+        </div>
+        </div>
+      </div> --> <!-- /container -->
 
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+      <div class="container">
+        <div class="fb-profile">
+          <!-- <img align="left" class="fb-image-lg" src="member_picture/<?php echo ($member['picture_path']); ?>" alt="Profile image example"/> -->
+          <img align="left" class="fb-image-profile thumbnail" src="member_picture/<?php echo ($member['picture_path']); ?>" alt="Profile image example"/>
+          <div class="fb-profile-text">
+            <h1><?php echo ($member['nick_name']); ?></h1>
+            <p><?php echo ($member['introduction']); ?></p>
+            <a href="edit.php" class="btn pull-right btn-danger" style="margin-left: 10px;">Edit</a>
+            <a href="index.php" class="btn pull-right btn-warning">Home</a>
+          </div>
+        </div>
+      </div><!-- /container -->
     <!-- 
         =======================================================
         コンテンツ
     -->
-
     <!-- 
         =======================================================
         フッター

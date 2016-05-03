@@ -1,119 +1,97 @@
 <?php
-session_start();
-require('../dbconnect.php');
-require('../functions.php');
-// 仮のログインユーザーデータ
-$_SESSION['id'] = 1;
-$_SESSION['time'] = time();
-// ログイン判定
-if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
-    $_SESSION['time'] = time();
-    $sql = sprintf('SELECT * FROM members WHERE id=%d',
-        m($db, $_SESSION['id'])
-    );
-    $record = mysqli_query($db, $sql) or die(mysqli_error($db));
-    // ログインしているのユーザーのデータ
-    $member = mysqli_fetch_assoc($record);
-} else {
-    header('Location: signin.php');
-    exit();
-}
- 
-    // $error = array();
-    // if (!empty($_POST) && !empty($_POST)) { // フォーム送信時のみ処理
-    //     // エラー項目の確認
-    //     if ($_POST['nick_name'] == '') {
-    //         // もし$_POST内のnick_name部分が空だったら処理
-    //         $error['nick_name'] = 'blank';
-    //         // $error配列のnick_nameキーにblankという値を代入
-    //     }
-    //     if ($_POST['introduction'] == '') {
-    //         $error['introduction'] = 'blank';
-    //     }
-    //     // 写真のエラー文
-    //     $fileName = $_FILES['image']['name'];
-    //     // $_FILESはinputタグのtypeがfileの時に生成される
-    //     // スーパーグローバル変数です
-    //     // echo $fileName;
-    //     if (!empty($fileName)) {
-    //         $ext = substr($fileName, -3);
-    //         // substr()関数は指定した文字列から指定した数分だけ文字を
-    //         // 取得する
-    //         // 今回は-3と指定することで文字列の最後から3つ分取得
-    //         // echo $ext;
-    //         // 画像ファイルの拡張子がjpgもしくはpngでなければ
-    //         // typeというエラーを出す
-    //         if ($ext != 'jpg' && $ext != 'png') {
-    //             $error['image'] = 'type';
-    //         }
-    //     }
-    
-        
-        // if (empty($error)) {
-        //     // 画像をサーバーへアップロードする処理
-        //     // 単に登録する画像の名前の文字列を値と絶対にカブらない形で変数に代入する
-        //     $image = date('YmdHis') . $_FILES['image']['name'];
-            // date()関数とは、指定したフォーマットで現在の日時を返す
-            // echo $image;
-    //         move_uploaded_file($_FILES['image']['tmp_name'],'../member_picture/' . $image);
-    //         // move_uploaded_file()関数とは、
-    //         // 指定したファイルを指定した場所にアップロードする
-    //         // セッションのjoinに$_POSTの情報を入れる
-    //         $_SESSION['join'] = $_POST;
-    //         $_SESSION['join']['image'] = $image;
-    //         // $_SESSIONとは
-    //         // 任意の情報をブラウザが閉じられるまで保持する場所を
-    //         // セッションと言う
-    //         // check.phpに遷移して処理を終了する
-    //         header('Location: check.php');
-    //         exit();
-    //     }
-    // // 書き直し
-    // if (isset($_REQUEST['action'])) {
-    //   // $_REQUESTとは$_GET、$_POSTなどを保持するスーパーグローバル変数
-    //   // $_REQUEST['action']が存在すればif文処理をする。
-    //   if ($_REQUEST['action'] == 'rewrite') {
-    //     $_POST = $_SESSION['join'];
-    //     $error['rewrite'] = true;
-    //    }
-    //  }
-    
-              // $sql = sprintf('SELECT `nick_name`, `picture_path`, `introduction` FROM members WHERE id=%d',
-              //     m($db, $_SESSION['id'])
-              // );
-              // $record = mysqli_query($db, $sql) or die(mysqli_error($db));
-              // // ログインしているのユーザーのデータ
-              // $member = mysqli_fetch_assoc($record);
-         
-          // if(isset($_FILES)) {
-        
-          //         // 画像をサーバーへアップロードする処理
-          //         // 単に登録する画像の名前の文字列を他と絶対にかぶらない形で
-          //         // 変数に代入する
-          //         $image = date('YmdHis') . $_FILES['image']['name'];
-          //         // date()関数とは、指定したフォーマットで現在の日時を返す
-          //         // echo $image;
-          //         move_uploaded_file($_FILES['image']['tmp_name'],
-          //                            '../member_picture' . $image
-          //                           );
-          //       }
-                
-          if(isset($_POST) && !empty($_POST)) {
-                  // move_uploaded_file()関数とは、
-                  // 指定したファイルを指定した場所にアップロードする
-                  $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
-                              $_POST['nick_name'],
-                              $_POST['introduction'],
-                              $image,
-                              $_SESSION['id']
-                          );
-                  mysqli_query($db, $sql) or die(mysqli_error($db));
-  
+  session_start();
+  require('../dbconnect.php');
+  require('../functions.php');
+  // 仮のログインユーザーデータ
+  $_SESSION['id'] = 1;
+  $_SESSION['time'] = time();
+  // ログイン判定
+  if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
+      $_SESSION['time'] = time();
+      $sql = sprintf('SELECT * FROM members WHERE id=%d',
+              mysqli_real_escape_string($db, $_SESSION['id'])
+      );
+      $record = mysqli_query($db, $sql) or die(mysqli_error($db));
+      // ログインしているのユーザーのデータ
+      $member = mysqli_fetch_assoc($record);
+  } else {
+      header('Location: signin.php');
+      exit();
+  }
 
-                  header('Location: view.php');
-                  exit();
+      $error = array();
+        // echo 'ほげ1';
+        if(isset($_POST) && !empty($_POST)) {
+        // echo 'ほげ2';
 
-    }
+          
+              // バリデーション
+              // エラー項目の確認
+              if ($_POST['nick_name'] == '') {
+                  // もし$_POST内のnick_name部分が空だったら処理
+                  $error['nick_name'] = 'blank';
+                  // $error配列のnick_nameキーにblankという値を代入
+              }
+              if ($_POST['introduction'] == '') {
+                  $error['introduction'] = 'blank';
+              }
+            
+        
+              if(isset($_FILES['image'])) {
+
+                  // 写真のエラー文
+                  // if文で$_FILES['image']['name']が空でなければ処理
+                  if (!empty($_FILES['image']['name'])) {
+
+                      $fileName = $_FILES['image']['name'];
+                          // $_FILESはinputタグのtypeがfileの時に生成される
+                          // スーパーグローバル変数です
+                           // echo $fileName;
+                      if (!empty($fileName)) {
+                          $ext = substr($fileName, -3);
+                          
+                          if ($ext != 'jpg' && $ext != 'png') {
+                              $error['image'] = 'type';
+                          }
+                      }
+                  }              
+              }
+              
+                  
+                  // 画像の名前作成 $imageの作成
+              
+
+                  if (empty($error)) {
+
+                      if (!empty($_FILES['image']['name'])) {
+                      
+                      // if文で$_FILES['image']['name']が空でなければ処理
+                          // 画像が選択されている際のアップデート処理
+                          $image = date('YmdHis') . $_FILES['image']['name'];
+                          move_uploaded_file($_FILES['image']['tmp_name'],'member_picture/' . $image);
+                          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
+                                      $_POST['nick_name'],
+                                      $_POST['introduction'],
+                                      $image,
+                                      $_SESSION['id']
+                                  );
+                      } else { 
+                      // elseの場合は
+                          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", WHERE `id`=%d',
+                                      $_POST['nick_name'],
+                                      $_POST['introduction'],
+                                      $_SESSION['id']
+                                  );
+                      }
+                  }
+
+                      mysqli_query($db, $sql) or die(mysqli_error($db)); 
+
+                      header('Location: view.php');
+                      
+                  
+        }         
+            
 // }  
 ?>
 
@@ -126,7 +104,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
   <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css"> 
   <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/sample.css">
-  <link rel="stylesheet" href="http://black-flag.net/data/css/reset.css">
   <link rel="stylesheet" href="css/common.css">
 
 </head>
@@ -143,26 +120,18 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
           <span class="icon-bar"></span>
           <span class="icon-bar"></span> 
         </button>
-        <a href="/" class="navbar-brand">Photovite</a>
+        <a href="/" class="navbar-brand">Photovote</a>
       </div>
       <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="new.html">新規投稿</a></li>
-            <li><a href="users/index.html">会員一覧</a></li>
-             <!-- <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
-                <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Link 2</a></li>
-                </ul>
-             </li>   -->            
+            <li><a href="index.php">会員一覧</a></li>
           </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="glyphicon glyphicon-user"></span> 
-                <strong>nick_name</strong>
+                <strong><?php echo $member['nick_name']; ?></strong>
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
             <ul class="dropdown-menu">
@@ -175,10 +144,11 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                       </p>
                     </div>
                     <div class="col-lg-8">
-                      <p class="text-left"><strong>nick_name</strong></p>
-                      <p class="text-left small">email</p>
+                      <p class="text-left"><strong><?php echo $member['nick_name']; ?></strong></p>
+                      <p class="text-left small"><?php echo $member['introduction']; ?></p>
                       <p class="text-left">
-                        <a href="#" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="view.php" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="setting.php" class="btn btn-primary btn-block btn-sm">設定</a>
                       </p>
                     </div>
                   </div>
@@ -202,11 +172,19 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
       </div>
     </div>
     </div>
+
+<form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
 <div id="container">
   <div class="imgInput">
-      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
+      <div class="col-md-4"><img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
           <input type="file" name="image"><br>
-  </div><!--/.imgInput-->
+          <?php if(!empty($error['image'])): ?>
+          <?php if($error['image'] == 'type'): ?>
+            <p class="error">* 写真は「jpg」または「png」形式で指定してください。</p>
+          <?php endif; ?>
+        <?php endif; ?> 
+      </div>
+  </div>
 </div>
 
 
@@ -219,7 +197,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         =======================================================
         コンテンツ
     -->
-        <div action="view.php" method="post"　class="container">
+        <div class="container">
     <form class="form-horizontal">
     <fieldset>
 
@@ -227,9 +205,14 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     <legend>My Profile Setting</legend>
 
       <div class="form-group">
-      <label class="col-md-4 control-label" for="textinput">Name</label>  
+      <label class="col-md-4 control-label" for="textinput">Nickname</label>  
       <div class="col-md-4">
-      <input id="textinput" name="nick_name" type="text" placeholder="your new name " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">  
+      <input id="textinput" name="nick_name" type="text" placeholder="New Nickname " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">
+      <?php if(!empty($error['nick_name'])): ?>
+          <?php if($error['nick_name'] == 'blank'): ?>
+              <p class="error">ニックネームを入力してください。</p>
+          <?php endif; ?>
+      <?php endif; ?>  
       </div>
     </div>
    
@@ -238,17 +221,24 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 <div class="form-group">
   <label class="col-md-4 control-label" for="selectmultiple">About Me</label>
   <div class="col-md-4">
-    <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About me"><?php echo $member['introduction']; ?>
-    
+    <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About Me"><?php echo $member['introduction']; ?>
     </textarea>
+    <?php if(!empty($error['introduction'])): ?>
+        <?php if($error['introduction'] == 'blank'): ?>
+            <p class="error">自己紹介を入力してください。</p>
+        <?php endif; ?>
+    <?php endif; ?>
   </div>
 </div>
+
+
 
  <!-- Button -->
     <div class="form-group">
       <label class="col-md-4 control-label" for="singlebutton"></label>
       <div class="col-md-4">
-         <input type="submit" value="Save" name="singlebutton" class="btn btn-info pull-right" >
+         <input type="submit" value="Save" name="singlebutton" style="margin-left: 10px;" class="btn btn-info pull-right" >
+         <a href="view.php" name="singlebutton" class="btn pull-right btn-warning" value="Back">Back</a>
       </div>
     </div>
 </form>
@@ -268,7 +258,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
       <div class="row">
       <hr>
         <div class="col-lg-12">
-          <div class="col-md-8">
+          <div class="col-md-4">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
           </div>
           <div class="col-md-4">

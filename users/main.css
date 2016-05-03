@@ -93,8 +93,6 @@ ul.c-controls li a:hover {
     font-size: 1.25em;
 }
 
-img.imgView{
-  width: 100px;
-  height: 100px;
-  margin: 0 100px 100px 0;
+.btn-sm pull-right btn-danger{
+  margin-right: 50px;
 }

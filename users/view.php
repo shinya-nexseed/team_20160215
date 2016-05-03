@@ -120,14 +120,16 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     	<div class="container">
+      <div class="row">
     		<div class="fb-profile">
-    			<img align="left" class="fb-image-profile thumbnail" src="member_picture/<?php echo ($member['picture_path']); ?>" alt="Profile image example"/>
+    			<img class="fb-image-profile thumbnail" src="member_picture/<?php echo ($member['picture_path']); ?>" alt="Profile image example" width="250px" height="200px" hspace="50px" vspace="50px"/>
     		<div class="fb-profile-text"> 
     			<h1><?php echo ($member['nick_name']); ?></h1>
-    				<a href="edit.php" class="btn-sm pull-right btn-warning">Edit</a>
-    				<a href="index.php" class="btn-sm pull-right btn-warning">Home</a>
-    			<h5><?php echo ($member['introduction']); ?></h5> 
+    				<a href="edit.php" class="btn-sm btn-danger" style="float:right; margin-left:10px;">Edit</a>
+    				<a href="index.php" class="btn-sm btn-warning" style="float:right;">Home</a>
+    			<h4><?php echo ($member['introduction']); ?></h4> 
 				</div>
+        </div>
 				</div>
 			</div> <!-- /container -->
 

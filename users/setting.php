@@ -98,7 +98,6 @@
   <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css"> 
   <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/sample.css">
-  <link rel="stylesheet" href="http://black-flag.net/data/css/reset.css">
   <link rel="stylesheet" href="css/common.css">
 
 </head>
@@ -176,9 +175,7 @@
     </div>
 
 <div id="container">
-  <div class="imgInput">
-      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
-  </div><!--/.imgInput-->
+
 </div>
 
 
@@ -192,6 +189,11 @@
         コンテンツ
     -->
         <div class="container">
+          <div class="row">
+  <div class="imgInput">
+      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="200px" height="200px" hspace="50px" vspace="50px"><br>
+  </div>
+  </div><!--/.imgInput-->
     <fieldset>
 
     <!-- Form Name -->

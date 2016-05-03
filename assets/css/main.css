@@ -650,7 +650,6 @@ label {
 }
 
 .fb-image-profile {
-  margin: -90px 10px 0px 50px;
   z-index: 9; width: 20%;
 }
 
@@ -714,8 +713,6 @@ h5{
   margin-top: 10px;
 }
 img {
-  width: 100%;
-  max-width: 100%;
   height: auto;
 }
 .white-panel {

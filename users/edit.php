@@ -30,6 +30,19 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
             $error['introduction'] = 'blank';
             // $error配列のnick_nameキーにblankという値を代入
         }
+
+        if (empty($_FILES['image']['name'])) {
+          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s" WHERE `id`=%d',
+                      $_POST['nick_name'],
+                      $_POST['introduction'],
+                      $_SESSION['id']
+                  );
+          mysqli_query($db,$sql) or die(mysqli_error($db));
+          // check.phpに遷移して処理を終了する
+           header('Location: index.php');
+           exit();
+        }else{
+
       
           
                   $fileName = $_FILES['image']['name'];
@@ -59,6 +72,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   move_uploaded_file($_FILES['image']['tmp_name'],
                                      'member_picture/' . $image
                                     );
+
               
                   $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
                               $_POST['nick_name'],
@@ -72,8 +86,11 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                    exit();
                  }
                 }
+              }
+
                 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -84,7 +101,6 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
   <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css"> 
   <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/sample.css">
-  <link rel="stylesheet" href="http://black-flag.net/data/css/reset.css">
   <link rel="stylesheet" href="../assets/css/common.css">
 
 </head>
@@ -155,16 +171,7 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 
 <form action="" method="post" enctype="multipart/form-data">
 <div id="container">
-  <div class="imgInput">
-      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView"><br>
-          <input type="file" name="image"><br>
-          <?php if(!empty($error['image'])): ?>
-        <?php if($error['image'] = 'type'): ?>
-            <p class="error">拡張子が違います。</p>
-        <?php endif; ?>
-    <?php endif; ?>
 
-  </div><!--/.imgInput-->
 </div>
 
 
@@ -177,12 +184,25 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
         =======================================================
         コンテンツ
     -->
+
+  <legend>My Profile Setting</legend>
         <div class="container">
+        <div class="row">
+  <div class="imgInput">
+      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="200px" height="200px" hspace="50px" vspace="50px"><br>
+          <input type="file" name="image" style="margin-left: 50px;"><br>
+          <?php if(!empty($error['image'])): ?>
+        <?php if($error['image'] = 'type'): ?>
+            <p class="error">拡張子が違います。</p>
+        <?php endif; ?>
+    <?php endif; ?>
+</div>
+  </div><!--/.imgInput-->
     <form class="form-horizontal">
     <fieldset>
 
     <!-- Form Name -->
-    <legend>My Profile Setting</legend>
+  
       <div class="form-group">
       <label class="col-md-4 control-label" for="textinput">Name</label>  
       <div class="col-md-4">

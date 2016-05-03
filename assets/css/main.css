@@ -628,10 +628,6 @@ label {
 /*index.php*/
 /*==============================================*/
 
-.container .row{
-  /*margin-top: 60px;*/
-}
-
 .white-panel:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
   margin-top: -5px;
@@ -675,13 +671,6 @@ legend{
 .btn {
   margin-top: 25px;
 }
-
-/*!!!!ここのコードの場所要確認(photo_messageと内容が同じ)!!!!*/
-/*.message {
-  resize: both;
-  width: 95%;
-  height: 180px;
-}*/
 
 .photo_message {
   resize: both;
@@ -776,6 +765,11 @@ img {
   font-size: 9px;
 }
 
+.jump_delete{
+  font-size: 12px;
+}
+
+
 .new_body{
   background-color: white;
 }
@@ -787,23 +781,64 @@ img {
 
 
 /*ページング*/
-.paging ul{
+#paging {
   text-align: center;
+  list-style-type: none;
+  padding: 0px;
 }
 
-.paging li{
+#paging ul li{
   display: inline;
-  padding: 10px;
+  }
+
+#paging a {
+text-decoration: none;
+
 }
+
 
 /*各種登録・投票ボタン*/
 #button {
 text-align: center;
+size: auto;
 }
 
 #button:hover {
   opacity: 0.8;
 }
+
+#go_member {
+margin-top: 30px;
+}
+
+#go_member li {
+  float: right;
+}
+
+#check_acount {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.fa-pencil-square-o {
+  margin-right: 3px;
+}
+
+.fa-heartbeat {
+  margin-right: 3px;
+}
+
+.login_btn {
+  margin-right: 40px;
+}
+
+#now{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-left: 10px;
+  margin-right: 50px;
+}
+
 
 /*fontawsome*/
 .fa-gratipay {
@@ -813,4 +848,8 @@ text-align: center;
 .fa-camera-retro {
   margin-bottom:5px;
 
+}
+
+.muted_footer {
+  text-align: center;
 }

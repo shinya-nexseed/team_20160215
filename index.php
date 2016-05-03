@@ -5,8 +5,24 @@
     require('dbconnect.php');
     require('functions.php');
 
+    // ログアウト時テスト用
+    // $_SESSION = array();
+
+    if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
+        $_SESSION['time'] = time();
+
+        $sql = sprintf('SELECT * FROM members WHERE id=%d',
+            m($db, $_SESSION['id'])
+        );
+        $record = mysqli_query($db, $sql) or die(mysqli_error($db));
+
+        // ログインしているのユーザーのデータ
+        $member = mysqli_fetch_assoc($record);
+
+    }
+
     // ログイン判定
-    $member = isSignin($db);
+    // $member = isSignin($db);
 
     // いいね機能
     if (!empty($_POST)) {
@@ -54,15 +70,17 @@
     $start = ($page - 1) * 24;
     $start = max(0, $start);
 
-
-    // 投稿写真データをここで取得
-    $sql = sprintf('SELECT * FROM photos ORDER BY rand() DESC LIMIT %d,
-          24',
+    //投稿写真データをここで取得
+    $sql = sprintf('SELECT * FROM photos ORDER BY modified DESC LIMIT %d,24',
           $start
     );
 
     $photos = mysqli_query($db, $sql) or die (mysqli_error($db));
 
+    //いいね数の総合計をカウント
+    $sql = 'SELECT COUNT(*) AS total FROM likes';
+    $totals = mysqli_query($db, $sql) or die(mysqli_error($db));
+    $total = mysqli_fetch_assoc($totals);        
 ?>
 
 <!DOCTYPE html>
@@ -81,53 +99,57 @@
   ===================================================================
   ヘッダー
   -->
-  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.php">
-          <i class="fa fa-camera-retro fa-1x fa-spin"></i>
-        </a>
-        <a href="index.php" class="navbar-brand">Photo vote</a>
-      </div>
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="new.php">新規投稿</a></li>
-          <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?> " >会員情報</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <!--↑bootstrapでは、右端に寄せるクラス-->
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span id="heder_p_icon"><img src="users/member_picture/<?php echo h($member['picture_path']); ?>"></span> 
-              <strong><?php echo h($member['nick_name']); ?>さん</strong>
-              <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="navbar-login">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <p class="text-center">
-                        <span><img class="profile_picture" src="users/member_picture/<?php echo h($member['picture_path']); ?>"></span>
-                      </p>
-                    </div>
-                    <div class="col-lg-8">
-                      <p class="text-left"><strong><?php echo h($member['nick_name']); ?></strong></p>
-                      <p class="text-left small"><?php echo h($member['email']); ?></p>
-                      <p class="text-left">
-                        <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール
-                        </a>
-                      </p>
+  <!-- ログインの有無で条件分岐 -->
+  <?php if (isset($_SESSION['id'])): ?>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container"> 
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>
+          <a class="navbar-brand" href="index.php">
+            <i class="fa fa-camera-retro fa-1x fa-spin"></i>
+          </a>
+          <a href="index.php" class="navbar-brand">Photo vote</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="new.php">新規投稿</a></li>
+            <li><a href="users/index.php?id=<?php echo h($_SESSION['id']); ?> " >会員情報</a></li>
+            <li><a href="rank.php">ランキング</a></li>
+
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <!--   ↑bootstrapでは、右端に寄せるクラス-->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span id="heder_p_icon"><img src="profile_image/<?php echo h($member['picture_path']); ?>"></span> 
+                <strong><?php echo h($member['nick_name']); ?>さん</strong>
+                <span class="glyphicon glyphicon-chevron-down"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <div class="navbar-login">
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <p class="text-center">
+                          <span><img class="profile_picture" src="profile_image/<?php echo h($member['picture_path']); ?>"></span>
+                        </p>
+                      </div>
+                      <div class="col-lg-8">
+                        <p class="text-left"><strong><?php echo h($member['nick_name']); ?></strong></p>
+                        <p class="text-left small"><?php echo h($member['email']); ?></p>
+                        <p class="text-left">
+                          <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        </p>
+                      </div>                       
                     </div>
                   </div>
-                </div>
-              </li>
-              <li class="divider">
+                </li>
+                <li class="divider"></li>
                 <li>
                   <div class="navbar-login navbar-login-session">
                     <div class="row">
@@ -137,13 +159,41 @@
                     </div>
                   </div>
                 </li>
-              </li>
-            </ul>
-          </li>
-        </ul>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
+  <?php else: ?>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container"> 
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>
+          <a class="navbar-brand" href="index.php">
+            <i class="fa fa-camera-retro fa-1x fa-spin"></i>
+          </a>
+          <a href="index.php" class="navbar-brand">Photo vote</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <li class="divider"></li>
+              <li id="now">Total Vote：<i class="fa fa-gratipay" aria-hidden="true"></i><?php echo h($total['total']); ?>
+              <li ><a href="join/index.php"><i class="fa fa-pencil-square-o"></i>会員登録はこちら</a></li>
+              <li class="login_btn"><a href="signin.php"><i class="fa fa-heartbeat"></i>ログインはこちら</a></li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
   <!--
   ===================================================================
   コンテンツ
@@ -151,32 +201,33 @@
   <div class="container">
     <div class="row">
       <section id="pinBoot">
-        <?php while ($photo = mysqli_fetch_assoc($photos)):?>
-          <?php
-              // ログインユーザーが選択している写真にいいね!しているデータを取得
-              $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d
-                              AND photo_id=%d',
-                              $_SESSION['id'],
-                              $photo['id']
-                            );
-              $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+        <?php if(isset($_SESSION["id"])): ?>
+          <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
+            <?php 
+                $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
+                                AND photo_id=%d',
+                                $_SESSION['id'],
+                                $photo['id']
+                              );
+                $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
 
-              // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
-              $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
-              $counts = mysqli_query($db, $sql) or die(mysql_error($db));
-              $count = mysqli_fetch_assoc($counts);
-          ?>
+                // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
+                $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);              
+                $counts = mysqli_query($db, $sql) or die(mysql_error($db));
+                $count = mysqli_fetch_assoc($counts);
 
-          <article class="white-panel">
-            <div class="box">
-              <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
-                <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
-              </a>
-              <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close
-                    </button>
+            ?>
+            
+
+            <article class="white-panel">
+              <div class="box">
+                <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+                  <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
+                </a>
+                <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close</button>
                     <div class="modal-body">
                       <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
                       <h4><?php echo h($photo['title']); ?></h4>
@@ -186,56 +237,118 @@
                         現在の投票数<?php echo h($count['likes']) ;?>
                       </p>
                     </div>
+
                     <form action="" method="post">
-                      <?php if ($like = mysqli_fetch_assoc($likes)): ?>
-                        <input type="hidden" name="like" value="unlike" >
-                        <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
-                        <div id="button">
-                          <input type="submit"  class="btn btn-sm btn-primary"value="投票を取り消す">
-                        </div>
-                      <?php else: ?>
-                        <input type="hidden" name="like" value="like">
-                        <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                        <div id="button">
-                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票!">
-                        </div>
+                      <?php if(isset($_SESSION['id'])): ?>
+                        <?php if ($like = mysqli_fetch_assoc($likes)): ?>
+                          <input type="hidden" name="like" value="unlike" >
+                          <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
+                          <div id="button">
+                            <input type="submit" class="btn btn-sm btn-primary" value="投票を取り消す">
+                          </div>
+                        <?php else: ?>
+                          <input type="hidden" name="like" value="like">
+                          <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
+                          <div id="button"> 
+                            <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
+                          </div>
+                        <?php endif; ?>
                       <?php endif; ?>
                     </form>
+
                     <div class="jump-edit">
                       <?php if ($_SESSION['id'] == $photo['member_id']): ?>
                          [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
-                          <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
+                        <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]</a>
                       <?php endif; ?>
                     </div>
                   </div>
                 </div>
               </div>
-              <h5><?php echo ($photo['title']); ?></h5>
-              <p><?php echo h($photo['comment']); ?></p>
+              <h5>
+                <?php echo ($photo['title']); ?>
+              </h5>
+              <p>
+                <?php echo h($photo['comment']); ?>
+              </p>
               <p class="vote_count">
                 <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
                 投票数<?php echo h($count['likes']) ;?>
               </p>
-            </div>
-          </article>
-        <?php endwhile; ?>
+            </article>
+          <?php endwhile; ?>
+        <?php else :?>
+          <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
+            <?php 
+                $sql = sprintf('SELECT * FROM `likes` WHERE photo_id=%d',
+                                $photo['id']
+                              );
+                $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+
+                // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
+                $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
+                // var_dump($sql);
+              
+                $counts = mysqli_query($db, $sql) or die(mysql_error($db));
+                $count = mysqli_fetch_assoc($counts);
+            ?>
+
+            <article class="white-panel">
+              <div class="box">
+                <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+                  <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
+                </a>
+                <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close
+                      </button>
+                      <div class="modal-body">
+                        <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
+                        <h4><?php echo h($photo['title']); ?></h4>
+                        <p><?php echo h($photo['comment']); ?></p>
+                        <p class="vote_count">
+                          <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
+                          現在の投票数<?php echo h($count['likes']) ;?>
+                        </p>
+                      </div>
+                      <div id="button"> 
+                        <a href="join/index.php" class="btn btn-sm btn-primary">会員登録して今すぐ投票！
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h5>
+                  <?php echo h($photo['title']); ?>
+                </h5>
+                <p>
+                  <?php echo h($photo['comment']); ?>
+                </p>
+                <p class="vote_count">
+                  <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
+                  投票数<?php echo h($count['likes']) ;?>
+                </p>
+              </div>
+            </article>
+          <?php endwhile; ?>
+        <?php endif ?>
       </section>
       <hr>
     </div>
   </div>
 
-  <div class="paging">
-    <ul>
+  <div id="paging">
+    <ul style="padding: 0;">
       <?php if ($page > 1) { ?>
-        <li><a href="index.php?page=<?php print($page - 1); ?>">前のページへ</a></li>
+        <li><a href="index.php?page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a>&nbsp;&nbsp;</li>
       <?php } else { ?>
-        <li></li>
+        <li>First<i class="fa fa-backward" aria-hidden="true">&nbsp;&nbsp;</i></li>
       <?php } ?>
-
       <?php if ($page < $maxPage) { ?>
-        <li><a href="index.php?page=<?php print($page + 1); ?>">次のページへ</a></li>
+        <li>&nbsp;&nbsp;<a href="index.php?page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
       <?php } else { ?>
-        </li></li>
+        </li>&nbsp;&nbsp;<i class="fa fa-forward" aria-hidden="true">End</i></li>
       <?php } ?>
     </ul>
   </div>

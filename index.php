@@ -2,8 +2,8 @@
     session_start();
 
     // 外部ファイルの読み込み
-    require('dbconnect.php');
-    require('functions.php');
+    require('../dbconnect.php');
+    require('../functions.php');
 
     // ログイン判定
     $member = isSignin($db);
@@ -70,11 +70,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Photovote</title>
-  <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/Applications/XAMPP/xamppfiles/htdocs/team20160215/assets/css/bootstrap.css">
   <!-- ↑bootstrapの読み込み宣言を先にする -->
-  <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
-  <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../assets/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../assets/font-awesome/css/font-awesome.css">
 </head>
 <body>
   <!--
@@ -82,86 +82,87 @@
   ヘッダー
   -->
   <!-- 他ページと統一でrequireにより取得 -->
-  <?php require('header.php'); ?>
+  <?php require('../header.php'); ?>
 
   <!--
   ===================================================================
   コンテンツ
   -->
   <div class="container">
-    <div class="row">
-      <section id="pinBoot">
-        <?php while ($photo = mysqli_fetch_assoc($photos)):?>
-          <?php
-              // ログインユーザーが選択している写真にいいね!しているデータを取得
-              $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d
-                              AND photo_id=%d',
-                              $_SESSION['id'],
-                              $photo['id']
-                            );
-              $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+      <div class="row">
+        <section id="pinBoot">
+          <?php while ($photo = mysqli_fetch_assoc($photos)):?>
+            <?php
+                // ログインユーザーが選択している写真にいいね!しているデータを取得
+                $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d
+                                AND photo_id=%d',
+                                $_SESSION['id'],
+                                $photo['id']
+                              );
+                $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
 
-              // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
-              $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
-              $counts = mysqli_query($db, $sql) or die(mysql_error($db));
-              $count = mysqli_fetch_assoc($counts);
-          ?>
+                // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
+                $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
+                $counts = mysqli_query($db, $sql) or die(mysql_error($db));
+                $count = mysqli_fetch_assoc($counts);
+            ?>
 
-          <article class="white-panel">
-            <div class="box">
-              <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
-                <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
-              </a>
-              <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close
-                    </button>
-                    <div class="modal-body">
-                      <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
-                      <h4><?php echo h($photo['title']); ?></h4>
-                      <p><?php echo h($photo['comment']); ?></p>
-                      <p class="vote_count">
-                        <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
-                        現在の投票数<?php echo h($count['likes']) ;?>
-                      </p>
-                    </div>
-                    <form action="" method="post">
-                      <?php if ($like = mysqli_fetch_assoc($likes)): ?>
-                        <input type="hidden" name="like" value="unlike" >
-                        <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
-                        <div id="button">
-                          <input type="submit"  class="btn btn-sm btn-primary"value="投票を取り消す">
-                        </div>
-                      <?php else: ?>
-                        <input type="hidden" name="like" value="like">
-                        <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                        <div id="button">
-                          <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票!">
-                        </div>
-                      <?php endif; ?>
-                    </form>
-                    <div class="jump-edit">
-                      <?php if ($_SESSION['id'] == $photo['member_id']): ?>
-                         [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
-                          <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
-                      <?php endif; ?>
+            <article class="white-panel">
+              <div class="box">
+                <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+                  <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
+                </a>
+                <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close
+                      </button>
+                      <div class="modal-body">
+                        <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
+                        <h4><?php echo h($photo['title']); ?></h4>
+                        <p><?php echo h($photo['comment']); ?></p>
+                        <p class="vote_count">
+                          <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
+                          現在の投票数<?php echo h($count['likes']) ;?>
+                        </p>
+                      </div>
+                      <form action="" method="post">
+                        <?php if ($like = mysqli_fetch_assoc($likes)): ?>
+                          <input type="hidden" name="like" value="unlike" >
+                          <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
+                          <div id="button">
+                            <input type="submit"  class="btn btn-sm btn-primary"value="投票を取り消す">
+                          </div>
+                        <?php else: ?>
+                          <input type="hidden" name="like" value="like">
+                          <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
+                          <div id="button">
+                            <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票!">
+                          </div>
+                        <?php endif; ?>
+                      </form>
+                      <div class="jump-edit">
+                        <?php if ($_SESSION['id'] == $photo['member_id']): ?>
+                           [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
+                            <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]
+                        <?php endif; ?>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <h5><?php echo ($photo['title']); ?></h5>
+                <p><?php echo h($photo['comment']); ?></p>
+                <p class="vote_count">
+                  <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
+                  投票数<?php echo h($count['likes']) ;?>
+                </p>
               </div>
-              <h5><?php echo ($photo['title']); ?></h5>
-              <p><?php echo h($photo['comment']); ?></p>
-              <p class="vote_count">
-                <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
-                投票数<?php echo h($count['likes']) ;?>
-              </p>
-            </div>
-          </article>
-        <?php endwhile; ?>
-      </section>
-      <hr>
-    </div>
+            </article>
+          <?php endwhile; ?>
+        </section>
+        <hr>
+      </div>
+    <!-- </div> -->
   </div>
 
   <div class="paging">

@@ -116,7 +116,8 @@
                 <p class="required"><i class=""></i>エピソードを入力してください。</p>
               <?php endif; ?>
             <?php endif; ?>
-            <input type="submit" class="btn btn-sm btn-primary" id="js-upload-submit" value="投稿する"><a href="index.php" class="btn btn-sm btn-primary">戻る</a>
+            <input type="submit" class="btn btn-sm btn-primary btn-post" id="js-upload-submit" value="投稿する">
+            <a href="index.php" class="btn btn-sm btn-primary btn-post">戻る</a>
           </div>
         </div>
       </form>

@@ -3,23 +3,8 @@
     require('dbconnect.php');
     require('functions.php');
 
-    // 仮のログインユーザーデータ
-    $_SESSION['id'] = 1;
-
-    //ログイン判定
-    $_SESSION['time'] = time();
-    if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) {
-
-        $sql = sprintf('SELECT * FROM members WHERE id=%d',
-            m($db, $_SESSION['id'])
-        );
-        $record = mysqli_query($db, $sql) or die (mysqli_error($db));
-        $member = mysqli_fetch_assoc($record);
-    } else {
-          //未ログイン
-          header('Location; login.php');
-          exit();
-    }
+    //ログイン
+    $member = isSignin($db);
 
     //新規投稿
     if (!empty($_POST)) {

@@ -14,11 +14,10 @@
       <div class="container">
         <div class="navbar-header">
           <?php if($url=="/team_20160215/users/index.php"||$url=="/team_20160215/users/edit.php"||$url=="/team_20160215/users/view.php"||$url=="/team_20160215/users/setting.php"): ?>
-              <a class="navbar-brand" href="../index.php">
+              <a class="navbar-brand" href="../index.php"><i class="fa fa-camera-retro fa-1x fa-spin"></i></a>
           <?php else: ?>
-              <a class="navbar-brand" href="index.php">
+              <a class="navbar-brand" href="index.php"><i class="fa fa-camera-retro fa-1x fa-spin"></i></a>
           <?php endif; ?>
-          </a>
           <!-- 下記の$urlとREQUEST_URI内にある$url(var_dumpしたもの)が一致していること -->
           <?php if($url=="/team_20160215/users/index.php"||$url=="/team_20160215/users/edit.php"||$url=="/team_20160215/users/view.php"||$url=="/team_20160215/users/setting.php"): ?>
               <a href="../index.php" class="navbar-brand">Photo vote</a>

@@ -1,26 +1,22 @@
 <?php
     session_start();
 
-    // 外部ファイルの読み込み
-    require('../dbconnect.php');
-    require('../functions.php');
+    require('dbconnect.php');
+    require('functions.php');
 
-    // ログイン判定
     $member = isSignin($db);
 
-    // いいね機能
     if (!empty($_POST)) {
 
         if ($_POST['like'] === 'like'){
             $sql = sprintf('INSERT INTO `likes` SET member_id=%d, photo_id=%d',
-                            $_SESSION['id'], //ログインしているidのデータ
+                            $_SESSION['id'],
                             $_POST['photo_id']
                           );
 
             mysqli_query($db, $sql) or die(mysqli_error($db));
 
         } else {
-            // いいねデータの削除
             $sql = sprintf('DELETE FROM `likes` WHERE
                             member_id=%d AND photo_id=%d',
                             $_SESSION['id'],
@@ -70,11 +66,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Photovote</title>
-  <link rel="stylesheet" type="text/css" href="/Applications/XAMPP/xamppfiles/htdocs/team20160215/assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
   <!-- ↑bootstrapの読み込み宣言を先にする -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
-  <link rel="stylesheet" type="text/css" href="../assets/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="../assets/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 <body>
   <!--
@@ -82,7 +77,7 @@
   ヘッダー
   -->
   <!-- 他ページと統一でrequireにより取得 -->
-  <?php require('../header.php'); ?>
+  <?php require('header.php'); ?>
 
   <!--
   ===================================================================

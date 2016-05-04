@@ -19,6 +19,10 @@
         // ログインしているのユーザーのデータ
         $member = mysqli_fetch_assoc($record);
 
+    } else {
+      $_SESSION = array();
+      session_unset();
+      session_destroy();
     }
 
     // ログイン判定

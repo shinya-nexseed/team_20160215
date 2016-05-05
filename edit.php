@@ -185,7 +185,7 @@
   <div class="container">
     <div class="row"><hr>
       <div class="col-lg-12">
-        <p class="muted_footer">© 2016 company All rights reserved</p>
+        <p class="muted pull-right">© 2016 <a href="http://nexseed.net">Nexseed.inc</a> All rights reserved</p>
         </div>
       </div>
     </div>

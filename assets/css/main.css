@@ -796,13 +796,19 @@ img {
 
 
 /*ページング*/
-.paging ul{
+#paging {
   text-align: center;
+  list-style-type: none;
+  padding: 0px;
 }
 
-.paging li{
+#paging ul li{
   display: inline;
-  padding: 10px;
+  }
+
+#paging a {
+text-decoration: none;
+
 }
 
 /*各種登録・投票ボタン*/

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // 外部ファイルの読み込み
     require('../dbconnect.php');
     require('../functions.php');

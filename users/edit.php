@@ -77,7 +77,7 @@
                                   );
                       } else { 
                       // elseの場合は
-                          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", WHERE `id`=%d',
+                          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s" WHERE `id`=%d',
                                       $_POST['nick_name'],
                                       $_POST['introduction'],
                                       $_SESSION['id']
@@ -173,75 +173,61 @@
     </div>
     </div>
 
-<form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
-<div id="container">
-  <div class="imgInput">
-      <div class="col-md-4"><img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
-          <input type="file" name="image"><br>
-          <?php if(!empty($error['image'])): ?>
-          <?php if($error['image'] == 'type'): ?>
-            <p class="error">* 写真は「jpg」または「png」形式で指定してください。</p>
-          <?php endif; ?>
-        <?php endif; ?> 
-      </div>
-  </div>
-</div>
-
-
-
- <!-- /container -->
-
-  
-
     <!-- 
         =======================================================
         コンテンツ
     -->
-        <div class="container">
-    <form class="form-horizontal">
-    <fieldset>
+  <div class="container">
+    <div class="row">
+      <legend>My Profile Setting</legend>
+      <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <div class="col-xs-4 col-xs-offset-2">
+          <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
+          <input type="file" name="image"><br>
+          <?php if(!empty($error['image'])): ?>
+            <?php if($error['image'] == 'type'): ?>
+              <p class="error">* 写真は「jpg」または「png」形式で指定してください。</p>
+            <?php endif; ?>
+          <?php endif; ?> 
+        </div>
 
-    <!-- Form Name -->
-    <legend>My Profile Setting</legend>
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label class="control-label" for="textinput">Nickname</label>  
+            <input id="textinput" name="nick_name" type="text" placeholder="New Nickname " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">
+            <?php if(!empty($error['nick_name'])): ?>
+                <?php if($error['nick_name'] == 'blank'): ?>
+                    <p class="error">ニックネームを入力してください。</p>
+                <?php endif; ?>
+            <?php endif; ?>  
+          </div>
+        
 
-      <div class="form-group">
-      <label class="col-md-4 control-label" for="textinput">Nickname</label>  
-      <div class="col-md-4">
-      <input id="textinput" name="nick_name" type="text" placeholder="New Nickname " class="form-control input-md" value="<?php echo $member['nick_name']; ?>">
-      <?php if(!empty($error['nick_name'])): ?>
-          <?php if($error['nick_name'] == 'blank'): ?>
-              <p class="error">ニックネームを入力してください。</p>
-          <?php endif; ?>
-      <?php endif; ?>  
-      </div>
+          <!-- Select Multiple -->
+          <div class="form-group">
+            <label class="control-label" for="selectmultiple">About Me</label>
+            <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About Me"><?php echo $member['introduction']; ?>
+            </textarea>
+            <?php if(!empty($error['introduction'])): ?>
+                <?php if($error['introduction'] == 'blank'): ?>
+                    <p class="error">自己紹介を入力してください。</p>
+                <?php endif; ?>
+            <?php endif; ?>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="singlebutton"></label>
+            <input type="submit" value="Save" name="singlebutton" style="margin-left: 10px;" class="btn btn-info pull-right" >
+            <a href="view.php" name="singlebutton" class="btn pull-right btn-warning" value="Back">Back</a>
+          </div>
+
+        </div>
+
+      </form>
     </div>
-   
-
-    <!-- Select Multiple -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">About Me</label>
-  <div class="col-md-4">
-    <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About Me"><?php echo $member['introduction']; ?>
-    </textarea>
-    <?php if(!empty($error['introduction'])): ?>
-        <?php if($error['introduction'] == 'blank'): ?>
-            <p class="error">自己紹介を入力してください。</p>
-        <?php endif; ?>
-    <?php endif; ?>
   </div>
-</div>
 
-
-
- <!-- Button -->
-    <div class="form-group">
-      <label class="col-md-4 control-label" for="singlebutton"></label>
-      <div class="col-md-4">
-         <input type="submit" value="Save" name="singlebutton" style="margin-left: 10px;" class="btn btn-info pull-right" >
-         <a href="view.php" name="singlebutton" class="btn pull-right btn-warning" value="Back">Back</a>
-      </div>
-    </div>
-</form>
+ 
 
     <!-- Button -->
    <!--  <div class="form-group">
@@ -258,10 +244,10 @@
       <div class="row">
       <hr>
         <div class="col-lg-12">
-          <div class="col-md-4">
+          <div class="col-md-6">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <p class="muted pull-right">© 2013 Company Name. All rights reserved</p>
           </div>
         </div>

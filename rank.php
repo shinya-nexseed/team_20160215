@@ -5,47 +5,26 @@
     require('dbconnect.php');
     require('functions.php');
 
-    // 仮のログインユーザーデータ
-    $_SESSION['id'] = 1;
-    $_SESSION['time'] = time();
-
-    // ログイン判定
-    if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
-        $_SESSION['time'] = time();
-
-        $sql = sprintf('SELECT * FROM members WHERE id=%d',
-            m($db, $_SESSION['id'])
-        );
-        $record = mysqli_query($db, $sql) or die(mysqli_error($db));
-
-        // ログインしているのユーザーのデータ
-        $member = mysqli_fetch_assoc($record);
-
-    } else {
-
-        header('Location: signin.php');
-        exit();
-    }
-
+    //ログイン
+    $member = isSignin($db);
 
     // いいね機能
     if (!empty($_POST)) {
 
         if ($_POST['like'] === 'like'){
             $sql = sprintf('INSERT INTO `likes` SET member_id=%d, photo_id=%d',
-                            $_SESSION['id'], //ログインしているidのデータ
-                            $_POST['photo_id'] 
-                          );
+            $_SESSION['id'], //ログインしているidのデータ
+            $_POST['photo_id']
+            );
 
             mysqli_query($db, $sql) or die(mysqli_error($db));
 
         } else {
             // いいねデータの削除
-            $sql = sprintf('DELETE FROM `likes` WHERE 
-                            member_id=%d AND photo_id=%d',
-                            $_SESSION['id'],
-                            $_POST['photo_id']
-                          );
+            $sql = sprintf('DELETE FROM `likes` WHERE member_id=%d AND photo_id=%d',
+            $_SESSION['id'],
+            $_POST['photo_id']
+            );
             mysqli_query($db, $sql) or die(mysqli_error($db));
         }
     }
@@ -55,7 +34,7 @@
     if (isset($_REQUEST['page'])) {
 
         $page = $_REQUEST['page'];
-    
+
     } else {
         $page = 1;
     }
@@ -76,8 +55,8 @@
 
     //いいね数順で投稿写真データを取得
     $sql = sprintf('SELECT photos.*, COUNT(likes.photo_id) AS cnt FROM photos LEFT JOIN likes ON photos.id=likes.photo_id GROUP BY photos.id ORDER BY cnt DESC LIMIT %d,24',
-         $start
-    ); 
+        $start
+    );
 
     $photos = mysqli_query($db, $sql) or die(mysqli_error($db));
 ?>
@@ -89,7 +68,7 @@
   <title>Photovote</title>
   <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
   <!-- ↑bootstrapの読み込み宣言を先にする -->
-  <link rel="stylesheet" type="text/css" href="./assets/css/main.css"> 
+  <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.css">
 </head>
@@ -99,12 +78,12 @@
   ヘッダー
   -->
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container"> 
+    <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span> 
+          <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.php">
           <i class="fa fa-camera-retro fa-1x fa-spin"></i>
@@ -141,7 +120,7 @@
                       <p class="text-left">
                         <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
                       </p>
-                    </div>                       
+                    </div>
                   </div>
                 </div>
               </li>
@@ -171,15 +150,15 @@
     <div class="row">
       <section id="pinBoot">
         <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
-          <?php 
-              $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d 
+          <?php
+              $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d
                               AND photo_id=%d',
                               $_SESSION['id'],
                               $photo['id']
                             );
               $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
 
-              $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);            
+              $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
               $counts = mysqli_query($db, $sql) or die(mysql_error($db));
               $count = mysqli_fetch_assoc($counts);
           ?>
@@ -214,7 +193,7 @@
                       <?php else: ?>
                         <input type="hidden" name="like" value="like">
                         <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                        <div id="button"> 
+                        <div id="button">
                           <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
                         </div>
                      <?php endif; ?>

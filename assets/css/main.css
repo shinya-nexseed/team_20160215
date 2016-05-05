@@ -59,9 +59,6 @@ h6 a{
     font-size: 87px;
 }
 
-/*.btn,.btn-primary,.btn-block,.btn-sm{
-  margin: 0;
-}*/
 
 /*==============================================*/
 /*-----container-----*/
@@ -637,9 +634,61 @@ label {
 /*index.php*/
 /*==============================================*/
 
-{
-  margin-top: 60px;
+/*welcome message(初回訪問時のみ表示)*/
+div.modalwelcome {
+	position: absolute;
+	display:none;
+	z-index:9999;
+	top:30%;
+	left:25%;
+	width:65%;
+	height:650px;
+	margin-top:-55px;
+	margin-left:3%;
+	padding:2px;
+	text-align:center;
 }
+
+div.modalwelcome .pr_box {
+	width:65%;
+	height:auto;
+	box-shadow:10px 10px 10px rgba(0,0,0,0.4);
+	padding:10px;
+	background:#FFFFFF;
+}
+
+.close_modal{
+	display:block;
+	width:60%;
+	margin: 10px auto;
+	border-radius:5px;
+	color:#00639a;
+	line-height:30px;
+	text-decoration:none;
+}
+
+.btn.btn-welcome{
+  width:60%;
+  margin:10px;
+  padding:10px;
+  background: #00639a;
+  border-radius: 3px;
+  color:white;
+}
+
+.btn.btn-welcome:hover{
+  width:60%;
+  margin:10px;
+  padding:10px;
+  background:rgba(0, 99, 154, 0.8);
+  border-radius: 3px;
+  color:white;
+}
+
+/*==============================================*/
+/*index.php 写真投稿編集*/
+/*==============================================*/
+
 
 .white-panel:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
@@ -685,13 +734,6 @@ legend{
   margin-top: 25px;
 }
 
-/*!!!!ここのコードの場所要確認(photo_messageと内容が同じ)!!!!*/
-/*.message {
-  resize: both;
-  width: 95%;
-  height: 180px;
-}*/
-
 .photo_message {
   resize: both;
   width: 95%;
@@ -699,7 +741,7 @@ legend{
 }
 
 h5{
-  border-left: 3px solid #1E90FF;
+  border-left: 3px solid #00639a;
   padding-left: 6px;
 }
 
@@ -840,15 +882,19 @@ text-align: center;
 
 /*新規投稿*/
 .btn.btn-sm.btn-primary.btn-post {
-  margin: 20px;
-  padding: 5px 10px;
-  font-size: 12px;
+  margin: 15px;
+  padding: 8px 15px;
+  font-size: 14px;
   line-height: 1.5;
   border-radius: 3px;
 }
 
 .panel-heading strong, .panel-heading small{
   color:#666;
+}
+
+.panel-heading strong{
+  font-size:15px;
 }
 
 /*==============================================*/

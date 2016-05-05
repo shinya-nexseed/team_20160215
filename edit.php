@@ -58,7 +58,7 @@
   -->
   <!-- 他ページと統一でrequireにより取得 -->
   <?php require('header.php'); ?>
-  
+
   <!--
   ===================================================================
   コンテンツ
@@ -94,17 +94,17 @@
                 <p class="required">エピソードは500文字以内で入力してください。</p>
               <?php endif; ?>
             <?php endif; ?>
-            <input type="submit" class="btn btn-sm btn-primary" value="編集完了">
+            <input type="submit" class="btn btn-sm btn-primary btn-post" value="編集完了">
           </form>
         </div>
       </div>
     </div>
   </div>
   <!-- /container -->
-    <!--
-    ===================================================================
-    フッター
-    -->
+  <!--
+  ===================================================================
+  フッター
+  -->
   <div class="container">
     <div class="row"><hr>
       <div class="col-lg-12">

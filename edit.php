@@ -3,34 +3,18 @@
     require('dbconnect.php');
     require('functions.php');
 
-    if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time()) {
+    //ログイン
+    $member = isSignin($db);
 
-        //ログイン
-        $_SESSION['time'] = time();
-        $sql = sprintf('SELECT * FROM members WHERE id=%d',
-                      m($db, $_SESSION['id'])
-                      );
-
-        $record = mysqli_query($db, $sql) or die (mysqli_error($db));
-
-        // ログインしているユーザーのデータ
-        $member = mysqli_fetch_assoc($record);
-        } else {
-        //ログインしてない場合
-        header('Location; login.php');
-        exit();
-    }
-    
     $id = $_REQUEST['id'];
     $sql = 'SELECT * FROM photos WHERE id='.$id;
     $result = mysqli_query($db, $sql) or die (mysqli_error($db));
     $photo = mysqli_fetch_assoc($result);
 
-
-
     $error = array();
 
     if (!empty($_POST)) {
+
 
         //エラー項目の確認
         if (strlen($_POST['comment']) > 500){
@@ -40,7 +24,7 @@
         if ($_POST['comment'] == '') {
           $error['comment'] = 'blank';
         }
-     
+
         // 編集後のコメントを登録
         if (isset($_POST['comment']) && empty($error['comment'])) {
           $new_comment = $_POST['comment'];
@@ -63,7 +47,7 @@
   <title>Photovote</title>
   <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
   <!-- ↑bootstrapの読み込み宣言を先にする -->
-  <link rel="stylesheet" type="text/css" href="./assets/css/main.css"> 
+  <link rel="stylesheet" type="text/css" href="./assets/css/main.css">
   <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="./assets/font-awesome/css/font-awesome.css">
 </head>
@@ -73,12 +57,12 @@
   ヘッダー
   -->
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container"> 
+    <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span> 
+          <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.php">
           <i class="fa fa-camera-retro fa-1x fa-spin"></i>
@@ -114,7 +98,7 @@
                       <p class="text-left">
                         <a href="users/index.php?=<?php echo h($_SESSION['id']); ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
                       </p>
-                    </div>                       
+                    </div>
                   </div>
                 </div>
               </li>
@@ -153,7 +137,7 @@
         </h5>
         <img class="photo_show" src="vote_photo/<?php echo h($photo['photo_path']) ; ?>">
         <br><br>
-        
+
         <!-- エピーソード編集部分 -->
         <div class="control-group">
           <h5>エピソードの編集ができます。<span class="required">*</span></h5>
@@ -171,12 +155,12 @@
                 <p class="required">エピソードは500文字以内で入力してください。</p>
               <?php endif; ?>
             <?php endif; ?>
-            <input type="submit" class="btn btn-sm btn-primary" value="編集完了">  
+            <input type="submit" class="btn btn-sm btn-primary" value="編集完了">
           </form>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
   <!-- /container -->
     <!--
     ===================================================================

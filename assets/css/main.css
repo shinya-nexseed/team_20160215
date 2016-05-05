@@ -4,11 +4,13 @@
 /*==============================================*/
 /*--design from bootsnipp Login and Register New Style - Tabbed by http://bootsnipp.com/snippets/ZlnjD -- */
 /*--font import from Google fonts--*/
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);*/
+@import url(//fonts.googleapis.com/earlyaccess/notosansjapanese.css);
 
 body{
   color:#666666;
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
+  font-family: 'Noto Sans Japanese', serif;
   font-weight:100;
   width: 100%;
   background-color: #f1f1f1;

@@ -73,9 +73,7 @@
   <!-- bootstrapの方が先 -->
   <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css"> 
   <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/sample.css">
-  <link rel="stylesheet" href="css/common.css">
-
+  <link rel="stylesheet" type="text/css" href="../assets/font-awesome/css/font-awesome.css">
 </head>
 <body>
     <!-- 
@@ -179,7 +177,7 @@
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
           </div>
           <div class="col-md-6">
-            <p class="muted pull-right">© 2013 Company Name. All rights reserved</p>
+            <p class="muted pull-right">© 2016 <a href="http://nexseed.net">Nexseed.inc</a> All rights reserved</p>
           </div>
         </div>
       </div>

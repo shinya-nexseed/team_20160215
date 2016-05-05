@@ -59,8 +59,7 @@
   <!-- bootstrapの方が先 -->
   <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css"> 
   <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/sample.css">
-  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" type="text/css" href="../assets/font-awesome/css/font-awesome.css">
 
 </head>
 <body>
@@ -172,17 +171,18 @@
         <hr>
       </div>
     </div>
-    <div class="paging">
-      <ul>
+
+    <div id="paging">
+      <ul style="padding: 0;">
         <?php if ($page > 1) { ?>
-          <li><a href="view.php?id=<?php $_GET['id']; ?>page=<?php print($page - 1); ?>">前のページへ</a></li>
+          <li><a href="view.php?id=<?php echo $member['id']; ?>&page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a>&nbsp;&nbsp;</li>
         <?php } else { ?>
-          <li></li>
+          <li>First<i class="fa fa-backward" aria-hidden="true">&nbsp;&nbsp;</i></li>
         <?php } ?>
         <?php if ($page < $maxPage) { ?>
-          <li><a href="view.php?id=<?php $_GET['id']; ?>page=<?php print($page + 1); ?>">次のページへ</a></li>
+          <li>&nbsp;&nbsp;<a href="view.php?id=<?php echo $member['id']; ?>&page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
         <?php } else { ?>
-          </li></li>
+          </li>&nbsp;&nbsp;<i class="fa fa-forward" aria-hidden="true">End</i></li>
         <?php } ?>
       </ul>
     </div>
@@ -199,7 +199,7 @@
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
           </div>
           <div class="col-md-4">
-            <p class="muted pull-right">© 2013 Company Name. All rights reserved</p>
+            <p class="muted pull-right">© 2016 <a href="http://nexseed.net">Nexseed.inc</a> All rights reserved</p>
           </div>
         </div>
       </div>

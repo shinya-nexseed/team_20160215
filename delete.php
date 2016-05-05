@@ -4,6 +4,7 @@
     require('dbconnect.php');
     require('functions.php');
 
+
     //ログイン
     if (isset($_SESSION['id'])) {
         $id = $_REQUEST['id'];

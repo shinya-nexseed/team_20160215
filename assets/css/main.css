@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*==============================================*/
 /*-----base-----*/
 /*==============================================*/
@@ -6,7 +7,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);
 
 body{
-  margin-top: 60px;
   color:#666666;
   font-family: 'Roboto', sans-serif;
   font-weight:100;
@@ -59,9 +59,14 @@ h6 a{
     font-size: 87px;
 }
 
+/*.btn,.btn-primary,.btn-block,.btn-sm{
+  margin: 0;
+}*/
+
 /*==============================================*/
 /*-----container-----*/
 /*==============================================*/
+
 .container-fluid{
   padding-top:20px;
 }
@@ -70,6 +75,10 @@ h6 a{
   margin-bottom: 20px;
   text-align: center;
 }
+
+/*==============================================*/
+/*-----signup wizard / form-----*/
+/*==============================================*/
 
 /*--design from bootsnipp Form wizard with circular tabs by http://bootsnipp.com/snippets/8AGGQ --*/
 
@@ -235,7 +244,7 @@ span.round-tab i{
 }
 
 
-/* according menu */
+/* accordion menu */
 #accordion-container {
   font-size:13px
 }
@@ -628,6 +637,10 @@ label {
 /*index.php*/
 /*==============================================*/
 
+{
+  margin-top: 60px;
+}
+
 .white-panel:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
   margin-top: -5px;
@@ -672,6 +685,13 @@ legend{
   margin-top: 25px;
 }
 
+/*!!!!ここのコードの場所要確認(photo_messageと内容が同じ)!!!!*/
+/*.message {
+  resize: both;
+  width: 95%;
+  height: 180px;
+}*/
+
 .photo_message {
   resize: both;
   width: 95%;
@@ -700,7 +720,7 @@ h5{
   position: relative;
   max-width: 100%;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 70px;
 }
 img {
   width: 100%;
@@ -765,11 +785,6 @@ img {
   font-size: 9px;
 }
 
-.jump_delete{
-  font-size: 12px;
-}
-
-
 .new_body{
   background-color: white;
 }
@@ -781,64 +796,23 @@ img {
 
 
 /*ページング*/
-#paging {
+.paging ul{
   text-align: center;
-  list-style-type: none;
-  padding: 0px;
 }
 
-#paging ul li{
+.paging li{
   display: inline;
-  }
-
-#paging a {
-text-decoration: none;
-
+  padding: 10px;
 }
-
 
 /*各種登録・投票ボタン*/
 #button {
 text-align: center;
-size: auto;
 }
 
 #button:hover {
   opacity: 0.8;
 }
-
-#go_member {
-margin-top: 30px;
-}
-
-#go_member li {
-  float: right;
-}
-
-#check_acount {
-  font-size: 12px;
-  margin-top: 10px;
-}
-
-.fa-pencil-square-o {
-  margin-right: 3px;
-}
-
-.fa-heartbeat {
-  margin-right: 3px;
-}
-
-.login_btn {
-  margin-right: 40px;
-}
-
-#now{
-  padding-top: 15px;
-  padding-bottom: 15px;
-  margin-left: 10px;
-  margin-right: 50px;
-}
-
 
 /*fontawsome*/
 .fa-gratipay {
@@ -850,6 +824,69 @@ margin-top: 30px;
 
 }
 
-.muted_footer {
-  text-align: center;
+/*==============================================*/
+/*new.php*/
+/*==============================================*/
+
+.panel.panel-default{
+  margin: 70px;
 }
+
+/*新規投稿*/
+.btn.btn-sm.btn-primary.btn-post {
+  margin: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+.panel-heading strong, .panel-heading small{
+  color:#666;
+}
+
+/*==============================================*/
+/*edit.php ※クラス名変えて再度実装*/
+/*==============================================*/
+
+/*a:link { text-decoration:none; color: #000;}
+a:visited { text-decoration:none; color: #000;}
+a:active { text-decoration:none; color: #000;}
+a:hover { text-decoration:none; color: #000;}
+
+.edit h1 {
+	margin-bottom: 20px;
+	padding: 10px 0;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: center;
+}
+h2 {
+	padding: 30px 0;
+	width: 100%;
+	font-size: 12px;
+}
+
+#container {
+	margin: 0 auto;
+	width: 500px;
+	text-align: left;
+}*/
+
+/* .imgInput
+------------------------- */
+/*.imgInput {
+	margin-bottom: 20px;
+}*/
+
+/* .imgView
+------------------------- */
+/*.imgView {
+	margin-top: 10px;
+	display: block;
+}
+
+img {
+	padding-top:100px;
+}*/

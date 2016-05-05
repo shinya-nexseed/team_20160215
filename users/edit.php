@@ -30,6 +30,24 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
             $error['introduction'] = 'blank';
             // $error配列のnick_nameキーにblankという値を代入
         }
+<<<<<<< HEAD
+
+        if (empty($_FILES['image']['name'])) {
+
+          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s" WHERE `id`=%d',
+                      $_POST['nick_name'],
+                      $_POST['introduction'],
+                      $_SESSION['id']
+                  );
+          mysqli_query($db,$sql) or die(mysqli_error($db));
+          // check.phpに遷移して処理を終了する
+           header('Location: index.php');
+           exit();
+
+
+        }else{
+=======
+>>>>>>> master
       
           
                   $fileName = $_FILES['image']['name'];
@@ -59,6 +77,11 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                   move_uploaded_file($_FILES['image']['tmp_name'],
                                      'member_picture/' . $image
                                     );
+<<<<<<< HEAD
+
+                  
+=======
+>>>>>>> master
               
                   $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
                               $_POST['nick_name'],
@@ -72,6 +95,10 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
                    exit();
                  }
                 }
+<<<<<<< HEAD
+              }
+=======
+>>>>>>> master
                 
 ?>
 
@@ -156,7 +183,11 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
 <form action="" method="post" enctype="multipart/form-data">
 <div id="container">
   <div class="imgInput">
+<<<<<<< HEAD
+      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
+=======
       <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView"><br>
+>>>>>>> master
           <input type="file" name="image"><br>
           <?php if(!empty($error['image'])): ?>
         <?php if($error['image'] = 'type'): ?>
@@ -235,7 +266,10 @@ if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
     -->
     <div class="container">
       <div class="row">
+<<<<<<< HEAD
+=======
       <hr>
+>>>>>>> master
         <div class="col-lg-12">
           <div class="col-md-8">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
@@ -290,4 +324,9 @@ $(function(){
 });
 </script>
 </body>
+<<<<<<< HEAD
 </html>
+Status API Training Shop Blog About
+=======
+</html>
+>>>>>>> master

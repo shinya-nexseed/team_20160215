@@ -139,111 +139,49 @@
   ===================================================================
   コンテンツ
   -->
+  <!-- welcome message(初回のみ) -->
   <div class="container">
     <div class="row">
+      <div class="modalwelcome"><!-- modal popup start-->
+        <div class="pr_box">
+          <h1><i class="fa fa-camera-retro"></i> Photo vote</h1>
+          <h4>あなたのお気に入りの一枚に、「スキ！」を投票しよう</h4>
+          <p>みんなが撮影したとっておきの一枚。<br>好きな写真にあなたの一票を！<br>
+          その一票で、あなたの「スキ！」が<br>みんなの「スキ！」に。</p>
+          <div><a href="join/signup.php" class="btn btn-welcome">今すぐ会員登録</a></div>
+          <div><a href="signin.php" class="btn btn-welcome">サインイン</a></div>
+          <div><a href="javascript:;" class="close_modal">とりあえず閲覧する</a></div>
+          <!--<a class="remove_cookie">クッキー削除</a>-->
+        </div><!-- .pr_box end-->
+      </div><!-- .modal popup end-->
+      <!-- welcome message end -->
+
       <section id="pinBoot">
         <?php if(isset($_SESSION["id"])): ?>
-          <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
-            <?php
-                $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d
-                                AND photo_id=%d',
-                                $_SESSION['id'],
-                                $photo['id']
-                              );
-                $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+            <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
+                <?php
+                    $sql = sprintf('SELECT * FROM `likes` WHERE member_id=%d
+                                    AND photo_id=%d',
+                                    $_SESSION['id'],
+                                    $photo['id']
+                                  );
+                    $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
 
-                // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
-                $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
-                $counts = mysqli_query($db, $sql) or die(mysql_error($db));
-                $count = mysqli_fetch_assoc($counts);
+                    // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
+                    $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
+                    $counts = mysqli_query($db, $sql) or die(mysql_error($db));
+                    $count = mysqli_fetch_assoc($counts);
+                ?>
 
-            ?>
-
-
-            <article class="white-panel">
-              <div class="box">
-                <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
-                  <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
-                </a>
-                <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close</button>
-                    <div class="modal-body">
-                      <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
-                      <h4><?php echo h($photo['title']); ?></h4>
-                      <p><?php echo h($photo['comment']); ?></p>
-                      <p class="vote_count">
-                        <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
-                        現在の投票数<?php echo h($count['likes']) ;?>
-                      </p>
-                    </div>
-
-                    <form action="" method="post">
-                      <?php if(isset($_SESSION['id'])): ?>
-                        <?php if ($like = mysqli_fetch_assoc($likes)): ?>
-                          <input type="hidden" name="like" value="unlike" >
-                          <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
-                          <div id="button">
-                            <input type="submit" class="btn btn-sm btn-primary" value="投票を取り消す">
-                          </div>
-                        <?php else: ?>
-                          <input type="hidden" name="like" value="like">
-                          <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
-                          <div id="button">
-                            <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
-                          </div>
-                        <?php endif; ?>
-                      <?php endif; ?>
-                    </form>
-
-                    <div class="jump-edit">
-                      <?php if ($_SESSION['id'] == $photo['member_id']): ?>
-                         [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
-                        <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]</a>
-                      <?php endif; ?>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h5>
-                <?php echo ($photo['title']); ?>
-              </h5>
-              <p>
-                <?php echo h($photo['comment']); ?>
-              </p>
-              <p class="vote_count">
-                <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
-                投票数<?php echo h($count['likes']) ;?>
-              </p>
-            </article>
-          <?php endwhile; ?>
-        <?php else :?>
-          <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
-            <?php
-                $sql = sprintf('SELECT * FROM `likes` WHERE photo_id=%d',
-                                $photo['id']
-                              );
-                $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
-
-                // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
-                $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
-                // var_dump($sql);
-
-                $counts = mysqli_query($db, $sql) or die(mysql_error($db));
-                $count = mysqli_fetch_assoc($counts);
-            ?>
-
-            <article class="white-panel">
-              <div class="box">
-                <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
-                  <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
-                </a>
-                <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close
-                      </button>
+              <article class="white-panel">
+                <div class="box">
+                  <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+                    <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
+                  </a>
+                  <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                      <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close</button>
                       <div class="modal-body">
                         <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
                         <h4><?php echo h($photo['title']); ?></h4>
@@ -253,26 +191,101 @@
                           現在の投票数<?php echo h($count['likes']) ;?>
                         </p>
                       </div>
-                      <div id="button">
-                        <a href="join/index.php" class="btn btn-sm btn-primary">会員登録して今すぐ投票！
-                        </a>
+
+                      <form action="" method="post">
+                          <?php if(isset($_SESSION['id'])): ?>
+                              <?php if ($like = mysqli_fetch_assoc($likes)): ?>
+                                  <input type="hidden" name="like" value="unlike" >
+                                  <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>" >
+                                  <div id="button">
+                                    <input type="submit" class="btn btn-sm btn-primary" value="投票を取り消す">
+                                  </div>
+                              <?php else: ?>
+                                  <input type="hidden" name="like" value="like">
+                                  <input type="hidden" name="photo_id" value="<?php echo h($photo['id']); ?>">
+                                  <div id="button">
+                                    <input type="submit" class="btn btn-sm btn-primary" value="この写真に投票する">
+                                  </div>
+                              <?php endif; ?>
+                          <?php endif; ?>
+                      </form>
+
+                      <div class="jump-edit">
+                          <?php if ($_SESSION['id'] == $photo['member_id']): ?>
+                              [<a href="edit.php?id=<?php echo h($photo['id']); ?>">編集はこちら</a>/
+                              <a href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除</a>]</a>
+                          <?php endif; ?>
                       </div>
                     </div>
                   </div>
                 </div>
                 <h5>
-                  <?php echo h($photo['title']); ?>
+                    <?php echo ($photo['title']); ?>
                 </h5>
                 <p>
-                  <?php echo h($photo['comment']); ?>
+                    <?php echo h($photo['comment']); ?>
                 </p>
                 <p class="vote_count">
                   <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
                   投票数<?php echo h($count['likes']) ;?>
                 </p>
-              </div>
-            </article>
-          <?php endwhile; ?>
+              </article>
+            <?php endwhile; ?>
+        <?php else :?>
+            <?php while ($photo = mysqli_fetch_assoc($photos)): ?>
+                <?php
+                    $sql = sprintf('SELECT * FROM `likes` WHERE photo_id=%d',
+                                    $photo['id']
+                                  );
+                    $likes = mysqli_query($db, $sql) or die(mysqli_error($db));
+
+                    // 表示されている写真のidを元に、そのidに紐づくいいね!データが何件あるかカウントする
+                    $sql = sprintf('SELECT COUNT(*) AS likes FROM likes WHERE photo_id=%d', $photo['id']);
+                    // var_dump($sql);
+
+                    $counts = mysqli_query($db, $sql) or die(mysql_error($db));
+                    $count = mysqli_fetch_assoc($counts);
+                ?>
+
+                <article class="white-panel">
+                  <div class="box">
+                    <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+                      <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
+                    </a>
+                    <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <button type="button" class="btn_close" data-dismiss  ="modal" aria-label="Close">close
+                          </button>
+                          <div class="modal-body">
+                            <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
+                            <h4><?php echo h($photo['title']); ?></h4>
+                            <p><?php echo h($photo['comment']); ?></p>
+                            <p class="vote_count">
+                              <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
+                              現在の投票数<?php echo h($count['likes']) ;?>
+                            </p>
+                          </div>
+                          <div id="button">
+                            <a href="join/index.php" class="btn btn-sm btn-primary">会員登録して今すぐ投票！
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <h5>
+                      <?php echo h($photo['title']); ?>
+                    </h5>
+                    <p>
+                      <?php echo h($photo['comment']); ?>
+                    </p>
+                    <p class="vote_count">
+                      <i class="fa fa-gratipay fa-2x" aria-hidden="true"></i>
+                      投票数<?php echo h($count['likes']) ;?>
+                    </p>
+                  </div>
+                </article>
+            <?php endwhile; ?>
         <?php endif ?>
       </section>
       <hr>
@@ -281,16 +294,16 @@
 
   <div id="paging">
     <ul style="padding: 0;">
-      <?php if ($page > 1) { ?>
-        <li><a href="index.php?page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a>&nbsp;&nbsp;</li>
-      <?php } else { ?>
-        <li>First<i class="fa fa-backward" aria-hidden="true">&nbsp;&nbsp;</i></li>
-      <?php } ?>
-      <?php if ($page < $maxPage) { ?>
-        <li>&nbsp;&nbsp;<a href="index.php?page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
-      <?php } else { ?>
-        </li>&nbsp;&nbsp;<i class="fa fa-forward" aria-hidden="true">End</i></li>
-      <?php } ?>
+        <?php if ($page > 1) { ?>
+            <li><a href="index.php?page=<?php print($page - 1); ?>">Back<i class="fa fa-backward" aria-hidden="true"></i></a>&nbsp;&nbsp;</li>
+        <?php } else { ?>
+            <li>First<i class="fa fa-backward" aria-hidden="true">&nbsp;&nbsp;</i></li>
+        <?php } ?>
+        <?php if ($page < $maxPage) { ?>
+            <li>&nbsp;&nbsp;<a href="index.php?page=<?php print($page + 1); ?>"><i class="fa fa-forward" aria-hidden="true">Next</i></a></li>
+        <?php } else { ?>
+            </li>&nbsp;&nbsp;<i class="fa fa-forward" aria-hidden="true">End</i></li>
+        <?php } ?>
     </ul>
   </div>
   <!--
@@ -300,22 +313,21 @@
   <div class="container">
     <div class="row"><hr>
       <div class="col-lg-12">
-        <div class="col-md-8">
-          <a href="#">Terms of Service</a> | <a href="#">Privacy</a>
-        </div>
-        <div class="col-md-4">
-          <p class="muted pull-right">© 2016 <a href="http://nexseed.net">Nexseed.inc</a> All rights reserved</p>
+        <p class="muted pull-right">© 2016 <a href="http://nexseed.net">Nexseed.inc</a> All rights reserved</p>
         </div>
       </div>
     </div>
   </div>
-
   <!-- jsファイルの読み込みはbodyの一番下がデファクトスタンダード -->
   <!-- jQueryファイルが一番最初 -->
   <script type="text/javascript" src="./assets/js/jquery-1.12.3.min.js"></script>
   <!-- jQueryファイルの次にbootstrapのJSファイル -->
   <script type="text/javascript" src="./assets/js/bootstrap.js"></script>
   <script type="text/javascript" src="./assets/js/main.js"></script>
+  <!-- modalwindow用の実装 -->
+  <!-- 初回訪問時のみモーダルウィンドウ by http://www.cpcp-mm.com/test001/jq-study/modal/index.html-->
+  <script type="text/javascript" src="assets/js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="assets/js/modalConfirm.js"></script>
 
 </body>
 </html>

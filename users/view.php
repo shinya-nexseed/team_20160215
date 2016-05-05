@@ -3,8 +3,9 @@
     // 外部ファイルの読み込み
     require('../dbconnect.php');
     require('../functions.php');
-    // ログイン判定
+    
     $member = isSignin($db);
+    
     // いいね機能
     if (!empty($_POST)) {
         if ($_POST['like'] === 'like'){
@@ -67,94 +68,37 @@
         =======================================================
         ヘッダー
     -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container"> 
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span> 
-        </button>
-        <a href="/" class="navbar-brand">Photovote</a>
-      </div>
-      <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="new.html">新規投稿</a></li>
-            <li><a href="index.php">会員一覧</a></li>
-          </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span> 
-                <strong><?php echo $member['nick_name']; ?></strong>
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="navbar-login">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <p class="text-center">
-                        <span class="glyphicon glyphicon-user icon-size"></span>
-                      </p>
-                    </div>
-                    <div class="col-lg-8">
-                      <p class="text-left"><strong><?php echo $member['nick_name']; ?></strong></p>
-                      <p class="text-left small"><?php echo $member['introduction']; ?></p>
-                      <p class="text-left">
-                        <a href="view.php" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
-                        <a href="setting.php" class="btn btn-primary btn-block btn-sm">設定</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <div class="navbar-login navbar-login-session">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <p>
-                        <a href="#" class="btn btn-danger btn-block">ログアウト</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-    </div>
-
-<div class="container">
-  <div class="row">
-    <legend>My Profile</legend>
-    <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
-      <div class="col-xs-4 col-xs-offset-2">
-        <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
-      </div>
-      <div class="fb-profile-text">   
-        <div class="col-xs-4">
-            <h1><?php echo ($member['nick_name']); ?></h1>
-            <p><?php echo ($member['introduction']); ?></p>
-            <a href="edit.php" class="btn pull-right btn-danger" style="margin-left: 10px;">Edit</a>
-            <a href="../index.php" class="btn pull-right btn-warning">Home</a>
-          <div class="form-group">
-          </div>     
-        </div>
-      </div>          
-    </form>
-  </div>
-</div>
-<br><br><br>
-<hr>
+    <?php 
+        require('../header.php');
+     ?>
     <!-- 
         =======================================================
         コンテンツ
     -->
 
+    <div class="container">
+      <div class="row">
+        <legend>My Profile</legend>
+        <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+          <div class="col-xs-4 col-xs-offset-2">
+            <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
+          </div>
+          <div class="fb-profile-text">   
+            <div class="col-xs-4">
+                <h1><?php echo ($member['nick_name']); ?></h1>
+                <p><?php echo ($member['introduction']); ?></p>
+                <a href="edit.php" class="btn pull-right btn-danger" style="margin-left: 10px;">Edit</a>
+                <a href="../index.php" class="btn pull-right btn-warning">Home</a>
+              <div class="form-group">
+              </div>     
+            </div>
+          </div>          
+        </form>
+      </div>
+    </div>
+    <br><br><br>
+    <hr>
+    
     <div class="container">
       <div class="row">
         <section id="pinBoot">
@@ -183,7 +127,7 @@
                       <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">close
                       </button>
                       <div class="modal-body">
-                        <img src="vote_photo/<?php echo h($photo['photo_path']); ?>">
+                        <img src="../vote_photo/<?php echo h($photo['photo_path']); ?>">
                         <h4><?php echo h($photo['title']); ?></h4>
                         <p><?php echo h($photo['comment']); ?></p>
                         <p class="vote_count">

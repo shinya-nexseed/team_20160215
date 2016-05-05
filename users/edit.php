@@ -1,98 +1,64 @@
 <?php
-  session_start();
-  require('../dbconnect.php');
-  require('../functions.php');
-  // 仮のログインユーザーデータ
-  $_SESSION['id'] = 1;
-  $_SESSION['time'] = time();
-  // ログイン判定
-  if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
-      $_SESSION['time'] = time();
-      $sql = sprintf('SELECT * FROM members WHERE id=%d',
-              mysqli_real_escape_string($db, $_SESSION['id'])
-      );
-      $record = mysqli_query($db, $sql) or die(mysqli_error($db));
-      // ログインしているのユーザーのデータ
-      $member = mysqli_fetch_assoc($record);
-  } else {
-      header('Location: signin.php');
-      exit();
-  }
+    session_start();
+    require('../dbconnect.php');
+    require('../functions.php');
 
-      $error = array();
-        // echo 'ほげ1';
-        if(isset($_POST) && !empty($_POST)) {
-        // echo 'ほげ2';
+    $member = isSignin($db);
 
-          
-              // バリデーション
-              // エラー項目の確認
-              if ($_POST['nick_name'] == '') {
-                  // もし$_POST内のnick_name部分が空だったら処理
-                  $error['nick_name'] = 'blank';
-                  // $error配列のnick_nameキーにblankという値を代入
-              }
-              if ($_POST['introduction'] == '') {
-                  $error['introduction'] = 'blank';
-              }
+    $error = array();
+
+    if(isset($_POST) && !empty($_POST)) {
+
+        if ($_POST['nick_name'] == '') {
+            $error['nick_name'] = 'blank';
+        }
+
+        if ($_POST['introduction'] == '') {
+            $error['introduction'] = 'blank';
+        }
             
         
-              if(isset($_FILES['image'])) {
+        if(isset($_FILES['image'])) {
 
-                  // 写真のエラー文
-                  // if文で$_FILES['image']['name']が空でなければ処理
-                  if (!empty($_FILES['image']['name'])) {
+            if (!empty($_FILES['image']['name'])) {
 
-                      $fileName = $_FILES['image']['name'];
-                          // $_FILESはinputタグのtypeがfileの時に生成される
-                          // スーパーグローバル変数です
-                           // echo $fileName;
-                      if (!empty($fileName)) {
-                          $ext = substr($fileName, -3);
-                          
-                          if ($ext != 'jpg' && $ext != 'png') {
-                              $error['image'] = 'type';
-                          }
-                      }
-                  }              
-              }
-              
-                  
-                  // 画像の名前作成 $imageの作成
-              
+                $fileName = $_FILES['image']['name'];
+                   
+                if (!empty($fileName)) {
+                    $ext = substr($fileName, -3);
+                    
+                    if ($ext != 'jpg' && $ext != 'png') {
+                        $error['image'] = 'type';
+                    }
+                }
+            }              
+        }
 
-                  if (empty($error)) {
+        if (empty($error)) {
 
-                      if (!empty($_FILES['image']['name'])) {
-                      
-                      // if文で$_FILES['image']['name']が空でなければ処理
-                          // 画像が選択されている際のアップデート処理
-                          $image = date('YmdHis') . $_FILES['image']['name'];
-                          move_uploaded_file($_FILES['image']['tmp_name'],'member_picture/' . $image);
-                          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
-                                      $_POST['nick_name'],
-                                      $_POST['introduction'],
-                                      $image,
-                                      $_SESSION['id']
-                                  );
-                      } else { 
-                      // elseの場合は
-                          $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s" WHERE `id`=%d',
-                                      $_POST['nick_name'],
-                                      $_POST['introduction'],
-                                      $_SESSION['id']
-                                  );
-                      }
-                  }
-
-                      mysqli_query($db, $sql) or die(mysqli_error($db)); 
-
-                      header('Location: view.php');
-                      
-                  
-        }         
+            if (!empty($_FILES['image']['name'])) {
             
-// }  
+                $image = date('YmdHis') . $_FILES['image']['name'];
+                move_uploaded_file($_FILES['image']['tmp_name'],'member_picture/' . $image);
+                $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s", `picture_path`="%s" WHERE `id`=%d',
+                            $_POST['nick_name'],
+                            $_POST['introduction'],
+                            $image,
+                            $_SESSION['id']
+                        );
+            } else { 
+                $sql = sprintf('UPDATE `members` SET `nick_name`="%s", `introduction`="%s" WHERE `id`=%d',
+                            $_POST['nick_name'],
+                            $_POST['introduction'],
+                            $_SESSION['id']
+                        );
+            }
+        }
+
+        mysqli_query($db, $sql) or die(mysqli_error($db)); 
+
+        header('Location: view.php?id='.$member['id']);
+    }            
 ?>
 
 <!DOCTYPE html>
@@ -112,66 +78,9 @@
         =======================================================
         ヘッダー
     -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container"> 
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span> 
-        </button>
-        <a href="/" class="navbar-brand">Photovote</a>
-      </div>
-      <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="new.html">新規投稿</a></li>
-            <li><a href="index.php">会員一覧</a></li>
-          </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span> 
-                <strong><?php echo $member['nick_name']; ?></strong>
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <div class="navbar-login">
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <p class="text-center">
-                        <span class="glyphicon glyphicon-user icon-size"></span>
-                      </p>
-                    </div>
-                    <div class="col-lg-8">
-                      <p class="text-left"><strong><?php echo $member['nick_name']; ?></strong></p>
-                      <p class="text-left small"><?php echo $member['introduction']; ?></p>
-                      <p class="text-left">
-                        <a href="view.php" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
-                        <a href="setting.php" class="btn btn-primary btn-block btn-sm">設定</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <div class="navbar-login navbar-login-session">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <p>
-                        <a href="#" class="btn btn-danger btn-block">ログアウト</a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-    </div>
+    <?php 
+        require('../header.php');
+     ?>
 
     <!-- 
         =======================================================
@@ -206,8 +115,7 @@
           <!-- Select Multiple -->
           <div class="form-group">
             <label class="control-label" for="selectmultiple">About Me</label>
-            <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About Me"><?php echo $member['introduction']; ?>
-            </textarea>
+            <textarea name="introduction" class="form-control" multiple="multiple" placeholder="About Me"><?php echo $member['introduction']; ?></textarea>
             <?php if(!empty($error['introduction'])): ?>
                 <?php if($error['introduction'] == 'blank'): ?>
                     <p class="error">自己紹介を入力してください。</p>
@@ -227,47 +135,36 @@
     </div>
   </div>
 
- 
-
-    <!-- Button -->
-   <!--  <div class="form-group">
-      <label class="col-md-4 control-label" for="singlebutton">Remove my account</label>
-      <div class="col-md-4">
-        <button id="singlebutton" name="singlebutton" class="btn btn-danger">remove</button>
-      </div>
-    </div> -->
-    <!-- 
-        =======================================================
-        フッター
-    -->
-    <div class="container">
-      <div class="row">
-      <hr>
-        <div class="col-lg-12">
-          <div class="col-md-6">
-            <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
-          </div>
-          <div class="col-md-6">
-            <p class="muted pull-right">© 2013 Company Name. All rights reserved</p>
-          </div>
+  <!-- 
+      =======================================================
+      フッター
+  -->
+  <div class="container">
+    <div class="row">
+    <hr>
+      <div class="col-lg-12">
+        <div class="col-md-6">
+          <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
+        </div>
+        <div class="col-md-6">
+          <p class="muted pull-right">© 2013 Company Name. All rights reserved</p>
         </div>
       </div>
     </div>
+  </div>
 
-
-
-<script type="text/javascript" src="../assets/js/jquery.js"></script>
-<script type="text/javascript" src="../assets/js/jquery.upload_thumbs.js"></script>
-<!-- JSファイルの読み込みはbodyの一番下がデファクトスタンダード -->
-<script type="text/javascript" src="../assets/js/jquery-1.12.3.min.js"></script>
-<!-- jQueryファイルが一番最初 -->
-<script type="text/javascript" src="../assets/js/bootstrap.js"></script>
-<!-- jQueryファイルの次にbootstrapのJSファイル -->
-<script type="text/javascript" src="../assets/js/main.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script>
-$(function(){
+  <script type="text/javascript" src="../assets/js/jquery.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.upload_thumbs.js"></script>
+  <!-- JSファイルの読み込みはbodyの一番下がデファクトスタンダード -->
+  <script type="text/javascript" src="../assets/js/jquery-1.12.3.min.js"></script>
+  <!-- jQueryファイルが一番最初 -->
+  <script type="text/javascript" src="../assets/js/bootstrap.js"></script>
+  <!-- jQueryファイルの次にbootstrapのJSファイル -->
+  <script type="text/javascript" src="../assets/js/main.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script>
+  $(function(){
     var setFileInput = $('.imgInput'),
     setFileImg = $('.imgView');
     setFileInput.each(function(){
@@ -294,7 +191,7 @@ $(function(){
             }
         });
     });
-});
-</script>
+  });
+  </script>
 </body>
 </html>

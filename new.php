@@ -68,59 +68,61 @@
   -->
 
   <div class="container">
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>新規投稿</strong>
-        <small>&nbsp;&nbsp;&nbsp;&nbsp;あなたのベストショットを投稿しよう！</small>
-      </div>
-      <form action="" method="post" enctype="multipart/form-data">
-        <div class="panel-body">
-          <h5>写真をアップロードしてください。<span class="required">*</span></h5>
-          <input type="file" name="image">
-          <?php if(!empty($error['image'])): ?>
-            <?php if($error['image'] == 'blank'): ?>
-              <p class="required">選択されていません</p>
-            <?php endif; ?>
-            <?php if($error['image'] == 'type'): ?>
-              <p class="required">jpgで指定してください</p>
-            <?php endif; ?>
-          <?php endif; ?>
-          <br>
-          <div class="control-group">
-            <h5>投稿タイトルを入力してください。<span class="required">*</span></h5>
-            <div class="controls">
-              <?php if(!empty($_POST['title'])): ?>
-                <input type="text" name="title" value="<?php echo h($_POST['title']); ?>">
-              <?php else: ?>
-                <input type="text" name="title" value="">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>新規投稿</strong>
+          <small>&nbsp;&nbsp;&nbsp;&nbsp;あなたのベストショットを投稿しよう！</small>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="panel-body">
+            <h5>写真をアップロードしてください。<span class="required">*</span></h5>
+            <input type="file" name="image">
+            <?php if(!empty($error['image'])): ?>
+              <?php if($error['image'] == 'blank'): ?>
+                <p class="required">選択されていません</p>
               <?php endif; ?>
-              <!-- phpでエラー内容出力 -->
-              <?php if(!empty($error['title'])): ?>
-                <?php if($error['title'] == 'blank'): ?>
-                  <p class="required">投稿タイトルを入力してください。</p>
+              <?php if($error['image'] == 'type'): ?>
+                <p class="required">jpgで指定してください</p>
+              <?php endif; ?>
+            <?php endif; ?>
+            <br>
+            <div class="control-group">
+              <h5>投稿タイトルを入力してください。<span class="required">*</span></h5>
+              <div class="controls">
+                <?php if(!empty($_POST['title'])): ?>
+                  <input type="text" name="title" value="<?php echo h($_POST['title']); ?>">
+                <?php else: ?>
+                  <input type="text" name="title" value="">
+                <?php endif; ?>
+                <!-- phpでエラー内容出力 -->
+                <?php if(!empty($error['title'])): ?>
+                  <?php if($error['title'] == 'blank'): ?>
+                    <p class="required">投稿タイトルを入力してください。</p>
+                  <?php endif; ?>
+                <?php endif; ?>
+              </div>
+            </div>
+            <br>
+            <div class="control-group">
+              <h5>写真に関するエピソードを書いてみんなにアピールしよう！<span class="required">*</span></h5>
+            </div>
+            <div class="controls">
+              <?php if(!empty($_POST['comment'])): ?>
+                <textarea class="photo_message" name="comment" value="<?php echo h($_POST['comment']); ?>"></textarea>
+              <?php else: ?>
+                <textarea type="text" class="photo_message" name="comment"></textarea>
+              <?php endif; ?>
+              <?php if(!empty($error['comment'])): ?>
+                <?php if($error['comment'] == 'blank'): ?>
+                  <p class="required"><i class=""></i>エピソードを入力してください。</p>
                 <?php endif; ?>
               <?php endif; ?>
+              <input type="submit" class="btn btn-sm btn-primary btn-post" id="js-upload-submit" value="投稿する">
+              <a href="index.php" class="btn btn-sm btn-primary btn-post">戻る</a>
             </div>
           </div>
-          <br>
-          <div class="control-group">
-            <h5>写真に関するエピソードを書いてみんなにアピールしよう！<span class="required">*</span></h5>
-          </div>
-          <div class="controls">
-            <?php if(!empty($_POST['comment'])): ?>
-              <textarea class="photo_message" name="comment" value="<?php echo h($_POST['comment']); ?>"></textarea>
-            <?php else: ?>
-              <textarea type="text" class="photo_message" name="comment"></textarea>
-            <?php endif; ?>
-            <?php if(!empty($error['comment'])): ?>
-              <?php if($error['comment'] == 'blank'): ?>
-                <p class="required"><i class=""></i>エピソードを入力してください。</p>
-              <?php endif; ?>
-            <?php endif; ?>
-            <input type="submit" class="btn btn-sm btn-primary btn-post" id="js-upload-submit" value="投稿する">
-            <a href="index.php" class="btn btn-sm btn-primary btn-post">戻る</a>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
   <!-- /container -->

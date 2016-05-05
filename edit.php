@@ -64,38 +64,41 @@
   コンテンツ
   -->
   <div class="container">
-    <div class="panel panel-default">
-      <div class="panel-heading"><strong>『<?php echo h($photo['title']) ?>』のエピソードを編集しますか？</strong>
-      </div>
-      <div class="panel-body">
-         <!-- Standar Form -->
-        <h5>投稿されている写真は変更できません。&nbsp;&nbsp;
-          <?php if ($_SESSION['id'] == $photo['member_id']): ?>
-             [<a class="jump_delete" href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除はこちら</a>]
-          <?php endif; ?>
-        </h5>
-        <img class="photo_show" src="vote_photo/<?php echo h($photo['photo_path']) ; ?>">
-        <br><br>
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>『<?php echo h($photo['title']) ?>』のエピソードを編集しますか？</strong>
+        </div>
+        <div class="panel-body">
+           <!-- Standar Form -->
+          <h5>投稿されている写真は変更できません。&nbsp;&nbsp;
+            <?php if ($_SESSION['id'] == $photo['member_id']): ?>
+               [<a class="jump_delete" href="delete.php?id=<?php echo h($photo['id']); ?>" onclick="return confirm('本当に削除しますか？'); ">削除はこちら</a>]
+            <?php endif; ?>
+          </h5>
+          <img class="photo_show" src="vote_photo/<?php echo h($photo['photo_path']) ; ?>">
+          <br><br>
 
-        <!-- エピーソード編集部分 -->
-        <div class="control-group">
-          <h5>エピソードの編集ができます。<span class="required">*</span></h5>
-          <form action="" method="post" enctype="multipart/form-data">
-            <?php if(!empty($_POST['comment'])): ?>
-              <textarea type="text" name="comment" class="photo_message"><?php echo h($photo['comment']); ?></textarea>
-            <?php else: ?>
-              <textarea type="text" name="comment" class="photo_message"><?php echo h($photo['comment']); ?></textarea>
-            <?php endif; ?>
-            <?php if(!empty($error['comment'])): ?>
-              <?php if($error['comment'] == 'blank'): ?>
-                <p class="required">エピソードを入力してください。</p>
+          <!-- エピーソード編集部分 -->
+          <div class="control-group">
+            <h5>エピソードの編集ができます。<span class="required">*</span></h5>
+            <form action="" method="post" enctype="multipart/form-data">
+              <?php if(!empty($_POST['comment'])): ?>
+                <textarea type="text" name="comment" class="photo_message"><?php echo h($photo['comment']); ?></textarea>
+              <?php else: ?>
+                <textarea type="text" name="comment" class="photo_message"><?php echo h($photo['comment']); ?></textarea>
               <?php endif; ?>
-              <?php if($error['comment'] == 'length'): ?>
-                <p class="required">エピソードは500文字以内で入力してください。</p>
+              <?php if(!empty($error['comment'])): ?>
+                <?php if($error['comment'] == 'blank'): ?>
+                  <p class="required">エピソードを入力してください。</p>
+                <?php endif; ?>
+                <?php if($error['comment'] == 'length'): ?>
+                  <p class="required">エピソードは500文字以内で入力してください。</p>
+                <?php endif; ?>
               <?php endif; ?>
-            <?php endif; ?>
-            <input type="submit" class="btn btn-sm btn-primary btn-post" value="編集完了">
-          </form>
+
+              <input type="submit" class="btn btn-sm btn-primary" value="編集完了">
+            </form>
+          </div>
         </div>
       </div>
     </div>

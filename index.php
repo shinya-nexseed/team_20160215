@@ -127,7 +127,7 @@
             <li class="dropdown">
               <li class="divider"></li>
               <li id="now">Total Vote：<i class="fa fa-gratipay" aria-hidden="true"></i><?php echo h($total['total']); ?>
-              <li ><a href="join/index.php"><i class="fa fa-pencil-square-o"></i>会員登録はこちら</a></li>
+              <li ><a href="join/signup.php"><i class="fa fa-pencil-square-o"></i>会員登録はこちら</a></li>
               <li class="login_btn"><a href="signin.php"><i class="fa fa-heartbeat"></i>ログインはこちら</a></li>
             </li>
           </ul>

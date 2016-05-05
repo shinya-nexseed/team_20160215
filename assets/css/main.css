@@ -4,11 +4,14 @@
 /*==============================================*/
 /*--design from bootsnipp Login and Register New Style - Tabbed by http://bootsnipp.com/snippets/ZlnjD -- */
 /*--font import from Google fonts--*/
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,500);*/
+@import url(//fonts.googleapis.com/earlyaccess/notosansjapanese.css);
 
 body{
+  margin-top: 70px;
   color:#666666;
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
+  font-family: 'Noto Sans Japanese', serif;
   font-weight:100;
   width: 100%;
   background-color: #f1f1f1;
@@ -689,7 +692,6 @@ div.modalwelcome .pr_box {
 /*index.php 写真投稿編集*/
 /*==============================================*/
 
-
 .white-panel:hover {
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
   margin-top: -5px;
@@ -762,7 +764,6 @@ h5{
   position: relative;
   max-width: 100%;
   width: 100%;
-  margin-top: 70px;
 }
 img {
   width: 100%;
@@ -856,11 +857,45 @@ text-decoration: none;
 /*各種登録・投票ボタン*/
 #button {
 text-align: center;
+size: auto;
 }
 
 #button:hover {
   opacity: 0.8;
 }
+
+#go_member {
+margin-top: 30px;
+}
+
+#go_member li {
+  float: right;
+}
+
+#check_acount {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.fa-pencil-square-o {
+  margin-right: 3px;
+}
+
+.fa-heartbeat {
+  margin-right: 3px;
+}
+
+.login_btn {
+  margin-right: 40px;
+}
+
+#now{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-left: 10px;
+  margin-right: 50px;
+}
+
 
 /*fontawsome*/
 .fa-gratipay {
@@ -872,22 +907,11 @@ text-align: center;
 
 }
 
-/*==============================================*/
-/*new.php*/
-/*==============================================*/
-
-.panel.panel-default{
-  margin: 70px;
+.muted_footer {
+  text-align: center;
 }
 
-/*新規投稿*/
-.btn.btn-sm.btn-primary.btn-post {
-  margin: 15px;
-  padding: 8px 15px;
-  font-size: 14px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
+
 
 .panel-heading strong, .panel-heading small{
   color:#666;
@@ -896,49 +920,3 @@ text-align: center;
 .panel-heading strong{
   font-size:15px;
 }
-
-/*==============================================*/
-/*edit.php ※クラス名変えて再度実装*/
-/*==============================================*/
-
-/*a:link { text-decoration:none; color: #000;}
-a:visited { text-decoration:none; color: #000;}
-a:active { text-decoration:none; color: #000;}
-a:hover { text-decoration:none; color: #000;}
-
-.edit h1 {
-	margin-bottom: 20px;
-	padding: 10px 0;
-	color: #fff;
-	font-size: 12px;
-	font-weight: bold;
-	text-align: center;
-}
-h2 {
-	padding: 30px 0;
-	width: 100%;
-	font-size: 12px;
-}
-
-#container {
-	margin: 0 auto;
-	width: 500px;
-	text-align: left;
-}*/
-
-/* .imgInput
-------------------------- */
-/*.imgInput {
-	margin-bottom: 20px;
-}*/
-
-/* .imgView
-------------------------- */
-/*.imgView {
-	margin-top: 10px;
-	display: block;
-}
-
-img {
-	padding-top:100px;
-}*/

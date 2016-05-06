@@ -139,22 +139,26 @@
   ===================================================================
   コンテンツ
   -->
-  <!-- welcome message(初回のみ) -->
-  <div class="container">
-    <div class="row">
-      <div class="modalwelcome"><!-- modal popup start-->
-        <div class="pr_box">
-          <h1><i class="fa fa-camera-retro"></i> Photo vote</h1>
-          <h4>あなたのお気に入りの一枚に、「スキ！」を投票しよう</h4>
-          <p>みんなが撮影したとっておきの一枚。<br>好きな写真にあなたの一票を！<br>
-          その一票で、あなたの「スキ！」が<br>みんなの「スキ！」に。</p>
-          <div><a href="join/signup.php" class="btn btn-welcome btn-resist">今すぐ会員登録</a></div>
-          <div><a href="signin.php" class="btn btn-welcome">サインイン</a></div>
-          <div><a href="javascript:;" class="close_modal">とりあえず閲覧する</a></div>
-          <!--<a class="remove_cookie">クッキー削除</a>-->
-        </div><!-- .pr_box end-->
-      </div><!-- .modal popup end-->
-      <!-- welcome message end -->
+
+
+      <div class="container">
+        <div class="row">
+          <!-- welcome message(初回のみ) -->
+          <?php if(!isset($_SESSION["id"])): ?>
+              <div class="modalwelcome"><!-- modal popup start-->
+                <div class="pr_box">
+                  <h1><i class="fa fa-camera-retro"></i> Photo vote</h1>
+                  <h4>あなたのお気に入りの一枚に、「スキ！」を投票しよう</h4>
+                  <p>みんなが撮影したとっておきの一枚。<br>好きな写真にあなたの一票を！<br>
+                  その一票で、あなたの「スキ！」が<br>みんなの「スキ！」に。</p>
+                  <div><a href="join/signup.php" class="btn btn-welcome btn-resist">今すぐ会員登録</a></div>
+                  <div><a href="signin.php" class="btn btn-welcome">サインイン</a></div>
+                  <div><a href="javascript:;" class="close_modal">とりあえず閲覧する</a></div>
+                  <!--<a class="remove_cookie">クッキー削除</a>-->
+                </div><!-- .pr_box end-->
+              </div><!-- .modal popup end-->
+              <!-- welcome message end -->
+          <?php endif; ?>
 
       <section id="pinBoot">
         <?php if(isset($_SESSION["id"])): ?>
@@ -326,8 +330,10 @@
   <script type="text/javascript" src="./assets/js/main.js"></script>
   <!-- modalwindow用の実装 -->
   <!-- 初回訪問時のみモーダルウィンドウ by http://www.cpcp-mm.com/test001/jq-study/modal/index.html-->
-  <script type="text/javascript" src="assets/js/jquery.cookie.js"></script>
-  <script type="text/javascript" src="assets/js/modalConfirm.js"></script>
+  <?php if(!isset($_SESSION["id"])): ?>
+      <script type="text/javascript" src="assets/js/jquery.cookie.js"></script>
+      <script type="text/javascript" src="assets/js/modalConfirm.js"></script>
+  <?php endif; ?>
 
 </body>
 </html>

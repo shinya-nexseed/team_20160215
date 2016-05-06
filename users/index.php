@@ -15,7 +15,7 @@
 
 
 <!DOCTYPE html>
-<<html lang="ja">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>Photovote</title>

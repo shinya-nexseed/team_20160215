@@ -16,8 +16,13 @@
             $error['comment'] = 'blank';
         }
 
-        // 対象画像拡張子は.jpgとJEPG
+        //写真がない場合
         $fileName = $_FILES['image']['name'];
+        if(empty($fileName)){
+          $error['image'] = 'blank';
+        }
+
+        // 対象画像拡張子は.jpgとJEPG
         if(!empty($fileName)) {
             $ext = substr($fileName, -4);
             if ($ext != '.jpg' && $ext != '.JPG' && $ext != 'jpeg' && $ext != 'JPEG') {

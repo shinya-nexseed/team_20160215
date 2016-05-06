@@ -267,7 +267,7 @@
                             </p>
                           </div>
                           <div id="button">
-                            <a href="join/index.php" class="btn btn-sm btn-primary">会員登録して今すぐ投票！
+                            <a href="join/signup.php" class="btn btn-sm btn-primary">会員登録して今すぐ投票！
                             </a>
                           </div>
                         </div>

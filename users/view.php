@@ -5,6 +5,10 @@
     require('../functions.php');
     
     $member = isSignin($db);
+
+    // 選択されたユーザー
+    $sql = sprintf('SELECT * FROM members WHERE id=%d',$_GET['id']);
+    $members = mysqli_query($db, $sql) or die(mysqli_error($db));
     
     // いいね機能
     if (!empty($_POST)) {
@@ -34,7 +38,7 @@
         $page = 1;
     }
     $page = max($page, 1);
-    $sql = 'SELECT COUNT(*) AS cnt FROM photos';
+    $sql = sprintf('SELECT COUNT(*) AS cnt FROM photos WHERE member_id = %d', $_GET['id']);
     $recordSet = mysqli_query($db, $sql);
     $table = mysqli_fetch_assoc($recordSet);
     $maxPage = ceil($table['cnt'] / 24);
@@ -42,8 +46,7 @@
     $start = ($page - 1) * 24;
     $start = max(0, $start);
     // 投稿写真データをここで取得
-    $sql = sprintf('SELECT * FROM photos WHERE member_id = %d ORDER BY created DESC LIMIT %d,
-          24',
+    $sql = sprintf('SELECT * FROM photos WHERE member_id = %d ORDER BY created DESC LIMIT %d, 24',
           $_GET['id'],
           $start
     );
@@ -78,6 +81,7 @@
     <div class="container">
       <div class="row">
         <legend>My Profile</legend>
+        <?php while ($member = mysqli_fetch_assoc($members)):?>
         <form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
           <div class="col-xs-4 col-xs-offset-2">
             <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
@@ -86,13 +90,13 @@
             <div class="col-xs-4">
                 <h1><?php echo ($member['nick_name']); ?></h1>
                 <p><?php echo ($member['introduction']); ?></p>
-                <a href="edit.php" class="btn pull-right btn-danger" style="margin-left: 10px;">Edit</a>
                 <a href="../index.php" class="btn pull-right btn-warning">Home</a>
               <div class="form-group">
               </div>     
             </div>
           </div>          
         </form>
+        <?php endwhile; ?>
       </div>
     </div>
     <br><br><br>

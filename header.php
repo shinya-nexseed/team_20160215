@@ -70,8 +70,12 @@
                         <p class="text-left">
                           <?php if(strpos($url,'/team_20160215/users/index.php') !== false || strpos($url,'/team_20160215/users/edit.php') !== false || strpos($url,'/team_20160215/users/view.php') !== false || strpos($url,'/team_20160215/users/setting.php') !== false): ?>
                               <a href="view.php?id=<?php echo $member['id']; ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                              <a href="setting.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-primary btn-block btn-sm">設定</a>
+                              <a href="edit.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-danger btn-block btn-sm">Edit</a>
                           <?php else: ?>
                               <a href="users/view.php?id=<?php echo $member['id']; ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                              <a href="users/setting.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-primary btn-block btn-sm">設定</a>
+                              <a href="users/edit.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-danger btn-block btn-sm">Edit</a>
                           <?php endif; ?>
                         </p>
                       </div>

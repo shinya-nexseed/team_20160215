@@ -53,11 +53,10 @@
                             $_SESSION['id']
                         );
             }
+            mysqli_query($db, $sql) or die(mysqli_error($db)); 
+
+            header('Location: view.php?id='.$member['id']);
         }
-
-        mysqli_query($db, $sql) or die(mysqli_error($db)); 
-
-        header('Location: view.php?id='.$member['id']);
     }            
 ?>
 

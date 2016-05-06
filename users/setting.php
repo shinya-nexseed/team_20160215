@@ -60,7 +60,7 @@
             );
 
             mysqli_query($db, $sql) or die(mysqli_error($db));
-            header('Location:view.php');
+            header('Location:index.php');
         }
     }
     

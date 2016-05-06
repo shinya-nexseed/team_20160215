@@ -148,7 +148,7 @@
           <h4>あなたのお気に入りの一枚に、「スキ！」を投票しよう</h4>
           <p>みんなが撮影したとっておきの一枚。<br>好きな写真にあなたの一票を！<br>
           その一票で、あなたの「スキ！」が<br>みんなの「スキ！」に。</p>
-          <div><a href="join/signup.php" class="btn btn-welcome">今すぐ会員登録</a></div>
+          <div><a href="join/signup.php" class="btn btn-welcome btn-resist">今すぐ会員登録</a></div>
           <div><a href="signin.php" class="btn btn-welcome">サインイン</a></div>
           <div><a href="javascript:;" class="close_modal">とりあえず閲覧する</a></div>
           <!--<a class="remove_cookie">クッキー削除</a>-->

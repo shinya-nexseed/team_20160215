@@ -4,21 +4,32 @@
          // 外部ファイルの読み込み
          require('../dbconnect.php');
          require('../functions.php');
+         
          // 仮のログインユーザーデータ
          $_SESSION['id'] = 1;
          $_SESSION['time'] = time();
          // ログイン判定
-         if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
-             $_SESSION['time'] = time();
-             $sql = sprintf('SELECT id, nick_name, picture_path, introduction FROM members'
-             );
-             $members = mysqli_query($db, $sql) or die(mysqli_error($db));
-             // ログインしているのユーザーのデータ
-             $member = mysqli_fetch_assoc($members);
-         } else {
-             header('Location: signin.php');
-             exit();
-         }
+        if (isset($_SESSION['id']) && $_SESSION['time'] + 3600 > time() ) {
+
+
+        $_SESSION['time'] = time();
+
+        $sql = sprintf('SELECT * FROM members WHERE id=%d',
+            m($db, $_SESSION['id'])
+        );
+
+        $record = mysqli_query($db, $sql) or die(mysqli_error($db));
+
+        // ログインしているのユーザーのデータ1件
+        $member = mysqli_fetch_assoc($record);
+        } else {
+        header('Location: login.php');
+        exit();
+        } 
+
+        $sql= 'SELECT * FROM members';
+        $members = mysqli_query($db, $sql) or die(mysqli_error($db));
+
      
 ?>
 
@@ -48,26 +59,18 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span> 
         </button>
-        <a href="/" class="navbar-brand">Photovite</a>
+        <a href="/" class="navbar-brand">Photovote</a>
       </div>
       <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="new.html">新規投稿</a></li>
-            <li><a href="users/index.html">会員一覧</a></li>
-             <!-- <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
-                <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Link 2</a></li>
-                </ul>
-             </li>   -->            
+            <li><a href="index.php">会員一覧</a></li>
           </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span> 
-                <strong>nick_name</strong>
+                <img src="member_picture/<?php echo $member['picture_path']; ?>" width="50px" height="50px"> 
+                <strong><?php echo $member['nick_name']; ?></strong>
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
             <ul class="dropdown-menu">
@@ -76,14 +79,16 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <p class="text-center">
-                        <span class="glyphicon glyphicon-user icon-size"></span>
+                        <img src="member_picture/<?php echo $member['picture_path']; ?>" width="50px" height="50px"> 
                       </p>
                     </div>
                     <div class="col-lg-8">
-                      <p class="text-left"><strong>nick_name</strong></p>
-                      <p class="text-left small">email</p>
+                      <p class="text-left"><strong><?php echo $member['nick_name']; ?></strong></p>
+                      <p class="text-left small"><?php echo $member['introduction']; ?></p>
                       <p class="text-left">
-                        <a href="#" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="view.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="setting.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-primary btn-block btn-sm">設定</a>
+                        <a href="edit.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-danger btn-block btn-sm">Edit</a>
                       </p>
                     </div>
                   </div>
@@ -134,7 +139,8 @@
                 <ul class="list-group" id="contact-list">
                     <li class="list-group-item">
                         <div class="col-xs-12 col-sm-3">
-                            <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="Scott Stevens" class="img-responsive img-circle" />
+                          <a href="view.php?id=<?php echo $member['id']; ?>">
+                            <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="Scott Stevens" class="img-responsive img-circle" /></a>
                         </div>
                         <div class="col-xs-12 col-sm-9">
                             <span class="name"><?php echo $member['nick_name']; ?><br><?php echo $member['introduction']; ?></span><br/>

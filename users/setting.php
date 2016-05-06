@@ -1,4 +1,5 @@
 <?php
+    
     // 外部ファイルの読み込み
     require('../dbconnect.php');
     require('../functions.php');
@@ -87,8 +88,6 @@
     
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -119,21 +118,13 @@
       <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="new.html">新規投稿</a></li>
-            <li><a href="users/index.html">会員一覧</a></li>
-             <!-- <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">DropDown
-                <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Link 2</a></li>
-                </ul>
-             </li>   -->            
+            <li><a href="index.php">会員一覧</a></li>
           </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span> 
-                <strong>nick_name</strong>
+                <img src="member_picture/<?php echo $member['picture_path']; ?>" width="50px" height="50px"> 
+                <strong><?php echo $member['nick_name']; ?></strong>
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
             <ul class="dropdown-menu">
@@ -142,14 +133,16 @@
                   <div class="row">
                     <div class="col-lg-4">
                       <p class="text-center">
-                        <span class="glyphicon glyphicon-user icon-size"></span>
+                        <img src="member_picture/<?php echo $member['picture_path']; ?>" width="50px" height="50px"> 
                       </p>
                     </div>
                     <div class="col-lg-8">
-                      <p class="text-left"><strong>nick_name</strong></p>
-                      <p class="text-left small">email</p>
+                      <p class="text-left"><strong><?php echo $member['nick_name']; ?></strong></p>
+                      <p class="text-left small"><?php echo $member['introduction']; ?></p>
                       <p class="text-left">
-                        <a href="#" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="view.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-primary btn-block btn-sm">マイプロフィール</a>
+                        <a href="setting.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-primary btn-block btn-sm">設定</a>
+                        <a href="edit.php?id=<?php echo $_SESSION['id']; ?>" class="btn btn-danger btn-block btn-sm">Edit</a>
                       </p>
                     </div>
                   </div>
@@ -173,128 +166,88 @@
       </div>
     </div>
     </div>
-
-<div id="container">
-
-</div>
-
-
-
- <!-- /container -->
-
-  
-
     <!-- 
         =======================================================
         コンテンツ
     -->
-        <div class="container">
-          <div class="row">
-  <div class="imgInput">
-      <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="200px" height="200px" hspace="50px" vspace="50px"><br>
+  <div class="container">
+    <div class="row">
+      <legend>Change Settings</legend>
+              <div class="col-xs-4 col-xs-offset-2">
+          <img src="member_picture/<?php echo $member['picture_path']; ?>" alt="" class="imgView" width="100px" height="100px"><br>
+        </div>
+      <form action="" method="post" class="form-horizontal">
+
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label class="control-label" for="textinput">Email</label>  
+            <input id="textinput" name="email" type="email" placeholder="New Email" class="form-control input-md" value="<?php echo $member['email']; ?>">
+            <?php if(!empty($error['email'])): ?>
+                <?php if($error['email'] == 'blank'): ?>
+                    <p class="error">メールアドレスを入力してください。</p>
+                <?php endif; ?>
+                <?php if($error['email'] == 'duplicate'): ?>
+                    <p class="error">指定されたメールアドレスはすでに登録されています。</p>
+                <?php endif; ?>
+            <?php endif; ?>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label" for="selectmultiple">Current Password</label>  
+            <input id="textinput" name="currentpass" type="password" placeholder="Current Password" class="form-control input-md" value="">
+            <?php if(!empty($error['currentpass'])): ?>
+                <?php if($error['currentpass'] == 'blank'): ?>
+                    <p class="error">パスワードを入力してください。</p>
+                <?php endif; ?>
+                <?php if($error['currentpass'] == 'wrong'): ?>
+                    <p class="error">パスワードが間違っています。</p>
+                <?php endif; ?>
+            <?php endif; ?>
+          </div>       
+
+          <!-- Select Multiple -->
+          <div class="form-group">
+            <label class="control-label" for="selectmultiple">New Password</label>
+            <input id="textinput" name="pass" type="password" class="form-control" placeholder="New Password" value="">
+            <?php if(!empty($error['pass'])): ?>
+                <?php if($error['pass'] == 'blank'): ?>
+                    <p class="error">パスワードを入力してください。</p>
+                <?php endif; ?>
+
+                <?php if($error['pass'] == 'length'): ?>
+                    <p class="error">パスワードを4文字以上で入力してください。</p>
+                <?php endif; ?>
+            <?php endif; ?>
+                  
+          </div>
+        <div class="form-group">
+            <label class="control-label" for="selectmultiple">Confirm Password</label>  
+            <input id="textinput" name="password" type="password" placeholder="Confirm Password" class="form-control input-md" value="">
+            <?php if(!empty($error['password'])): ?>
+        
+                <?php if($error['password'] == 'blank'): ?>
+                    <p class="error">パスワードを入力してください。</p>
+                <?php endif; ?>
+
+                <?php if($error['password'] == 'length'): ?>
+                    <p class="error">パスワードを4文字以上で入力してください。</p>
+                <?php endif; ?>
+
+                <?php if($_POST['password'] != '' && $error['password'] = 'wrong'): ?>
+                    <p class="error">パスワードが一致しません。</p>
+                <?php endif; ?>
+            <?php endif; ?>     
+                  
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="singlebutton"></label>
+            <input type="submit" value="Save" name="singlebutton" style="margin-left: 10px;" class="btn btn-info pull-right" >
+            <a href="view.php" name="singlebutton" class="btn pull-right btn-warning" value="Back">Back</a>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-  </div><!--/.imgInput-->
-    <fieldset>
-
-    <!-- Form Name -->
-    <legend>My Profile Setting</legend>
-    <form method="post" action="">
-      <div class="form-group">
-      <label class="col-md-4 control-label" for="textinput">email</label>  
-      <div class="col-md-4">
-      <input id="textinput" name="email" type="email" placeholder="your new email" class="form-control input-md" value="<?php echo $member['email']; ?>">
-      <?php if(!empty($error['email'])): ?>
-          <?php if($error['email'] == 'blank'): ?>
-              <p class="error">メールアドレスを入力してください。</p>
-          <?php endif; ?>
-          <?php if ($error["email"] == 'duplicate'): ?>
-              <p class="error">* 指定されたメールアドレスはすでに登録されています。</p>
-          <?php endif; ?>
-      <?php endif; ?>
-      </div>
-    </div>
-   
-
-    <!-- Select Multiple -->
-
-<br><br><br><br><br>
-<div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">current pass</label>
-  <div class="col-md-4">
-    <input id="textinput" name="currentpass" type="password" placeholder="current pass" class="form-control input-md" value="">
-    <?php if(!empty($error['currentpass'])): ?>
-        
-        <?php if($error['currentpass'] == 'blank'): ?>
-            <p class="error">パスワードを入力してください。</p>
-        <?php endif; ?>
-
-        <?php if($error['currentpass'] == 'wrong'): ?>
-            <p class="error">パスワードが間違っています。</p>
-        <?php endif; ?>
-
-    <?php endif; ?>
-    </div>
-</div>
-
-<br><br><br><br><br>
-<div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">new pass</label>
-  <div class="col-md-4">
-    <input id="textinput" name="pass" type="password" placeholder="your new pass" class="form-control input-md" value="">
-    <?php if(!empty($error['pass'])): ?>
-        
-        <?php if($error['pass'] == 'blank'): ?>
-            <p class="error">パスワードを入力してください。</p>
-        <?php endif; ?>
-
-        <?php if($error['pass'] == 'length'): ?>
-            <p class="error">パスワードを4文字以上で入力してください。</p>
-        <?php endif; ?>
-
-    <?php endif; ?>
-    </div>
-</div>
-
-
-<br><br><br><br><br>
-<div class="form-group">
-  <label class="col-md-4 control-label" for="selectmultiple">again</label>
-  <div class="col-md-4">
-    <input id="textinput" name="password" type="password" placeholder="your new pass" class="form-control input-md" value="">
-    <?php if(!empty($error['password'])): ?>
-        
-        <?php if($error['password'] == 'blank'): ?>
-            <p class="error">パスワードを入力してください。</p>
-        <?php endif; ?>
-
-        <?php if($error['password'] == 'length'): ?>
-            <p class="error">パスワードを4文字以上で入力してください。</p>
-        <?php endif; ?>
-
-        <?php if($_POST['password'] != '' && $error['password'] = 'wrong'): ?>
-            <p class="error">パスワードが一致しません。</p>
-        <?php endif; ?>
-
-    <?php endif; ?>
-    </div>
-</div>
-
-
- <!-- Button -->
-<div class="form-group">
-      <label class="col-md-4 control-label" for="singlebutton"></label>
-      <div class="col-md-4">
-        <input type="submit" value="Save" name="singlebutton" class="btn btn-info pull-right" >
-      </div>
-    </div>
-</form>
-    <!-- Button -->
-   <!--  <div class="form-group">
-      <label class="col-md-4 control-label" for="singlebutton">Remove my account</label>
-      <div class="col-md-4">
-        <button id="singlebutton" name="singlebutton" class="btn btn-danger">remove</button>
-      </div>
-    </div> -->
     <!-- 
         =======================================================
         フッター
@@ -303,10 +256,10 @@
       <div class="row">
       <hr>
         <div class="col-lg-12">
-          <div class="col-md-8">
+          <div class="col-md-6">
             <a href="#">Terms of Service</a> | <a href="#">Privacy</a>    
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <p class="muted pull-right">© 2013 Company Name. All rights reserved</p>
           </div>
         </div>
@@ -325,35 +278,6 @@
 <script type="text/javascript" src="../assets/js/main.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script>
-$(function(){
-    var setFileInput = $('.imgInput'),
-    setFileImg = $('.imgView');
-    setFileInput.each(function(){
-        var selfFile = $(this),
-        selfInput = $(this).find('input[type=file]'),
-        prevElm = selfFile.find(setFileImg),
-        orgPass = prevElm.attr('src');
-        selfInput.change(function(){
-            var file = $(this).prop('files')[0],
-            fileRdr = new FileReader();
-            if (!this.files.length){
-                prevElm.attr('src', orgPass);
-                return;
-            } else {
-                if (!file.type.match('image.*')){
-                    prevElm.attr('src', orgPass);
-                    return;
-                } else {
-                    fileRdr.onload = function() {
-                        prevElm.attr('src', fileRdr.result);
-                    }
-                    fileRdr.readAsDataURL(file);
-                }
-            }
-        });
-    });
-});
-</script>
+
 </body>
 </html>

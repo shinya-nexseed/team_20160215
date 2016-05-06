@@ -169,7 +169,7 @@
 
           <article class="white-panel">
             <div class="box">
-              <a href="#" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
+              <a href="view.php?id=<?php $_GET['id'] ?>" data-toggle="modal" data-target="#<?php echo h($photo['id']); ?>">
                 <img src="vote_photo/<?php echo h($photo['photo_path']); ?>" alt="">
               </a>
               <div class="modal fade" id="<?php echo h($photo['id']); ?>" tabindex="-1" role="dialog">

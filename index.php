@@ -91,6 +91,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
   <title>Photovote</title>
   <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.css">
   <!-- ↑bootstrapの読み込み宣言を先にする -->

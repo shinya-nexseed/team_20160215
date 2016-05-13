@@ -643,7 +643,7 @@ label {
 
 /*welcome message(初回訪問時のみ表示)*/
 div.modalwelcome {
-	position: absolute;
+	position: fixed;
 	display:none;
 	z-index:9999;
 	top:30%;
@@ -692,6 +692,68 @@ div.modalwelcome .pr_box {
 
 .btn.btn-welcome:hover, .btn.btn-welcome.btn-resist:hover{
   opacity: 0.8;
+}
+
+@media screen and (max-width:699px){
+  div.modalwelcome {
+  	position: fixed;
+  	display:none;
+  	z-index:9999;
+  	top:30%;
+  	left:6%;
+  	width:90%;
+  	height:650px;
+  	margin-top:-55px;
+  	margin-left:3%;
+  	padding:2px;
+  	text-align:center;
+  }
+
+  div.modalwelcome .pr_box {
+  	width:90%;
+  	height:auto;
+  	box-shadow:10px 10px 10px rgba(0,0,0,0.4);
+  	padding:10px;
+  	background:#FFFFFF;
+  }
+
+  .pr_box h4{
+    font-size: 15px;
+  }
+
+  .pr_box p{
+    font-size:13px;
+  }
+
+  .close_modal{
+  	display:block;
+  	width:60%;
+  	margin: 10px auto;
+  	border-radius:5px;
+  	color:#00639a;
+  	line-height:30px;
+  	text-decoration:none;
+  }
+
+  .btn.btn-welcome{
+    width:60%;
+    margin:10px;
+    padding:10px;
+    background: #6c6c6c;
+    font-size: 15px;
+    color:white;
+    border-radius: 3px;
+  }
+
+  .btn.btn-welcome.btn-resist{
+    background: #00639a;
+    font-weight:bold;
+
+  }
+
+  .btn.btn-welcome:hover, .btn.btn-welcome.btn-resist:hover{
+    opacity: 0.8;
+  }
 }
 
 /*==============================================*/

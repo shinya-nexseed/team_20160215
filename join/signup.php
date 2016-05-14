@@ -55,10 +55,16 @@
         //画像UPのエラー
         $filename = $_FILES['image']['name'];
         if(!empty($filename)){
+          //ファイル＝filenameがある
             $ext = substr($filename, -4);
             if($ext != '.jpg' && $ext != '.png' && $ext != 'jpeg'){
                 $error['image'] = 'type';
             }
+        }
+
+        //ファイルがない
+        if(!empty($filename) == ''){
+          $error['image']='blank';
         }
 
         if(empty($error)){
@@ -218,9 +224,13 @@
                           <p class="upimg">Upload your image</p>
                           <input type="file" name="image" size="35">
                           <!-- error -->
+                          <!-- 拡張子エラー -->
                           <?php if(!empty($error['image'])): ?>
                               <?php if($error['image']=='type'): ?>
                                   <p><i class="fa fa-exclamation-circle"></i>ファイルは.jpg、.jpegまたは.pngで登録してください</p>
+                              <?php endif; ?>
+                              <?php if($error['image']=='blank'): ?>
+                                  <p><i class="fa fa-exclamation-circle"></i>画像をアップロードしてください</p>
                               <?php endif; ?>
                           <?php endif; ?>
                           <!-- 書き直しした場合 -->

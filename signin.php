@@ -96,6 +96,7 @@
                     <form id="login-form" action="" method="post" role="form" style="display: block;">
                       <h2>SIGN IN</h2>
 
+                      <div class="form-group">
                       <!-- error alert -->
                       <?php if(!empty($error['login'])): ?>
                           <?php if($error['login']=='blank'): ?>
@@ -106,7 +107,6 @@
                           <?php endif; ?>
                       <?php endif; ?>
 
-                      <div class="form-group">
                           <?php if(!empty($_POST['email'])): ?>
                               <input type="text" name="email" id="username" tabindex="1" class="form-control" placeholder="Email" value="<?php echo htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8'); ?>">
                           <?php else: ?>
